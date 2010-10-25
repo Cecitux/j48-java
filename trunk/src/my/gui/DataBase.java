@@ -6,15 +6,12 @@
 package my.gui;
 import java.sql.*;
 
-/**
- *
- * @author Administrator
- */
+
 public class DataBase {
     //Variables de Lore para la BD
     public static Connection connection;
     //Conectar a la BD
-    public static void Conectar(String nombrebd, String usuario, String password){
+    public static void Conectar(){
         String cadenaconexion = "";
         String prueba = "jdbc:mysql://localhost/com?" + "user=root&password=";
         try {

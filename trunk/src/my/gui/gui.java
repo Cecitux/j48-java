@@ -1,21 +1,11 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * gui.java
- *
- * Created on Oct 26, 2010, 12:40:02 AM
- */
 
 package my.gui;
+import javax.swing.*;
 
-/**
- *
- * @author Adriana
- */
 public class gui extends javax.swing.JFrame {
+
+    public String usuario, password, nombrebd;
+
 
     /** Creates new form gui */
     public gui() {
@@ -142,6 +132,10 @@ public class gui extends javax.swing.JFrame {
 
     private void BotonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonOKActionPerformed
         // TODO add your handling code here:
+        usuario = UsuarioBD.getText();
+        nombrebd = NombreBD.getText();
+        password = PasswordBD.getText();
+        //JOptionPane.showMessageDialog(jFrame1, usuario);
     }//GEN-LAST:event_BotonOKActionPerformed
 
     /**
