@@ -16,8 +16,8 @@ public class entropia {
     
 
     private double calcular_probabilidad(){
-        double resultado;
-        resultado=(double) entropia.cantidad_de_clase/entropia.cantidad_total;
+        double resultado=2.5;
+        //resultado=(double) entropia.cantidad_de_clase/entropia.cantidad_total;
         return resultado;
     }
     /**
