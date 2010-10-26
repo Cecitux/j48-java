@@ -28,8 +28,8 @@ public class gui extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         UsuarioBD = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        PasswordBD = new javax.swing.JTextField();
         BotonOK = new javax.swing.JButton();
+        PasswordBD = new javax.swing.JPasswordField();
 
         jFrame1.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,7 +47,7 @@ public class gui extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Algoritmo J48   -    A. Aranda (54210), F. Cardozo (51300), L. Figueredo (51160)");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel4.setText("Conexion a la Base de Datos");
 
         jLabel1.setText("Nombre de la Base de Datos:");
@@ -62,16 +62,16 @@ public class gui extends javax.swing.JFrame {
 
         jLabel3.setText("Contraseña:");
 
-        PasswordBD.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PasswordBDActionPerformed(evt);
-            }
-        });
-
         BotonOK.setText("OK");
         BotonOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonOKActionPerformed(evt);
+            }
+        });
+
+        PasswordBD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PasswordBDActionPerformed(evt);
             }
         });
 
@@ -126,17 +126,17 @@ public class gui extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_UsuarioBDActionPerformed
 
-    private void PasswordBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordBDActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_PasswordBDActionPerformed
-
     private void BotonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonOKActionPerformed
         // TODO add your handling code here:
         usuario = UsuarioBD.getText();
         nombrebd = NombreBD.getText();
         password = PasswordBD.getText();
-        //JOptionPane.showMessageDialog(jFrame1, usuario);
+        JOptionPane.showMessageDialog(jFrame1, password);
     }//GEN-LAST:event_BotonOKActionPerformed
+
+    private void PasswordBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordBDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PasswordBDActionPerformed
 
     /**
     * @param args the command line arguments
@@ -152,7 +152,7 @@ public class gui extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonOK;
     private javax.swing.JTextField NombreBD;
-    private javax.swing.JTextField PasswordBD;
+    private javax.swing.JPasswordField PasswordBD;
     private javax.swing.JTextField UsuarioBD;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JLabel jLabel1;
