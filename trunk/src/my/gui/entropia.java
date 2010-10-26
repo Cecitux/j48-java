@@ -26,34 +26,29 @@ public class entropia {
         entropia.cantidad_de_clase=cantc;
         entropia.cantidad_total=cantt;
         entropia.resulatdo_entrpia=0.0;
-        for (int i = 0; i<entropia.cantidad_total;i++) {
-            System.out.println(entropia.cantidad_de_clase[i]);
-
-        }
+       
     }
 
-    static double calcular_probabilidad(){
-        double resultado=2.5;
-        //resultado=(double) entropia.cantidad_de_clase/entropia.cantidad_total;
-        return resultado;
+    static double calcular_probabilidad(int universo, int a){
+        double resultado;
+        resultado=(double) a/universo;
+                return resultado;
     }
     /**
      * Calcula el logaritmo en base dos del numeros
      * @param numero
      * @return logaritmo en base 2
      */
-    private double logaritmo_base2(double numero){
+    static double logaritmo_base2(double numero){
        return (Math.log10(numero)/Math.log10(2));
     }
 
     public double calcular_entripia(){
         double probabilidad;
-        for(int i=0;i < entropia.cantidad_total;i++){
-            probabilidad=entropia.calcular_probabilidad();
-            entropia.resulatdo_entrpia=
+        for(int i=0; i < entropia.cantidad_de_clase.length; i++){
+            probabilidad=entropia.calcular_probabilidad(entropia.cantidad_total, entropia.cantidad_de_clase[i]);
+            entropia.resulatdo_entrpia-= (probabilidad*entropia.logaritmo_base2(probabilidad));
         }
-
-
         return entropia.resulatdo_entrpia;
     }
 
