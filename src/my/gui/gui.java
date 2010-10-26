@@ -1,6 +1,8 @@
 
 package my.gui;
 import javax.swing.*;
+import weka.classifiers.trees.j48.*;
+import weka.gui.treevisualizer.*;
 
 public class gui extends javax.swing.JFrame {
 
@@ -22,14 +24,28 @@ public class gui extends javax.swing.JFrame {
     private void initComponents() {
 
         jFrame1 = new javax.swing.JFrame();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        Titulo2 = new javax.swing.JLabel();
+        DatoBD = new javax.swing.JLabel();
         NombreBD = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
+        DatoUsuario = new javax.swing.JLabel();
         UsuarioBD = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
+        DatoPassword = new javax.swing.JLabel();
         BotonOK = new javax.swing.JButton();
         PasswordBD = new javax.swing.JPasswordField();
+        PanelGral = new javax.swing.JTabbedPane();
+        PanelDatos = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TextoDatos = new javax.swing.JTextArea();
+        PanelArbol = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        PanelLog = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        Titulo1 = new javax.swing.JLabel();
+        Inform1 = new javax.swing.JLabel();
+        Inform2 = new javax.swing.JLabel();
+        Inform3 = new javax.swing.JLabel();
 
         jFrame1.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,12 +63,12 @@ public class gui extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Algoritmo J48   -    A. Aranda (54210), F. Cardozo (51300), L. Figueredo (51160)");
 
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel4.setText("Conexion a la Base de Datos");
+        Titulo2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Titulo2.setText("Conexion a la Base de Datos");
 
-        jLabel1.setText("Nombre de la Base de Datos:");
+        DatoBD.setText("Nombre de la Base de Datos:");
 
-        jLabel2.setText("Nombre de Usuario:");
+        DatoUsuario.setText("Nombre de Usuario:");
 
         UsuarioBD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -60,7 +76,7 @@ public class gui extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Contraseña:");
+        DatoPassword.setText("Contraseña:");
 
         BotonOK.setText("OK");
         BotonOK.addActionListener(new java.awt.event.ActionListener() {
@@ -75,49 +91,160 @@ public class gui extends javax.swing.JFrame {
             }
         });
 
+        PanelGral.setBackground(new java.awt.Color(255, 255, 255));
+        PanelGral.setAutoscrolls(true);
+
+        TextoDatos.setColumns(20);
+        TextoDatos.setEditable(false);
+        TextoDatos.setRows(5);
+        jScrollPane1.setViewportView(TextoDatos);
+
+        javax.swing.GroupLayout PanelDatosLayout = new javax.swing.GroupLayout(PanelDatos);
+        PanelDatos.setLayout(PanelDatosLayout);
+        PanelDatosLayout.setHorizontalGroup(
+            PanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelDatosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PanelDatosLayout.setVerticalGroup(
+            PanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelDatosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        PanelGral.addTab("Datos de la Tabla", PanelDatos);
+
+        jScrollPane2.setAutoscrolls(true);
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setEditable(false);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
+        javax.swing.GroupLayout PanelArbolLayout = new javax.swing.GroupLayout(PanelArbol);
+        PanelArbol.setLayout(PanelArbolLayout);
+        PanelArbolLayout.setHorizontalGroup(
+            PanelArbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelArbolLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PanelArbolLayout.setVerticalGroup(
+            PanelArbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelArbolLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        PanelGral.addTab("Arbol Generado", PanelArbol);
+
+        jScrollPane3.setAutoscrolls(true);
+
+        jTextArea2.setColumns(20);
+        jTextArea2.setEditable(false);
+        jTextArea2.setRows(5);
+        jScrollPane3.setViewportView(jTextArea2);
+
+        javax.swing.GroupLayout PanelLogLayout = new javax.swing.GroupLayout(PanelLog);
+        PanelLog.setLayout(PanelLogLayout);
+        PanelLogLayout.setHorizontalGroup(
+            PanelLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelLogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PanelLogLayout.setVerticalGroup(
+            PanelLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelLogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        PanelGral.addTab("Log", PanelLog);
+
+        Titulo1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        Titulo1.setText("Implementacion del Algoritmo J48");
+
+        Inform1.setText("Ingrese la informacion solicitada referente a la Base de Datos y");
+        Inform1.setFocusable(false);
+
+        Inform2.setText("presione 'OK' para que la informacion obtenida de la misma sea");
+
+        Inform3.setText("procesada. Los resultados obtenidos seran mostrados en el panel.");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(BotonOK, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel1)
-                                .addComponent(jLabel3)))
-                        .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(PasswordBD, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                            .addComponent(UsuarioBD, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
-                            .addComponent(NombreBD, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))))
-                .addGap(36, 36, 36))
+                            .addComponent(Titulo2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(Inform2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Inform1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Inform3, javax.swing.GroupLayout.Alignment.LEADING)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(55, 55, 55)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(UsuarioBD)
+                                    .addComponent(NombreBD, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                                    .addComponent(PasswordBD)
+                                    .addComponent(BotonOK, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(DatoBD, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(DatoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(DatoPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(40, 40, 40)
+                        .addComponent(PanelGral, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Titulo1))
+                .addGap(44, 44, 44))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addComponent(jLabel4)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(NombreBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(Titulo1)
+                .addGap(44, 44, 44)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(UsuarioBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(PasswordBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addComponent(BotonOK)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(Titulo2)
+                        .addGap(18, 18, 18)
+                        .addComponent(Inform1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Inform2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Inform3)
+                        .addGap(35, 35, 35)
+                        .addComponent(DatoBD)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(NombreBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25)
+                        .addComponent(DatoUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(UsuarioBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(25, 25, 25)
+                        .addComponent(DatoPassword)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(PasswordBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(BotonOK))
+                    .addComponent(PanelGral, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(61, 61, 61))
         );
+
+        PanelGral.getAccessibleContext().setAccessibleName("Datos de la Tabla");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -126,12 +253,14 @@ public class gui extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_UsuarioBDActionPerformed
 
+
     private void BotonOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonOKActionPerformed
         // TODO add your handling code here:
         usuario = UsuarioBD.getText();
         nombrebd = NombreBD.getText();
         password = PasswordBD.getText();
-        JOptionPane.showMessageDialog(jFrame1, password);
+
+       // JOptionPane.showMessageDialog(jFrame1, password);
     }//GEN-LAST:event_BotonOKActionPerformed
 
     private void PasswordBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordBDActionPerformed
@@ -151,14 +280,28 @@ public class gui extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonOK;
+    private javax.swing.JLabel DatoBD;
+    private javax.swing.JLabel DatoPassword;
+    private javax.swing.JLabel DatoUsuario;
+    private javax.swing.JLabel Inform1;
+    private javax.swing.JLabel Inform2;
+    private javax.swing.JLabel Inform3;
     private javax.swing.JTextField NombreBD;
+    private javax.swing.JPanel PanelArbol;
+    private javax.swing.JPanel PanelDatos;
+    private javax.swing.JTabbedPane PanelGral;
+    private javax.swing.JPanel PanelLog;
     private javax.swing.JPasswordField PasswordBD;
+    private javax.swing.JTextArea TextoDatos;
+    private javax.swing.JLabel Titulo1;
+    private javax.swing.JLabel Titulo2;
     private javax.swing.JTextField UsuarioBD;
     private javax.swing.JFrame jFrame1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
 
     
