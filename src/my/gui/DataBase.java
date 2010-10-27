@@ -68,19 +68,24 @@ public class DataBase {
     public static HashMap ParseoDB() throws SQLException{
         //String connectionUrl = "jdbc:mysql://localhost:3306/com?" + "user=root&password=";
         HashMap hdb = new HashMap();
+        HashMap hdbcant = new HashMap();
         Statement stmt = null;
         ResultSet rs = null;
 
         ArrayList list = new ArrayList();
         ArrayList nom_columnas = new ArrayList();
         ArrayList queryactual = new ArrayList();
+        
         //nombre de la tabla de la BD, si hay mas de una se toma la primera
         String tabla_d = "";
         int numreg = 0;
+        int cantocurrencias=0;
         String auxlista ="";
+        String auxcant = "";
         String lineafila = "";
         //SQL query command
         String SQL = "show tables";
+        String SQLcant="";
         stmt = connection.createStatement();
         rs = stmt.executeQuery(SQL);
         
@@ -99,6 +104,7 @@ public class DataBase {
             System.out.println(rs.getString("Field"));
             nom_columnas.add(rs.getString("Field"));
         }
+   //----------GUARDAR TODAS LAS VARIABLES DE UNA COLUMNA
         SQL = "select count(*) from "+tabla_d;
         stmt = connection.createStatement();
         rs = stmt.executeQuery(SQL);
@@ -107,25 +113,65 @@ public class DataBase {
             numreg = Integer.parseInt(rs.getString("count(*)"));
         }
         System.out.println(numreg);
+
         Iterator it = nom_columnas.iterator();
+        Iterator it1;
         while (it.hasNext()){
             //select puertas from cars group by puertas;
             auxlista = it.next().toString();
-            System.out.println(auxlista);
+            //System.out.println(auxlista);
             SQL = "select "+auxlista+" from "+tabla_d+" group by "+auxlista;
             stmt = connection.createStatement();
             rs = stmt.executeQuery(SQL);
             while (rs.next()) {
                 queryactual.add(rs.getString(auxlista));
             }
+            it1 = queryactual.iterator();
+            while (it1.hasNext()){
+                auxcant = it1.next().toString();
+                SQLcant = "select count("+auxlista+") from "+tabla_d+" where "+auxlista+" ='"+auxcant+"'";
+                stmt = connection.createStatement();
+                rs = stmt.executeQuery(SQLcant);
+                while (rs.next()) {
+                    //queryactual.add(rs.getString(auxlista));
+                    cantocurrencias = Integer.parseInt(rs.getString("count("+auxlista+")"));
+                    //System.out.println(cantocurrencias);
+                    //queryactualcant.add(it);
+                }
+                System.out.println("No se:");
+                System.out.println(auxcant+" "+cantocurrencias+" "+auxlista);
+                hdbcant.put(auxcant, cantocurrencias);
+                cantocurrencias = 0;
+                
+                //select count(clase) from cars where clase='unacc';
+            }
+            
+
+            /*System.out.println("Consulta:");
             System.out.println(SQL);
+            System.out.println("Query:");
             System.out.println(queryactual);
-            hdb.put(auxlista, queryactual);
+            System.out.println(auxlista);*/
+            hdb.put(auxlista, hdbcant);
+            //hdbcant.clear();
             queryactual.clear();
             
-            
-            
          }
+
+        String p = "hihg:2";
+        System.out.println(java.util.Arrays.toString(p.split(":")));
+
+        
+
+         String s, s1;
+            Iterator it2;
+            System.out.println("Diccio");
+            for( it2 = hdb.keySet().iterator(); it2.hasNext();) {
+                s = it2.next().toString();
+                s1 = hdb.get(s).toString();
+                System.out.println(s + " : " + s1);
+            }
+    //--------------------------------------
          //Imprimir diccionario (no funciona muy bien)
          /*String s, s1;
          System.out.println("Diccio");
