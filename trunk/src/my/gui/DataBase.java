@@ -98,8 +98,9 @@ public class DataBase {
             //System.out.println(rs.getString("Tables_in_com"));
             list.add(rs.getString("Tables_in_com"));
         }
-        //System.out.println(list.get(2).toString());
+        
         tabla_d = list.get(2).toString();
+        //System.out.println(tabla_d);
         //Nombres de las columnas
         SQL = "describe "+tabla_d;
         stmt = connection.createStatement();
@@ -159,6 +160,7 @@ public class DataBase {
                 }
                 
                 //System.out.println(auxcant+" "+cantocurrencias+" "+auxlista);
+
                 hdbcant.put(auxcant, cantocurrencias);
                 cantocurrencias = 0;
                 
@@ -173,7 +175,7 @@ public class DataBase {
             
 
             if(!auxlista.contentEquals(columna_desicion)){
-                //System.out.println("collumnas");
+                System.out.println(queryactual);
                 itval = queryactual.iterator();
                 //val_col_desicion
                 HashMap hdbval = new HashMap();
@@ -192,9 +194,10 @@ public class DataBase {
                             //System.out.println(rs.getString("count(*)"));
                             numvalcol = Integer.parseInt(rs.getString("count("+auxlista+")"));
                         }
-
-                        System.out.println("hola "+auxval1+" "+auxlista);
+                        System.out.println(SQLcantnum);
+                        //System.out.println("hola "+auxval1+" "+auxlista);
                         hdbval.put(auxval1, numvalcol);
+                        auxvalor.add(hdbval);
                         //auxvalor (lista)
                         //stmt = connection.createStatement();
                         //rs = stmt.executeQuery(SQLcol);
@@ -205,12 +208,14 @@ public class DataBase {
                         //}
                         
                    }
-                    
-                   
-                //System.out.println(auxlista);
 
-                }
-                 String s, s1;
+                    Iterator lo=auxvalor.iterator();
+                    while(lo.hasNext()){
+                        System.out.println(lo.next().toString());
+                    }
+
+
+                   String s, s1;
                          Iterator it2;
                          //System.out.println("Diccio");
                          for( it2 = hdbval.keySet().iterator(); it2.hasNext();) {
@@ -218,6 +223,10 @@ public class DataBase {
                                 s1 = hdbval.get(s).toString();
                                 System.out.println(s + " : " + s1);
                           }
+                //System.out.println(auxlista);
+
+                }
+                 
                 hdb.put(auxval, hdbval);
                 //hdbcant.clear();
                 queryactual.clear();
