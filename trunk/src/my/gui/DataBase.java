@@ -31,7 +31,7 @@ public class DataBase {
     public static void Conectar(){
         String cadenaconexion = "";
         //String prueba = "jdbc:mysql://localhost/"+gui.nombrebd+"?" + "user="+gui.usuario+"&password="+gui.password;
-        String prueba="jdbc:mysql://localhost:3306/com?" +"user=root&password=123456";
+        String prueba="jdbc:mysql://localhost:3306/com?" +"user=root&password=root";
         try {
             Class.forName("com.mysql.jdbc.Driver");
             //String connectionUrl = "jdbc:mysql://localhost/mysql?" +"user=root&password=123456";
@@ -68,7 +68,7 @@ public class DataBase {
     public static HashMap ParseoDB() throws SQLException{
         //String connectionUrl = "jdbc:mysql://localhost:3306/com?" + "user=root&password=";
         HashMap hdb = new HashMap();
-        HashMap hdbcant = new HashMap();
+        //HashMap hdbcant = new HashMap();
         Statement stmt = null;
         ResultSet rs = null;
 
@@ -119,6 +119,7 @@ public class DataBase {
         while (it.hasNext()){
             //select puertas from cars group by puertas;
             auxlista = it.next().toString();
+            HashMap hdbcant = new HashMap();
             //System.out.println(auxlista);
             SQL = "select "+auxlista+" from "+tabla_d+" group by "+auxlista;
             stmt = connection.createStatement();
