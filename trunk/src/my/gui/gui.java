@@ -63,7 +63,7 @@ public class gui extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Algoritmo J48   -    A. Aranda (54210), F. Cardozo (51300), L. Figueredo (51160)");
 
-        Titulo2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Titulo2.setFont(new java.awt.Font("Tahoma", 1, 14));
         Titulo2.setText("Conexion a la Base de Datos");
 
         DatoBD.setText("Nombre de la Base de Datos:");
@@ -91,7 +91,7 @@ public class gui extends javax.swing.JFrame {
             }
         });
 
-        PanelGral.setBackground(new java.awt.Color(255, 255, 255));
+        PanelGral.setBackground(new java.awt.Color(153, 153, 153));
         PanelGral.setAutoscrolls(true);
 
         TextoDatos.setColumns(20);
@@ -170,7 +170,7 @@ public class gui extends javax.swing.JFrame {
 
         PanelGral.addTab("Log", PanelLog);
 
-        Titulo1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        Titulo1.setFont(new java.awt.Font("Tahoma", 1, 24));
         Titulo1.setText("Implementacion del Algoritmo J48");
 
         Inform1.setText("Ingrese la informacion solicitada referente a la Base de Datos y");
