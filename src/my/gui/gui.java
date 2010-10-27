@@ -259,7 +259,12 @@ public class gui extends javax.swing.JFrame {
         nombrebd = NombreBD.getText();
         password = PasswordBD.getText();
         //Cargar los datos de la BD para mostrar en el Panel de Datos
-        TextoDatos.setText("hola");
+        TextoDatos.setText("\n  Base de Datos: ");
+        TextoDatos.append(nombrebd);
+        TextoDatos.append("\n  Usuario: ");
+        TextoDatos.append(usuario);
+        TextoDatos.append("\n\n  Información extraida de la Base de Datos: \n");
+        TextoDatos.append("  DATOS!!! :)");
 
         //Generar el Log
         TextoLog.setText("");
