@@ -27,6 +27,7 @@ public class DataBase {
     //Variables de Lore para la BD
     public static Connection connection;
     public static ArrayList data = new ArrayList();
+    public static String columna_desicion="risk";
     //Conectar a la BD
     public static void Conectar(){
         String cadenaconexion = "";
@@ -75,17 +76,20 @@ public class DataBase {
         ArrayList list = new ArrayList();
         ArrayList nom_columnas = new ArrayList();
         ArrayList queryactual = new ArrayList();
-        
+        ArrayList val_col_desicion = new ArrayList();
+        ArrayList auxvalor = new ArrayList();
         //nombre de la tabla de la BD, si hay mas de una se toma la primera
         String tabla_d = "";
-        int numreg = 0;
+        int numreg = 0, numvalcol=0;
         int cantocurrencias=0;
         String auxlista ="";
         String auxcant = "";
+        String auxval = "", auxval1="";
         String lineafila = "";
         //SQL query command
         String SQL = "show tables";
-        String SQLcant="";
+        String SQLcant="", SQLcantnum="";
+        String SQLcol="";
         stmt = connection.createStatement();
         rs = stmt.executeQuery(SQL);
         
@@ -94,17 +98,28 @@ public class DataBase {
             //System.out.println(rs.getString("Tables_in_com"));
             list.add(rs.getString("Tables_in_com"));
         }
-        System.out.println(list.get(0).toString());
-        tabla_d = list.get(0).toString();
+        //System.out.println(list.get(2).toString());
+        tabla_d = list.get(2).toString();
         //Nombres de las columnas
         SQL = "describe "+tabla_d;
         stmt = connection.createStatement();
         rs = stmt.executeQuery(SQL);
         while (rs.next()) {
-            System.out.println(rs.getString("Field"));
+            //System.out.println(rs.getString("Field"));
             nom_columnas.add(rs.getString("Field"));
         }
+        //Para almacenar todos los valores del campo target
+        //val_col_desicion
+        SQL = "select "+columna_desicion+" from "+tabla_d+" group by "+columna_desicion;
+        stmt = connection.createStatement();
+        rs = stmt.executeQuery(SQL);
+        while (rs.next()) {
+            //System.out.println(rs.getString("count(*)"));
+            val_col_desicion.add(rs.getString(columna_desicion));
+        }
+
    //----------GUARDAR TODAS LAS VARIABLES DE UNA COLUMNA
+
         SQL = "select count(*) from "+tabla_d;
         stmt = connection.createStatement();
         rs = stmt.executeQuery(SQL);
@@ -112,10 +127,11 @@ public class DataBase {
             //System.out.println(rs.getString("count(*)"));
             numreg = Integer.parseInt(rs.getString("count(*)"));
         }
-        System.out.println(numreg);
+        //System.out.println(numreg);
 
         Iterator it = nom_columnas.iterator();
         Iterator it1;
+        Iterator itval, itval1;
         while (it.hasNext()){
             //select puertas from cars group by puertas;
             auxlista = it.next().toString();
@@ -126,12 +142,14 @@ public class DataBase {
             rs = stmt.executeQuery(SQL);
             while (rs.next()) {
                 queryactual.add(rs.getString(auxlista));
+                
             }
             it1 = queryactual.iterator();
             while (it1.hasNext()){
                 auxcant = it1.next().toString();
                 SQLcant = "select count("+auxlista+") from "+tabla_d+" where "+auxlista+" ='"+auxcant+"'";
                 stmt = connection.createStatement();
+                //System.out.println(SQLcant);
                 rs = stmt.executeQuery(SQLcant);
                 while (rs.next()) {
                     //queryactual.add(rs.getString(auxlista));
@@ -139,39 +157,86 @@ public class DataBase {
                     //System.out.println(cantocurrencias);
                     //queryactualcant.add(it);
                 }
-                System.out.println("No se:");
-                System.out.println(auxcant+" "+cantocurrencias+" "+auxlista);
+                
+                //System.out.println(auxcant+" "+cantocurrencias+" "+auxlista);
                 hdbcant.put(auxcant, cantocurrencias);
                 cantocurrencias = 0;
                 
                 //select count(clase) from cars where clase='unacc';
             }
             
-
-            /*System.out.println("Consulta:");
-            System.out.println(SQL);
-            System.out.println("Query:");
-            System.out.println(queryactual);
-            System.out.println(auxlista);*/
-            hdb.put(auxlista, hdbcant);
-            //hdbcant.clear();
-            queryactual.clear();
+            //System.out.println("Consulta:");
+            //System.out.println(SQL);
+            //System.out.println("Query:");
+            //System.out.println(auxlista + " " +queryactual);
+            //System.out.println(auxlista);
             
-         }
 
+            if(!auxlista.contentEquals(columna_desicion)){
+                //System.out.println("collumnas");
+                itval = queryactual.iterator();
+                //val_col_desicion
+                HashMap hdbval = new HashMap();
+                while (itval.hasNext()){
+                    auxval = itval.next().toString();
+                    itval1 = val_col_desicion.iterator();
+                    //System.out.println("chau "+auxval);
+                    while (itval1.hasNext()){
+                        auxval1 = itval1.next().toString();
+                        SQLcol = "select "+auxlista+" from "+tabla_d+" where "+columna_desicion+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
+
+                        SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_desicion+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
+                        stmt = connection.createStatement();
+                        rs = stmt.executeQuery(SQLcantnum);
+                        while (rs.next()) {
+                            //System.out.println(rs.getString("count(*)"));
+                            numvalcol = Integer.parseInt(rs.getString("count("+auxlista+")"));
+                        }
+
+                        System.out.println("hola "+auxval1+" "+auxlista);
+                        hdbval.put(auxval1, numvalcol);
+                        //auxvalor (lista)
+                        //stmt = connection.createStatement();
+                        //rs = stmt.executeQuery(SQLcol);
+                        //while (rs.next()) {
+                       
+                            //System.out.println(auxval+" "+ numvalcol);
+                            //queryactual.add(rs.getString(auxlista));
+                        //}
+                        
+                   }
+                    
+                   
+                //System.out.println(auxlista);
+
+                }
+                 String s, s1;
+                         Iterator it2;
+                         //System.out.println("Diccio");
+                         for( it2 = hdbval.keySet().iterator(); it2.hasNext();) {
+                                s = it2.next().toString();
+                                s1 = hdbval.get(s).toString();
+                                System.out.println(s + " : " + s1);
+                          }
+                hdb.put(auxval, hdbval);
+                //hdbcant.clear();
+                queryactual.clear();
+            
+            }
+        }
         String p = "hihg:2";
-        System.out.println(java.util.Arrays.toString(p.split(":")));
+        //System.out.println(java.util.Arrays.toString(p.split(":")));
 
         
 
          String s, s1;
-            Iterator it2;
-            System.out.println("Diccio");
-            for( it2 = hdb.keySet().iterator(); it2.hasNext();) {
+         Iterator it2;
+         //System.out.println("Diccio");
+         for( it2 = hdb.keySet().iterator(); it2.hasNext();) {
                 s = it2.next().toString();
                 s1 = hdb.get(s).toString();
                 System.out.println(s + " : " + s1);
-            }
+          }
     //--------------------------------------
          //Imprimir diccionario (no funciona muy bien)
          /*String s, s1;
@@ -194,6 +259,7 @@ public class DataBase {
                 lineafila = lineafila + ", "+ rs.getString(it.next().toString());
              }
             lineafila = lineafila.substring(2);
+            lineafila = lineafila + "\n";
             data.add(lineafila);
             //System.out.println(lineafila);
             it = nom_columnas.iterator();
