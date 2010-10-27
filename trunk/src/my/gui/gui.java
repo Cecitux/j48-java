@@ -1,13 +1,12 @@
 
 package my.gui;
 import javax.swing.*;
-import weka.classifiers.trees.j48.*;
-import weka.gui.treevisualizer.*;
+//import weka.classifiers.trees.j48.*;
+//import weka.gui.treevisualizer.*;
 
 public class gui extends javax.swing.JFrame {
 
     public String usuario, password, nombrebd;
-
 
     /** Creates new form gui */
     public gui() {
@@ -38,10 +37,10 @@ public class gui extends javax.swing.JFrame {
         TextoDatos = new javax.swing.JTextArea();
         PanelArbol = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        TextoArbol = new javax.swing.JTextArea();
         PanelLog = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        TextoLog = new javax.swing.JTextArea();
         Titulo1 = new javax.swing.JLabel();
         Inform1 = new javax.swing.JLabel();
         Inform2 = new javax.swing.JLabel();
@@ -120,10 +119,10 @@ public class gui extends javax.swing.JFrame {
 
         jScrollPane2.setAutoscrolls(true);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setEditable(false);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        TextoArbol.setColumns(20);
+        TextoArbol.setEditable(false);
+        TextoArbol.setRows(5);
+        jScrollPane2.setViewportView(TextoArbol);
 
         javax.swing.GroupLayout PanelArbolLayout = new javax.swing.GroupLayout(PanelArbol);
         PanelArbol.setLayout(PanelArbolLayout);
@@ -146,10 +145,10 @@ public class gui extends javax.swing.JFrame {
 
         jScrollPane3.setAutoscrolls(true);
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setEditable(false);
-        jTextArea2.setRows(5);
-        jScrollPane3.setViewportView(jTextArea2);
+        TextoLog.setColumns(20);
+        TextoLog.setEditable(false);
+        TextoLog.setRows(5);
+        jScrollPane3.setViewportView(TextoLog);
 
         javax.swing.GroupLayout PanelLogLayout = new javax.swing.GroupLayout(PanelLog);
         PanelLog.setLayout(PanelLogLayout);
@@ -259,6 +258,14 @@ public class gui extends javax.swing.JFrame {
         usuario = UsuarioBD.getText();
         nombrebd = NombreBD.getText();
         password = PasswordBD.getText();
+        //Cargar los datos de la BD para mostrar en el Panel de Datos
+        TextoDatos.setText("hola");
+        TextoDatos.getText();
+
+        TextoLog.setText("");
+        TextoLog.setText(my.gui.Log.datosLog.toString());
+        //JOptionPane.showMessageDialog(jFrame1, my.gui.Log.datosLog.toString());
+        TextoLog.getText();
 
        // JOptionPane.showMessageDialog(jFrame1, password);
     }//GEN-LAST:event_BotonOKActionPerformed
@@ -292,7 +299,9 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JTabbedPane PanelGral;
     private javax.swing.JPanel PanelLog;
     private javax.swing.JPasswordField PasswordBD;
+    private javax.swing.JTextArea TextoArbol;
     private javax.swing.JTextArea TextoDatos;
+    private javax.swing.JTextArea TextoLog;
     private javax.swing.JLabel Titulo1;
     private javax.swing.JLabel Titulo2;
     private javax.swing.JTextField UsuarioBD;
@@ -300,8 +309,6 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
     // End of variables declaration//GEN-END:variables
 
     
