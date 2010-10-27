@@ -2,7 +2,7 @@
 package my.gui;
 //import weka.gui.treevisualizer.*;
 
-import java.awt.Component;
+import java.sql.SQLException;
 
 
 public class gui extends javax.swing.JFrame {
@@ -259,13 +259,25 @@ public class gui extends javax.swing.JFrame {
         usuario = UsuarioBD.getText();
         nombrebd = NombreBD.getText();
         password = PasswordBD.getText();
+
+
         //Cargar los datos de la BD para mostrar en el Panel de Datos
         TextoDatos.setText("\n  Base de Datos: ");
         TextoDatos.append(nombrebd);
         TextoDatos.append("\n  Usuario: ");
         TextoDatos.append(usuario);
         TextoDatos.append("\n\n  Información extraida de la Base de Datos: \n");
+        
         DataBase datos = new DataBase();
+
+        datos.Conectar();
+        try{
+            datos.ParseoDB();
+        }
+        catch(SQLException e){
+            System.out.println("Error al parsear");
+        }
+        TextoDatos.append("  ");
         for(int i = 0; i < datos.data.size(); i++){
             TextoDatos.append(datos.data.get(i).toString());
         }
