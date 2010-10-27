@@ -256,10 +256,10 @@ public class DataBase {
         while (rs.next()) {
             //System.out.println(rs.getString("count(*)"));
             while (it.hasNext()){
-                lineafila = lineafila + ", "+ rs.getString(it.next().toString());
+                lineafila = lineafila + "\t"+ rs.getString(it.next().toString());
              }
-            lineafila = lineafila.substring(2);
-            lineafila = lineafila + "\n";
+            lineafila = lineafila.substring(1);
+            lineafila = lineafila + "\n      ";
             data.add(lineafila);
             //System.out.println(lineafila);
             it = nom_columnas.iterator();

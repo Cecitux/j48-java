@@ -277,12 +277,11 @@ public class gui extends javax.swing.JFrame {
         catch(SQLException e){
             System.out.println("Error al parsear");
         }
-        TextoDatos.append("  ");
+        TextoDatos.append("      ");
         for(int i = 0; i < datos.data.size(); i++){
             TextoDatos.append(datos.data.get(i).toString());
         }
         
-
         //Generar el Log
         TextoLog.setText("");
         Log log=new Log();
@@ -292,6 +291,7 @@ public class gui extends javax.swing.JFrame {
                 
 
        // JOptionPane.showMessageDialog(jFrame1, password);
+        datos.Desconectar();
     }//GEN-LAST:event_BotonOKActionPerformed
 
     private void PasswordBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordBDActionPerformed
