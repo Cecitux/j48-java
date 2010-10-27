@@ -74,9 +74,9 @@ public class DataBase {
         ArrayList list = new ArrayList();
         ArrayList nom_columnas = new ArrayList();
         ArrayList queryactual = new ArrayList();
+        //nombre de la tabla de la BD, si hay mas de una se toma la primera
         String tabla_d = "";
         int numreg = 0;
-        int cont_query = 1;
         String auxlista ="";
         String lineafila = "";
         //SQL query command
@@ -117,14 +117,12 @@ public class DataBase {
             rs = stmt.executeQuery(SQL);
             while (rs.next()) {
                 queryactual.add(rs.getString(auxlista));
-                
-                //numreg = Integer.parseInt(rs.getString("count(*)"));
             }
             System.out.println(SQL);
             System.out.println(queryactual);
-            hdb.put(cont_query, queryactual);
+            hdb.put(auxlista, queryactual);
             queryactual.clear();
-            cont_query++;
+            
             
             
          }
