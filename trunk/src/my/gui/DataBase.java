@@ -73,9 +73,10 @@ public class DataBase {
 
         ArrayList list = new ArrayList();
         ArrayList nom_columnas = new ArrayList();
-        
+        ArrayList queryactual = new ArrayList();
         String tabla_d = "";
         int numreg = 0;
+        int cont_query = 1;
         String auxlista ="";
         String lineafila = "";
         //SQL query command
@@ -83,7 +84,7 @@ public class DataBase {
         stmt = connection.createStatement();
         rs = stmt.executeQuery(SQL);
         
-        
+        //Ver nombres de las tablas (se toma la primera)
         while (rs.next()) {
             //System.out.println(rs.getString("Tables_in_com"));
             list.add(rs.getString("Tables_in_com"));
@@ -110,16 +111,31 @@ public class DataBase {
         while (it.hasNext()){
             //select puertas from cars group by puertas;
             auxlista = it.next().toString();
+            System.out.println(auxlista);
             SQL = "select "+auxlista+" from "+tabla_d+" group by "+auxlista;
             stmt = connection.createStatement();
             rs = stmt.executeQuery(SQL);
             while (rs.next()) {
-            //System.out.println(rs.getString("count(*)"));
+                queryactual.add(rs.getString(auxlista));
+                
                 //numreg = Integer.parseInt(rs.getString("count(*)"));
             }
             System.out.println(SQL);
+            System.out.println(queryactual);
+            hdb.put(cont_query, queryactual);
+            queryactual.clear();
+            cont_query++;
+            
             
          }
+         //Imprimir diccionario (no funciona muy bien)
+         /*String s, s1;
+         System.out.println("Diccio");
+            for( it = hdb.keySet().iterator(); it.hasNext();) {
+                s = it.next().toString();
+                s1 = hdb.get(s).toString();
+                System.out.println(s + " : " + s1);
+            }*/
 
 
          //Para mostrar en pantalla
@@ -139,10 +155,11 @@ public class DataBase {
             lineafila = "";
             //numreg = Integer.parseInt(rs.getString("count(*)"));
         }
-        it = data.iterator();
+        
+        /*it = data.iterator();
         while (it.hasNext()){
             System.out.println(it.next().toString());
-        }
+        }*/
         
         /*InstanceQuery query = new InstanceQuery();
         //query.setUsername(gui.usuario);
