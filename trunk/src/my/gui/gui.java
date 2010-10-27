@@ -1,8 +1,9 @@
 
 package my.gui;
-import javax.swing.*;
-//import weka.classifiers.trees.j48.*;
 //import weka.gui.treevisualizer.*;
+
+import java.awt.Component;
+
 
 public class gui extends javax.swing.JFrame {
 
@@ -264,11 +265,18 @@ public class gui extends javax.swing.JFrame {
         TextoDatos.append("\n  Usuario: ");
         TextoDatos.append(usuario);
         TextoDatos.append("\n\n  Información extraida de la Base de Datos: \n");
-        TextoDatos.append("  DATOS!!! :)");
+        DataBase datos = new DataBase();
+        for(int i = 0; i < datos.data.size(); i++){
+            TextoDatos.append(datos.data.get(i).toString());
+        }
+        
 
         //Generar el Log
         TextoLog.setText("");
-        TextoLog.setText(my.gui.Log.datosLog.toString());
+        Log log=new Log();
+        for(int i = 0; i < log.datosLog.size(); i++){
+            TextoLog.append(log.datosLog.get(i).toString());
+        }
                 
 
        // JOptionPane.showMessageDialog(jFrame1, password);
