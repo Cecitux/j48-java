@@ -260,12 +260,11 @@ public class gui extends javax.swing.JFrame {
         password = PasswordBD.getText();
         //Cargar los datos de la BD para mostrar en el Panel de Datos
         TextoDatos.setText("hola");
-        TextoDatos.getText();
 
+        //Generar el Log
         TextoLog.setText("");
         TextoLog.setText(my.gui.Log.datosLog.toString());
-        //JOptionPane.showMessageDialog(jFrame1, my.gui.Log.datosLog.toString());
-        TextoLog.getText();
+                
 
        // JOptionPane.showMessageDialog(jFrame1, password);
     }//GEN-LAST:event_BotonOKActionPerformed
