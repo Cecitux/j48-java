@@ -27,12 +27,12 @@ public class DataBase {
     //Variables de Lore para la BD
     public static Connection connection;
     public static ArrayList data = new ArrayList();
-    public static String columna_desicion="risk";
+    public static String columna_desicion="seguridad";
     //Conectar a la BD
     public static void Conectar() {
         String cadenaconexion = "";
         //String prueba = "jdbc:mysql://localhost/"+gui.nombrebd+"?" + "user="+gui.usuario+"&password="+gui.password;
-        String prueba="jdbc:mysql://localhost:3306/com?" +"user=root&password=root";
+        String prueba="jdbc:mysql://localhost:3306/com?" +"user=root&password=123456";
         try {
             Class.forName("com.mysql.jdbc.Driver");
             //String connectionUrl = "jdbc:mysql://localhost/mysql?" +"user=root&password=123456";
@@ -61,13 +61,11 @@ public class DataBase {
             connection.close();
             System.out.println("Desconectado");
         } catch (SQLException ex) {
-            //Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println("Error al desconectar");
         }
     }
 
     public static HashMap ParseoDB() throws SQLException{
-        //String connectionUrl = "jdbc:mysql://localhost:3306/com?" + "user=root&password=root";
         HashMap hdb = new HashMap();
         //HashMap hdbcant = new HashMap();
         Statement stmt = null;
@@ -100,7 +98,7 @@ public class DataBase {
             list.add(rs.getString("Tables_in_com"));
         }
         
-        tabla_d = list.get(2).toString();
+        tabla_d = list.get(0).toString();
         //System.out.println(tabla_d);
         //Nombres de las columnas
         SQL = "describe "+tabla_d;
@@ -153,6 +151,7 @@ public class DataBase {
                 stmt = connection.createStatement();
                 //System.out.println(SQLcant);
                 rs = stmt.executeQuery(SQLcant);
+                //Para contar la cantidad de veces que aparece un mismo valor en una determinada columna
                 while (rs.next()) {
                     //queryactual.add(rs.getString(auxlista));
                     cantocurrencias = Integer.parseInt(rs.getString("count("+auxlista+")"));
@@ -174,13 +173,14 @@ public class DataBase {
             //System.out.println(auxlista + " " +queryactual);
             //System.out.println(auxlista);
             
-
+            HashMap hdbvalor_segundo_nivel = new HashMap();
             if(!auxlista.contentEquals(columna_desicion)){
-                System.out.println(queryactual);
+                //System.out.println(queryactual);
                 itval = queryactual.iterator();
                 //val_col_desicion
-                HashMap hdbval = new HashMap();
+                
                 while (itval.hasNext()){
+                    HashMap hdbval = new HashMap();
                     auxval = itval.next().toString();
                     itval1 = val_col_desicion.iterator();
                     //System.out.println("chau "+auxval);
@@ -195,7 +195,7 @@ public class DataBase {
                             //System.out.println(rs.getString("count(*)"));
                             numvalcol = Integer.parseInt(rs.getString("count("+auxlista+")"));
                         }
-                        System.out.println(SQLcantnum);
+                        //System.out.println(SQLcantnum);
                         //System.out.println("hola "+auxval1+" "+auxlista);
                         hdbval.put(auxval1, numvalcol);
                         auxvalor.add(hdbval);
@@ -210,40 +210,40 @@ public class DataBase {
                         
                    }
 
-                    Iterator lo=auxvalor.iterator();
+                    /*Iterator lo=auxvalor.iterator();
                     while(lo.hasNext()){
                         System.out.println(lo.next().toString());
-                    }
+                    }*/
 
 
-                   String s, s1;
+                   /*String s, s1;
                          Iterator it2;
                          //System.out.println("Diccio");
                          for( it2 = hdbval.keySet().iterator(); it2.hasNext();) {
                                 s = it2.next().toString();
                                 s1 = hdbval.get(s).toString();
                                 System.out.println(s + " : " + s1);
-                          }
+                          }*/
                 //System.out.println(auxlista);
-
+                    hdbvalor_segundo_nivel.put(auxval, hdbval);
                 }
                  
-                hdb.put(auxval, hdbval);
+                hdb.put(auxlista, hdbvalor_segundo_nivel);
                 //hdbcant.clear();
                 queryactual.clear();
             
             }
         }
-        String p = "hihg:2";
+        //String p = "hihg:2";
         //System.out.println(java.util.Arrays.toString(p.split(":")));
 
         
 
          String s, s1;
-         Iterator it2;
+         Iterator it21;
          //System.out.println("Diccio");
-         for( it2 = hdb.keySet().iterator(); it2.hasNext();) {
-                s = it2.next().toString();
+         for( it21 = hdb.keySet().iterator(); it21.hasNext();) {
+                s = it21.next().toString();
                 s1 = hdb.get(s).toString();
                 System.out.println(s + " : " + s1);
           }
