@@ -8,17 +8,17 @@ import my.gui.gui;
 import java.sql.*;
 import java.util.*;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+//import java.sql.Connection;
+//import java.sql.DatabaseMetaData;
+//import java.sql.DriverManager;
+//import java.sql.ResultSet;
+//import java.sql.SQLException;
+//import java.sql.Statement;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.Iterator;
+//import java.awt.*;
+//import java.awt.event.*;
+//import java.util.ArrayList;
+//import java.util.Iterator;
 
 
 
@@ -32,7 +32,7 @@ public class DataBase {
     public static void Conectar() {
         String cadenaconexion = "";
         //String prueba = "jdbc:mysql://localhost/"+gui.nombrebd+"?" + "user="+gui.usuario+"&password="+gui.password;
-        String prueba="jdbc:mysql://localhost:3306/com?" +"user=root&password=mysql";
+        String prueba="jdbc:mysql://localhost:3306/com?" +"user=root&password=root";
         try {
             Class.forName("com.mysql.jdbc.Driver");
             //String connectionUrl = "jdbc:mysql://localhost/mysql?" +"user=root&password=123456";
@@ -67,7 +67,7 @@ public class DataBase {
     }
 
     public static HashMap ParseoDB() throws SQLException{
-        //String connectionUrl = "jdbc:mysql://localhost:3306/com?" + "user=root&password=";
+        //String connectionUrl = "jdbc:mysql://localhost:3306/com?" + "user=root&password=root";
         HashMap hdb = new HashMap();
         //HashMap hdbcant = new HashMap();
         Statement stmt = null;
@@ -88,7 +88,8 @@ public class DataBase {
         String lineafila = "";
         //SQL query command
         String SQL = "show tables";
-        String SQLcant="", SQLcantnum="";
+        String SQLcant="";
+        String SQLcantnum="";
         String SQLcol="";
         stmt = connection.createStatement();
         rs = stmt.executeQuery(SQL);
@@ -130,12 +131,12 @@ public class DataBase {
         }
         //System.out.println(numreg);
 
-        Iterator it = nom_columnas.iterator();
+        Iterator it_nomcol = nom_columnas.iterator();
         Iterator it1;
         Iterator itval, itval1;
-        while (it.hasNext()){
+        while (it_nomcol.hasNext()){
             //select puertas from cars group by puertas;
-            auxlista = it.next().toString();
+            auxlista = it_nomcol.next().toString();
             HashMap hdbcant = new HashMap();
             //System.out.println(auxlista);
             SQL = "select "+auxlista+" from "+tabla_d+" group by "+auxlista;
@@ -261,17 +262,17 @@ public class DataBase {
         SQL = "select * from "+tabla_d;
         stmt = connection.createStatement();
         rs = stmt.executeQuery(SQL);
-        it = nom_columnas.iterator();
+        it_nomcol = nom_columnas.iterator();
         while (rs.next()) {
             //System.out.println(rs.getString("count(*)"));
-            while (it.hasNext()){
-                lineafila = lineafila + "\t"+ rs.getString(it.next().toString());
+            while (it_nomcol.hasNext()){
+                lineafila = lineafila + "\t"+ rs.getString(it_nomcol.next().toString());
              }
             lineafila = lineafila.substring(1);
             lineafila = lineafila + "\n      ";
             data.add(lineafila);
             //System.out.println(lineafila);
-            it = nom_columnas.iterator();
+            it_nomcol = nom_columnas.iterator();
             lineafila = "";
             //numreg = Integer.parseInt(rs.getString("count(*)"));
         }
