@@ -30,7 +30,7 @@ public class DataBase {
     public static String columna_desicion="seguridad";
     //Conectar a la BD
     public static void Conectar() {
-        String cadenaconexion = "";
+        // cadenaconexion = "";
         //String prueba = "jdbc:mysql://localhost/"+gui.nombrebd+"?" + "user="+gui.usuario+"&password="+gui.password;
         String prueba="jdbc:mysql://localhost:3306/com?" +"user=root&password=123456";
         try {
@@ -67,7 +67,6 @@ public class DataBase {
 
     public static HashMap ParseoDB() throws SQLException{
         HashMap hdb = new HashMap();
-        //HashMap hdbcant = new HashMap();
         Statement stmt = null;
         ResultSet rs = null;
 
@@ -79,14 +78,12 @@ public class DataBase {
         //nombre de la tabla de la BD, si hay mas de una se toma la primera
         String tabla_d = "";
         int numreg = 0, numvalcol=0;
-        int cantocurrencias=0;
         String auxlista ="";
         String auxcant = "";
         String auxval = "", auxval1="";
         String lineafila = "";
         //SQL query command
         String SQL = "show tables";
-        String SQLcant="";
         String SQLcantnum="";
         String SQLcol="";
         stmt = connection.createStatement();
@@ -94,18 +91,15 @@ public class DataBase {
         
         //Ver nombres de las tablas (se toma la primera)
         while (rs.next()) {
-            //System.out.println(rs.getString("Tables_in_com"));
             list.add(rs.getString("Tables_in_com"));
         }
         
         tabla_d = list.get(0).toString();
-        //System.out.println(tabla_d);
         //Nombres de las columnas
         SQL = "describe "+tabla_d;
         stmt = connection.createStatement();
         rs = stmt.executeQuery(SQL);
         while (rs.next()) {
-            //System.out.println(rs.getString("Field"));
             nom_columnas.add(rs.getString("Field"));
         }
         //Para almacenar todos los valores del campo target
@@ -114,76 +108,41 @@ public class DataBase {
         stmt = connection.createStatement();
         rs = stmt.executeQuery(SQL);
         while (rs.next()) {
-            //System.out.println(rs.getString("count(*)"));
             val_col_desicion.add(rs.getString(columna_desicion));
         }
 
    //----------GUARDAR TODAS LAS VARIABLES DE UNA COLUMNA
-
+        //auxlista = columnas
+        //queryactual = distintos valores de las columnas
         SQL = "select count(*) from "+tabla_d;
         stmt = connection.createStatement();
         rs = stmt.executeQuery(SQL);
         while (rs.next()) {
-            //System.out.println(rs.getString("count(*)"));
             numreg = Integer.parseInt(rs.getString("count(*)"));
         }
-        //System.out.println(numreg);
-
         Iterator it_nomcol = nom_columnas.iterator();
-        Iterator it1;
         Iterator itval, itval1;
         while (it_nomcol.hasNext()){
             //select puertas from cars group by puertas;
             auxlista = it_nomcol.next().toString();
-            HashMap hdbcant = new HashMap();
-            //System.out.println(auxlista);
             SQL = "select "+auxlista+" from "+tabla_d+" group by "+auxlista;
             stmt = connection.createStatement();
             rs = stmt.executeQuery(SQL);
+            //agrega a una lista los distintos valores de una lista
             while (rs.next()) {
                 queryactual.add(rs.getString(auxlista));
                 
             }
-            it1 = queryactual.iterator();
-            while (it1.hasNext()){
-                auxcant = it1.next().toString();
-                SQLcant = "select count("+auxlista+") from "+tabla_d+" where "+auxlista+" ='"+auxcant+"'";
-                stmt = connection.createStatement();
-                //System.out.println(SQLcant);
-                rs = stmt.executeQuery(SQLcant);
-                //Para contar la cantidad de veces que aparece un mismo valor en una determinada columna
-                while (rs.next()) {
-                    //queryactual.add(rs.getString(auxlista));
-                    cantocurrencias = Integer.parseInt(rs.getString("count("+auxlista+")"));
-                    //System.out.println(cantocurrencias);
-                    //queryactualcant.add(it);
-                }
-                
-                //System.out.println(auxcant+" "+cantocurrencias+" "+auxlista);
-
-                hdbcant.put(auxcant, cantocurrencias);
-                cantocurrencias = 0;
-                
-                //select count(clase) from cars where clase='unacc';
-            }
-            
-            //System.out.println("Consulta:");
-            //System.out.println(SQL);
-            //System.out.println("Query:");
-            //System.out.println(auxlista + " " +queryactual);
-            //System.out.println(auxlista);
-            
             HashMap hdbvalor_segundo_nivel = new HashMap();
             if(!auxlista.contentEquals(columna_desicion)){
-                //System.out.println(queryactual);
                 itval = queryactual.iterator();
                 //val_col_desicion
                 
                 while (itval.hasNext()){
+                    //contar la cantidad de ocurrencias con respecto a la columna objetivo
                     HashMap hdbval = new HashMap();
                     auxval = itval.next().toString();
                     itval1 = val_col_desicion.iterator();
-                    //System.out.println("chau "+auxval);
                     while (itval1.hasNext()){
                         auxval1 = itval1.next().toString();
                         SQLcol = "select "+auxlista+" from "+tabla_d+" where "+columna_desicion+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
@@ -192,115 +151,45 @@ public class DataBase {
                         stmt = connection.createStatement();
                         rs = stmt.executeQuery(SQLcantnum);
                         while (rs.next()) {
-                            //System.out.println(rs.getString("count(*)"));
                             numvalcol = Integer.parseInt(rs.getString("count("+auxlista+")"));
                         }
-                        //System.out.println(SQLcantnum);
-                        //System.out.println("hola "+auxval1+" "+auxlista);
                         hdbval.put(auxval1, numvalcol);
                         auxvalor.add(hdbval);
-                        //auxvalor (lista)
-                        //stmt = connection.createStatement();
-                        //rs = stmt.executeQuery(SQLcol);
-                        //while (rs.next()) {
-                       
-                            //System.out.println(auxval+" "+ numvalcol);
-                            //queryactual.add(rs.getString(auxlista));
-                        //}
                         
                    }
-
-                    /*Iterator lo=auxvalor.iterator();
-                    while(lo.hasNext()){
-                        System.out.println(lo.next().toString());
-                    }*/
-
-
-                   /*String s, s1;
-                         Iterator it2;
-                         //System.out.println("Diccio");
-                         for( it2 = hdbval.keySet().iterator(); it2.hasNext();) {
-                                s = it2.next().toString();
-                                s1 = hdbval.get(s).toString();
-                                System.out.println(s + " : " + s1);
-                          }*/
-                //System.out.println(auxlista);
-                    hdbvalor_segundo_nivel.put(auxval, hdbval);
+                   hdbvalor_segundo_nivel.put(auxval, hdbval);
                 }
-                 
-                hdb.put(auxlista, hdbvalor_segundo_nivel);
-                //hdbcant.clear();
                 queryactual.clear();
-            
+                hdb.put(auxlista, hdbvalor_segundo_nivel);
+               
             }
+            queryactual.clear();
         }
-        //String p = "hihg:2";
-        //System.out.println(java.util.Arrays.toString(p.split(":")));
-
-        
-
+      //Imprime el diccionario actual
          String s, s1;
          Iterator it21;
-         //System.out.println("Diccio");
          for( it21 = hdb.keySet().iterator(); it21.hasNext();) {
                 s = it21.next().toString();
                 s1 = hdb.get(s).toString();
                 System.out.println(s + " : " + s1);
           }
-    //--------------------------------------
-         //Imprimir diccionario (no funciona muy bien)
-         /*String s, s1;
-         System.out.println("Diccio");
-            for( it = hdb.keySet().iterator(); it.hasNext();) {
-                s = it.next().toString();
-                s1 = hdb.get(s).toString();
-                System.out.println(s + " : " + s1);
-            }*/
-
-
+  
          //Para mostrar en pantalla
         SQL = "select * from "+tabla_d;
         stmt = connection.createStatement();
         rs = stmt.executeQuery(SQL);
         it_nomcol = nom_columnas.iterator();
         while (rs.next()) {
-            //System.out.println(rs.getString("count(*)"));
             while (it_nomcol.hasNext()){
                 lineafila = lineafila + "\t"+ rs.getString(it_nomcol.next().toString());
              }
             lineafila = lineafila.substring(1);
             lineafila = lineafila + "\n      ";
             data.add(lineafila);
-            //System.out.println(lineafila);
             it_nomcol = nom_columnas.iterator();
             lineafila = "";
-            //numreg = Integer.parseInt(rs.getString("count(*)"));
         }
         
-        /*it = data.iterator();
-        while (it.hasNext()){
-            System.out.println(it.next().toString());
-        }*/
-        
-        /*InstanceQuery query = new InstanceQuery();
-        //query.setUsername(gui.usuario);
-	//query.setPassword(gui.password);
-        query.setUsername("root");
-	query.setPassword("");
-	//query.setQuery("show tables");
-        query.setQuery("SELECT * FROM cars");
-
-        Instances data = query.retrieveInstances();
-        System.out.println(data);
-        System.out.println("hola");*/
-
-        /*try {
-            connection.close();
-            System.out.println("Desconectado");
-        } catch (SQLException ex) {
-            //Logger.getLogger(DataBase.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Error de query");
-        }*/
         return hdb;
     }
 }
