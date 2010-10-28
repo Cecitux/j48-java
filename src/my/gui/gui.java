@@ -62,6 +62,7 @@ public class gui extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Algoritmo J48   -    A. Aranda (54210), F. Cardozo (51300), L. Figueredo (51160)");
+        setName("VentanaPrincipal"); // NOI18N
 
         Titulo2.setFont(new java.awt.Font("Tahoma", 1, 14));
         Titulo2.setText("Conexion a la Base de Datos");
@@ -289,6 +290,8 @@ public class gui extends javax.swing.JFrame {
             TextoLog.append(log.datosLog.get(i).toString());
         }
                 
+        GraficoArbol arbol = new GraficoArbol();
+        arbol.paint(null);
 
        // JOptionPane.showMessageDialog(jFrame1, password);
         datos.Desconectar();

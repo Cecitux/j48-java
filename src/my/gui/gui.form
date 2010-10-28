@@ -24,6 +24,7 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="Algoritmo J48   -    A. Aranda (54210), F. Cardozo (51300), L. Figueredo (51160)"/>
+    <Property name="name" type="java.lang.String" value="VentanaPrincipal" noResource="true"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
