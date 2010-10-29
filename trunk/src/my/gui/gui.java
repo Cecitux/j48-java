@@ -2,7 +2,7 @@
 package my.gui;
 //import weka.gui.treevisualizer.*;
 
-import com.mysql.jdbc.log.Log;
+//import com.mysql.jdbc.log.Log;
 import java.sql.SQLException;
 
 
