@@ -298,8 +298,8 @@ public class gui extends javax.swing.JFrame {
             TextoLog.append(log.datosLog.get(i).toString());
         }*/
 
-        GraficoArbol arbol = new GraficoArbol();
-        arbol.setVisible(true);
+        //GraficoArbol arbol = new GraficoArbol();
+        //arbol.setVisible(true);
         
        // JOptionPane.showMessageDialog(jFrame1, password);
         datos.Desconectar();
