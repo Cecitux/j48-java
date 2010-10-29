@@ -285,8 +285,8 @@ public class gui extends javax.swing.JFrame {
         }
         
         //Generar el Log
-        /*TextoLog.setText("");
-        Log log = new Log();
+        TextoLog.setText("");
+        /*Log log = new Log();
         for(int i = 0; i < log.datosLog.size(); i++){
             TextoLog.append(log.datosLog.get(i).toString());
         }*/
