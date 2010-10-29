@@ -32,7 +32,8 @@ public class DataBase {
     public static void Conectar() {
         // cadenaconexion = "";
         //String prueba = "jdbc:mysql://localhost/"+gui.nombrebd+"?" + "user="+gui.usuario+"&password="+gui.password;
-        String prueba="jdbc:mysql://localhost:3306/com?" +"user=root&password=123456";
+        //String prueba="jdbc:mysql://localhost:3306/com?" +"user=root&password=123456"; //para lore y fer
+        String prueba="jdbc:mysql://localhost:3306/com?" +"user=root&password=mysql"; //para adri
         try {
             Class.forName("com.mysql.jdbc.Driver");
             //String connectionUrl = "jdbc:mysql://localhost/mysql?" +"user=root&password=123456";
