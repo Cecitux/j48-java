@@ -2,7 +2,7 @@
 package my.gui;
 //import weka.gui.treevisualizer.*;
 
-//import com.mysql.jdbc.log.Log;
+import com.mysql.jdbc.log.Log;
 import java.sql.SQLException;
 
 
@@ -286,7 +286,7 @@ public class gui extends javax.swing.JFrame {
         
         //Generar el Log
         /*TextoLog.setText("");
-        Log log=new Log();
+        Log log = new Log();
         for(int i = 0; i < log.datosLog.size(); i++){
             TextoLog.append(log.datosLog.get(i).toString());
         }*/
