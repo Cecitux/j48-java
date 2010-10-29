@@ -40,6 +40,7 @@ public class gui extends javax.swing.JFrame {
         PanelArbol = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         TextoArbol = new javax.swing.JTextArea();
+        BotonGrafico = new javax.swing.JButton();
         PanelLog = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         TextoLog = new javax.swing.JTextArea();
@@ -127,20 +128,26 @@ public class gui extends javax.swing.JFrame {
         TextoArbol.setRows(5);
         jScrollPane2.setViewportView(TextoArbol);
 
+        BotonGrafico.setText("Ver Grafico del Arbol");
+
         javax.swing.GroupLayout PanelArbolLayout = new javax.swing.GroupLayout(PanelArbol);
         PanelArbol.setLayout(PanelArbolLayout);
         PanelArbolLayout.setHorizontalGroup(
             PanelArbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelArbolLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                .addGroup(PanelArbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE)
+                    .addComponent(BotonGrafico, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         PanelArbolLayout.setVerticalGroup(
             PanelArbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelArbolLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 365, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(BotonGrafico)
                 .addContainerGap())
         );
 
@@ -290,15 +297,18 @@ public class gui extends javax.swing.JFrame {
         for(int i = 0; i < log.datosLog.size(); i++){
             TextoLog.append(log.datosLog.get(i).toString());
         }*/
-                
+
         GraficoArbol arbol = new GraficoArbol();
         arbol.setVisible(true);
-
         
        // JOptionPane.showMessageDialog(jFrame1, password);
         datos.Desconectar();
     }//GEN-LAST:event_BotonOKActionPerformed
 
+    private void BotonGraficoActionPerformed(java.awt.event.ActionEvent evt) {
+        GraficoArbol arbol = new GraficoArbol();
+        arbol.setVisible(true);
+    }
     private void PasswordBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordBDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_PasswordBDActionPerformed
@@ -315,6 +325,7 @@ public class gui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton BotonGrafico;
     private javax.swing.JButton BotonOK;
     private javax.swing.JLabel DatoBD;
     private javax.swing.JLabel DatoPassword;

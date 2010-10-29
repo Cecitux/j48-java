@@ -185,7 +185,7 @@ public class DataBase {
                 lineafila = lineafila + "\t"+ rs.getString(it_nomcol.next().toString());
              }
             lineafila = lineafila.substring(1);
-            lineafila = lineafila + "\n      ";
+            lineafila = lineafila + "\t\n      ";
             data.add(lineafila);
             it_nomcol = nom_columnas.iterator();
             lineafila = "";
