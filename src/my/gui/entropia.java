@@ -5,7 +5,7 @@
 
 package my.gui;
 import java.lang.Math;
-import java.util.Iterator;
+import java.util.*;
 /**
  *
  * @author Administrator
@@ -28,11 +28,11 @@ public class entropia {
         entropia.resulatdo_entrpia=0.0;
        
     }*/
-
+    Hashtable a = new Hashtable();
     static double calcular_probabilidad(int universo, int a){
-        double resultado;
-        resultado=(double) a/universo;
-                return resultado;
+	double resultado;
+	resultado=(double) a/universo;
+	return resultado;
     }
     /**
      * Calcula el logaritmo en base dos del numeros
@@ -40,7 +40,11 @@ public class entropia {
      * @return logaritmo en base 2
      */
     static double logaritmo_base2(double numero){
-       return (Math.log10(numero)/Math.log10(2));
+	if (numero==0){
+	    return 0.0;
+	}else{
+	    return (Math.log10(numero)/Math.log10(2));
+	}
     }
 
     public entropia(int cantt, int cantc[]){
@@ -56,7 +60,7 @@ public class entropia {
        
    }
 
-    public double calcular_entropia(int cantidad_total, int cantidad_de_clase[]){
+    public static double calcular_entropia(int cantidad_total, int cantidad_de_clase[]){
         double probabilidad;
         for(int i=0; i < cantidad_de_clase.length; i++){
             probabilidad=entropia.calcular_probabilidad(cantidad_total, cantidad_de_clase[i]);
@@ -64,6 +68,7 @@ public class entropia {
         }
         return entropia.resulatdo_entrpia;
     }
+
 
 
      
