@@ -13,7 +13,7 @@ import java.util.*;
 public class entropia {
     static int cantidad_total;
     static int cantidad_de_clase[];
-    static double resulatdo_entrpia;
+    static double resultado_entropia;
 
    /**
      *
@@ -52,7 +52,7 @@ public class entropia {
         entropia.cantidad_de_clase=new int[cantt];
         entropia.cantidad_de_clase=cantc;
         entropia.cantidad_total=cantt;
-        entropia.resulatdo_entrpia=0.0;
+        entropia.resultado_entropia=0.0;
 
     }
 
@@ -62,11 +62,12 @@ public class entropia {
 
     public static double calcular_entropia(int cantidad_total, int cantidad_de_clase[]){
         double probabilidad;
+        entropia.resultado_entropia=0.0;
         for(int i=0; i < cantidad_de_clase.length; i++){
             probabilidad=entropia.calcular_probabilidad(cantidad_total, cantidad_de_clase[i]);
-            entropia.resulatdo_entrpia-= (probabilidad*entropia.logaritmo_base2(probabilidad));
+            entropia.resultado_entropia-= (probabilidad*entropia.logaritmo_base2(probabilidad));
         }
-        return entropia.resulatdo_entrpia;
+        return entropia.resultado_entropia;
     }
 
 
