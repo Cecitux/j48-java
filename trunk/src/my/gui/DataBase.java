@@ -27,13 +27,13 @@ public class DataBase {
     //Variables de Lore para la BD
     public static Connection connection;
     public static ArrayList data = new ArrayList();
-    public static String columna_desicion="seguridad";
+    public static String columna_desicion="risk";
     //Conectar a la BD
-    public static void Conectar() {
+    public static void Conectar(String nombre, String usuario, String pass) {
         // cadenaconexion = "";
-        //String prueba = "jdbc:mysql://localhost/"+gui.nombrebd+"?" + "user="+gui.usuario+"&password="+gui.password;
+        String prueba = "jdbc:mysql://localhost:3306/"+nombre+"?" + "user="+usuario+"&password="+pass;
         //String prueba="jdbc:mysql://localhost:3306/com?" +"user=root&password=123456"; //para lore y fer
-        String prueba="jdbc:mysql://localhost:3306/com?" +"user=root&password=mysql"; //para adri
+        //String prueba="jdbc:mysql://localhost:3306/com?" +"user=root&password=mysql"; //para adri
         try {
             Class.forName("com.mysql.jdbc.Driver");
             //String connectionUrl = "jdbc:mysql://localhost/mysql?" +"user=root&password=123456";
@@ -95,7 +95,7 @@ public class DataBase {
             list.add(rs.getString("Tables_in_com"));
         }
         
-        tabla_d = list.get(0).toString();
+        tabla_d = list.get(2).toString();
         //Nombres de las columnas
         SQL = "describe "+tabla_d;
         stmt = connection.createStatement();
