@@ -98,12 +98,11 @@ public class GraficoArbol extends javax.swing.JFrame {
         coordX = PanelGrafico.getWidth() / (cantNodos + 1);
         cantNodos = 0;
 
-        /* FORMATO DEL ARBOL: Un string con el siguiente formato:
-         * Separacion de niveles: ;
-         * Formato de definicion de Hijo: Padre*Hijo-arco
-         * Separacion de hijos: ,
-         * Arcos seguidos de cada nodo, separandolos con: -
-         * Fin del String: #
+        /* FORMATO DEL ARBOL: Una lista de strings con el siguiente formato:
+         * Separacion de niveles: ";"
+         * Formato de datos de Hijo: "Padre", "Hijo", "arco"
+         * Separacion de hijos: "-"
+         * Fin del Arbol: "#"
          *
          * Ejemplo de formato: {Raiz;Padre*Hijo1-arco1, Padre*Hijo2-arco2;....}
          *
@@ -112,8 +111,8 @@ public class GraficoArbol extends javax.swing.JFrame {
          *    | B |    | C |
          *              arco3
          *              | D |
-         * donde: A es la raiz y es padre de B y C con los arcos 1 y 2 respectivamente; y a su vez C es padre de D.
-         * quedaria: {A;A*B-arco1,A*C-arco2;C*D-arco3}
+         * donde: A es la raiz y es padre de B y C con los arcos 1 y 2 respectivamente; y a su vez C es padre de D con el arco 3.
+         * quedaria una lista asi: {"A", ";", "A", "B", "arco1", "A", "C", "arco2", "C", "D", "arco3", "#"}
          */
 
 
@@ -162,22 +161,25 @@ public class GraficoArbol extends javax.swing.JFrame {
                         g.drawString(nivel.get(indexNodo), coordX+20, coordY+30);
 
                         //correspondencia con el padre
+                        System.out.println("Tamanho pantalla en pixeles: " + PanelGrafico.getWidth());
                         System.out.println("Nodo padre: " + nivel.get(i+(int)Math.pow(3, i) - 1) + ", Nodo hijo: " + nivel.get(i+(int)Math.pow(3, i)));
                         System.out.println("Posicion padre en ordenPadres: " + ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1)));
                         System.out.println("Cantidad de Padres en nivel anterior: " + ordenPadres.size());
-                        System.out.println("Posicion X de padre segun orden: " + (PanelGrafico.getWidth() / ordenPadres.size() * (int)Math.pow(cantNodos, (ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1))))));
-                        //anteriorX = PanelGrafico.getWidth() / ordenPadres.size() * (int)Math.pow(cantNodos, (ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1))));
+                        System.out.println("Posicion X de padre segun orden: " + (PanelGrafico.getWidth() / (int)Math.pow(ordenPadres.size() + 1,(ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1))) + 1) ) );
+                        //anteriorX = tamanho del panel / ( (cantidad de padres+1)^(posicion del padre+1) )
+                        //anteriorX = PanelGrafico.getWidth() / (int)Math.pow(ordenPadres.size() + 1,(ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1))) + 1);
+                        anteriorX = PanelGrafico.getWidth() / (int)Math.pow(ordenPadres.size() + 1,(ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1)) + 1));
 
                         System.out.println("\n");
 
                         g.drawLine(anteriorX + anchoNodo / 2, anteriorY, coordX + anchoNodo / 2, coordY);
-                        textoX = coordX + 20;
+                        textoX = coordX;
                         textoY = anteriorY + 70;
                         indexArco=i+1+(int)Math.pow(3, i);
                         g.drawString(nivel.get(indexArco), textoX, textoY);
                     }
-                    coordX = coordX + PanelGrafico.getWidth() / (cantNodos + 1);
                     //anteriorX = PanelGrafico.getWidth() / ordenPadres.size() * (int)Math.pow(cantNodos, (ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1))));
+                    coordX = coordX + PanelGrafico.getWidth() / (cantNodos + 1);
                 }
                 anteriorY = coordY + altoNodo;
                 coordY = coordY + 150;
