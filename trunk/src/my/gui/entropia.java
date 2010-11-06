@@ -4,7 +4,7 @@
  */
 
 package my.gui;
-import java.lang.Math;
+//import java.lang.Math;
 import java.util.*;
 /**
  *
@@ -28,7 +28,7 @@ public class entropia {
         entropia.resulatdo_entrpia=0.0;
        
     }*/
-    Hashtable a = new Hashtable();
+    //Hashtable a = new Hashtable();
     static double calcular_probabilidad(int universo, int a){
 	double resultado;
 	resultado=(double) a/universo;
@@ -60,6 +60,13 @@ public class entropia {
        
    }
 
+   /**
+    *
+    * @param numero_registros: es el numero total de registros de la tabla
+    * @param cantidad_total: es la cantidad
+    * @param cantidad_de_clase
+    * @return
+    */
     public static double infodeXT(int numero_registros, int cantidad_total, int cantidad_de_clase[]){
         double probabilidad;
         entropia.resultado_entropia=0.0;
@@ -80,9 +87,21 @@ public class entropia {
         }
 		return splitinfo;
 	}
-	public static double infodeT(int numero_registros, int cantidad_de_clase[]){
+	public static double infodeT(ArrayList columna){
 		double infoT=0.0;
-
+		double probabilidad=0.0;
+		int cantidad_infodT=0;
+		int i=0;
+		while(i<columna.size()){
+			cantidad_infodT+=Integer.parseInt(columna.get(i).toString());
+			i++;
+		}
+		i=0;
+		while(i<columna.size()){
+			probabilidad=entropia.calcular_probabilidad(cantidad_infodT, Integer.parseInt(columna.get(i).toString()));
+			infoT-=(probabilidad*entropia.logaritmo_base2(probabilidad));
+			i++;
+		}
 		return infoT;
 	}
 }
