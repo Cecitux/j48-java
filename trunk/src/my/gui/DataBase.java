@@ -106,6 +106,7 @@ public class DataBase {
             nom_columnas.add(rs.getString("Field"));
         }
 	}
+	
 
 	public static HashMap ParseoDB(String nomcol, String valactual) throws SQLException{
         HashMap hdb = new HashMap();
