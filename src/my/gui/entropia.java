@@ -60,19 +60,29 @@ public class entropia {
        
    }
 
-    public static double calcular_entropia(int cantidad_total, int cantidad_de_clase[]){
+    public static double infodeXT(int numero_registros, int cantidad_total, int cantidad_de_clase[]){
         double probabilidad;
         entropia.resultado_entropia=0.0;
         for(int i=0; i < cantidad_de_clase.length; i++){
             probabilidad=entropia.calcular_probabilidad(cantidad_total, cantidad_de_clase[i]);
             entropia.resultado_entropia-= (probabilidad*entropia.logaritmo_base2(probabilidad));
         }
+		entropia.resultado_entropia=(double)cantidad_total/numero_registros*entropia.resultado_entropia;
         return entropia.resultado_entropia;
     }
 
+	public static double splitinfo(int numero_registros, int cantidad_de_clase[]){
+		double splitinfo=0.0;
+		double probabilidad;
+		for(int i=0; i < cantidad_de_clase.length; i++){
+            probabilidad=entropia.calcular_probabilidad(numero_registros, cantidad_de_clase[i]);
+            splitinfo-= (probabilidad*entropia.logaritmo_base2(probabilidad));
+        }
+		return splitinfo;
+	}
+	public static double infodeT(int numero_registros, int cantidad_de_clase[]){
+		double infoT=0.0;
 
-
-     
-    
-
+		return infoT;
+	}
 }
