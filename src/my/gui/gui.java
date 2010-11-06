@@ -281,9 +281,12 @@ public class gui extends javax.swing.JFrame {
         
         DataBase datos = new DataBase();
 
-        datos.Conectar();
+        datos.Conectar(nombrebd, usuario, password);
+
         try{
+			datos.getNombresColumnas();
             datos.ParseoDB();
+			datos.getValoresPantalla();
         }
         catch(SQLException e){
             System.out.println("Error al parsear");
@@ -307,10 +310,10 @@ public class gui extends javax.swing.JFrame {
         datos.Desconectar();
     }//GEN-LAST:event_BotonOKActionPerformed
 
-    private void BotonGraficoActionPerformed(java.awt.event.ActionEvent evt) {
+    /*private void BotonGraficoActionPerformed(java.awt.event.ActionEvent evt) {
         GraficoArbol arbol = new GraficoArbol();
         arbol.setVisible(true);
-    }
+    }*/
     private void PasswordBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordBDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_PasswordBDActionPerformed
