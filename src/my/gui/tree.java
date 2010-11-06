@@ -16,12 +16,16 @@ public class tree {
     }
 
     public static void tree(HashMap datos){
-	int[] a = new int[5];
-	double resultado= 0.0;
-	double split=0.0;
-        Set columna_set = datos.entrySet();
-        Iterator columna_it = columna_set.iterator();
-	
+		int[] a = new int[5];
+		double resultado= 0.0;
+		double split=0.0;
+		double infodeT;
+		ArrayList<String> prueba = new ArrayList<String>();
+		prueba.add("9");
+		prueba.add("5");
+		Set columna_set = datos.entrySet();
+		Iterator columna_it = columna_set.iterator();
+		infodeT=entropia.infodeT(prueba);
         while(columna_it.hasNext()){
             HashMap valores= new HashMap();
             Map.Entry valores_me = (Map.Entry) columna_it.next();
@@ -51,6 +55,7 @@ public class tree {
 			}
 			System.out.println("infodeT="+resultado);
 			System.out.println("Split="+split);
+			System.out.println("Ganancia="+(infodeT-resultado));
 		}
     }
 
