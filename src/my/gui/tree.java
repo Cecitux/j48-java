@@ -20,18 +20,23 @@ public class tree {
 		double resultado= 0.0;
 		double split=0.0;
 		double infodeT;
+		double ganancia;
+		double radio_ganancia;
+		String columna_actual;
 		ArrayList<String> prueba = new ArrayList<String>();
 		prueba.add("9");
 		prueba.add("5");
 		Set columna_set = datos.entrySet();
 		Iterator columna_it = columna_set.iterator();
 		infodeT=entropia.infodeT(prueba);
+		System.out.println("Info de T="+infodeT);
         while(columna_it.hasNext()){
             HashMap valores= new HashMap();
             Map.Entry valores_me = (Map.Entry) columna_it.next();
 			columnas.add(valores_me.getKey());
             valores.putAll((Map)valores_me.getValue());
-			System.out.println(valores_me.getKey());
+			columna_actual=valores_me.getKey().toString();
+			System.out.println(columna_actual);
 			//System.out.println(valores);
 			Set valores_set = valores.entrySet();
             Iterator valores_it = valores_set.iterator();
@@ -51,11 +56,14 @@ public class tree {
 				   i++;
                 }
 				resultado=resultado+entropia.infodeXT(14,(a[0]+a[1]), a);
-				split = split+entropia.splitinfo(14, a);
+				split = split+entropia.splitinfo(14, (a[0]+a[1]));
 			}
-			System.out.println("infodeT="+resultado);
+			System.out.println("infodeXT="+resultado);
 			System.out.println("Split="+split);
-			System.out.println("Ganancia="+(infodeT-resultado));
+			ganancia=infodeT-resultado;
+			System.out.println("Ganancia="+ganancia);
+			radio_ganancia=ganancia/split;
+			System.out.println("Radio de ganancia="+radio_ganancia);
 		}
     }
 
