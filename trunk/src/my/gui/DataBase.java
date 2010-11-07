@@ -15,7 +15,7 @@ public class DataBase {
     public static ArrayList data = new ArrayList();
     public static String columna_decision="play";
     public static String tabla_d = "";
-    int[] cantValDecision;
+    //int[] cantValDecision;
     //Los nombres de las columnas de la tabla
     public static ArrayList nom_columnas = new ArrayList();
     //Conectar a la BD
@@ -47,110 +47,135 @@ public class DataBase {
             System.out.println("Error al desconectar");
         }
     }
-	//Funcion que devuelve los distintos valores de una columna
-	public static ArrayList getValoresCol(String nom_columna) throws SQLException{
-		Statement stmt = null;
-        ResultSet rs = null;
-		ArrayList lista = new ArrayList();
-		//String SQL = "select "+columna_decision+" from "+tabla_d+" group by "+columna_decision;
-		String SQL = "select "+nom_columna+" from "+tabla_d+" group by "+nom_columna;
-		stmt = connection.createStatement();
-        rs = stmt.executeQuery(SQL);
-		while (rs.next()) {
-            lista.add(rs.getString(nom_columna));
-        }
-		return lista;
+    //Funcion que devuelve los distintos valores de una columna
+    public static ArrayList getValoresCol(String nom_columna) throws SQLException{
+	Statement stmt = null;
+	ResultSet rs = null;
+	ArrayList lista = new ArrayList();
+	//String SQL = "select "+columna_decision+" from "+tabla_d+" group by "+columna_decision;
+	String SQL = "select "+nom_columna+" from "+tabla_d+" group by "+nom_columna;
+	stmt = connection.createStatement();
+	rs = stmt.executeQuery(SQL);
+	while (rs.next()) {
+	    lista.add(rs.getString(nom_columna));
 	}
-	//Funcion que devuelve los valores de las tablas para mostrarlos en pantalla
-	public static void getValoresPantalla()throws SQLException{
-		Statement stmt = null;
-        ResultSet rs = null;
-		//Esto no se usa, se debe hacer una funcion para traer los nombres de las columnas
-		
-		String lineafila = "";
-		 //Para mostrar en pantalla
-        String SQL = "select * from "+tabla_d;
-        stmt = connection.createStatement();
-        rs = stmt.executeQuery(SQL);
-        Iterator it_nomcol = nom_columnas.iterator();
-        while (rs.next()) {
-            while (it_nomcol.hasNext()){
-                lineafila = lineafila + "\t"+ rs.getString(it_nomcol.next().toString());
-             }
-            lineafila = lineafila.substring(1);
-            lineafila = lineafila + "\t\n      ";
-            data.add(lineafila);
-            it_nomcol = nom_columnas.iterator();
-            lineafila = "";
-        }
-	}
-	//funcion que obitiene el nombre de la tabla y los nombres de las columnas
-	public static void getNombresColumnas()throws SQLException{
-		//SQL query command
-		Statement stmt = null;
-                ResultSet rs = null;
-                String SQL = "show tables";
-                        ArrayList list = new ArrayList();
-                stmt = connection.createStatement();
-                rs = stmt.executeQuery(SQL);
-                //Ver nombres de las tablas (se toma la primera)
-                while (rs.next()) {
-                    list.add(rs.getString("Tables_in_com"));
-                }
-                tabla_d = list.get(4).toString();
-                //Nombres de las columnas
-                SQL = "describe "+tabla_d;
-                stmt = connection.createStatement();
-                rs = stmt.executeQuery(SQL);
-                while (rs.next()) {
-                    nom_columnas.add(rs.getString("Field"));
-                }
+	return lista;
+    }
+
+    public static ArrayList getCantidadValores(String nom_columna) throws SQLException{
+	Statement stmt = null;
+	ResultSet rs = null;
+	ArrayList lista = new ArrayList();
+	ArrayList val = new ArrayList();
+	Iterator it;
+	//String SQL = "select "+columna_decision+" from "+tabla_d+" group by "+columna_decision;
+	val = getValoresCol(nom_columna);
+	it = val.iterator();
+	while (it.hasNext()){
+	    String SQL = "select count("+nom_columna+") from "+tabla_d+" where "+nom_columna+"= '"+it.next().toString()+"'";
+	    stmt = connection.createStatement();
+	    rs = stmt.executeQuery(SQL);
+	    while (rs.next()) {
+		lista.add(rs.getString("count("+nom_columna+")"));
+	    }
 	}
 	
-        public static boolean buscarVal(ArrayList val, String val_c){
-            Iterator it_val = val.iterator();
-            while (it_val.hasNext()){
-                if(it_val.next().toString().contentEquals(val_c)){
-                    //System.out.println("son iguales: "+val_c);
-                    return true; //distinto de cero
-                }
-            }
-            //System.out.println("hola "+ val_c);
-            return false;
-        }
+	return lista;
+    }
+    //Funcion que devuelve los valores de las tablas para mostrarlos en pantalla
+    public static void getValoresPantalla()throws SQLException{
+	Statement stmt = null;
+	ResultSet rs = null;
+	//Esto no se usa, se debe hacer una funcion para traer los nombres de las columnas
 
-	public static HashMap ParseoDB(ArrayList nomcol, ArrayList valactual) throws SQLException{
-        HashMap hdb = new HashMap();
-        Statement stmt = null;
-        ResultSet rs = null;
+	String lineafila = "";
+	 //Para mostrar en pantalla
+	String SQL = "select * from "+tabla_d;
+	stmt = connection.createStatement();
+	rs = stmt.executeQuery(SQL);
+	Iterator it_nomcol = nom_columnas.iterator();
+	while (rs.next()) {
+	    while (it_nomcol.hasNext()){
+		lineafila = lineafila + "\t"+ rs.getString(it_nomcol.next().toString());
+	}
+	lineafila = lineafila.substring(1);
+	lineafila = lineafila + "\t\n      ";
+	data.add(lineafila);
+	it_nomcol = nom_columnas.iterator();
+	lineafila = "";
+    }
+    }
+    //funcion que obitiene el nombre de la tabla y los nombres de las columnas
+    public static void getNombresColumnas()throws SQLException{
+	//SQL query command
+	Statement stmt = null;
+	ResultSet rs = null;
+	String SQL = "show tables";
+	ArrayList list = new ArrayList();
+	stmt = connection.createStatement();
+	rs = stmt.executeQuery(SQL);
+	//Ver nombres de las tablas (se toma la primera)
+	while (rs.next()) {
+	    list.add(rs.getString("Tables_in_com"));
+	}
+	tabla_d = list.get(4).toString();
+	//Nombres de las columnas
+	SQL = "describe "+tabla_d;
+	stmt = connection.createStatement();
+	rs = stmt.executeQuery(SQL);
+	while (rs.next()) {
+	    nom_columnas.add(rs.getString("Field"));
+	}
+    }
+
+    public static boolean buscarVal(ArrayList val, String val_c){
+	Iterator it_val = val.iterator();
+	while (it_val.hasNext()){
+	    if(it_val.next().toString().contentEquals(val_c)){
+		//System.out.println("son iguales: "+val_c);
+		return true; //distinto de cero
+	    }
+	}
+	//System.out.println("hola "+ val_c);
+	return false;
+    }
+    /**
+     *
+     * @param nomcol:
+     * @param valactual:
+     * @return
+     * @throws SQLException
+     */
+    public static HashMap ParseoDB(ArrayList nomcol, ArrayList valactual) throws SQLException{
+	HashMap hdb = new HashMap();
+	Statement stmt = null;
+	ResultSet rs = null;
 	ArrayList nom_columnas_actual = new ArrayList();
-        ArrayList queryactual = new ArrayList();
-        ArrayList val_col_desicion = new ArrayList();
-        
-        //ArrayList auxvalor = new ArrayList();
-        int numreg = 0, numvalcol=0;
-        int band_col=0;
-        String col_lista="";
-        String val_col_lista="";
+	ArrayList queryactual = new ArrayList();
+	ArrayList val_col_desicion = new ArrayList();
+
+	//ArrayList auxvalor = new ArrayList();
+	int numreg = 0, numvalcol=0;
+	int band_col=0;
+	String col_lista="";
+	String val_col_lista="";
 	String nom_columnas_aux="";
-        String auxlista ="", auxlistaval="";
-        String auxval = "", auxval1="";
-        String SQL = "";
+	String auxlista ="", auxlistaval="";
+	String auxval = "", auxval1="";
+	String SQL = "";
 	String SQLcantnum="";
-        String SQLcol="";
+	String SQLcol="";
 	Iterator itval, itval1;
 	val_col_desicion = getValoresCol(columna_decision);
-
-        
-   //----------GUARDA TODAS LAS VARIABLES DE UNA COLUMNA
-        //auxlista = columnas
-        //queryactual = distintos valores de las columnas
-        SQL = "select count(*) from "+tabla_d;
-        stmt = connection.createStatement();
-        rs = stmt.executeQuery(SQL);
-        while (rs.next()) {
-            numreg = Integer.parseInt(rs.getString("count(*)"));
-        }
+    //----------GUARDA TODAS LAS VARIABLES DE UNA COLUMNA
+	//auxlista = columnas
+	//queryactual = distintos valores de las columnas
+	SQL = "select count(*) from "+tabla_d;
+	stmt = connection.createStatement();
+	rs = stmt.executeQuery(SQL);
+	while (rs.next()) {
+	    numreg = Integer.parseInt(rs.getString("count(*)"));
+	}
 
 	Iterator it_nomcol = nom_columnas.iterator();
 	if(!nomcol.isEmpty() && !valactual.isEmpty()){
@@ -214,6 +239,6 @@ public class DataBase {
 	}
 	//}
 
-        return hdb;
+	return hdb;
     }
 }
