@@ -124,6 +124,7 @@ public class GraficoArbol extends javax.swing.JFrame {
          arbolito.add("A"); arbolito.add("B"); arbolito.add("arco1"); arbolito.add("-");
          arbolito.add("A"); arbolito.add("C"); arbolito.add("arco2"); arbolito.add(";");
          arbolito.add("B"); arbolito.add("D"); arbolito.add("arco3"); arbolito.add("-");
+         //arbolito.add("B"); arbolito.add("G"); arbolito.add("arco6"); arbolito.add("-");
          arbolito.add("C"); arbolito.add("E"); arbolito.add("arco4"); arbolito.add("-");
          arbolito.add("C"); arbolito.add("F"); arbolito.add("arco5"); arbolito.add("#");
 
@@ -145,11 +146,12 @@ public class GraficoArbol extends javax.swing.JFrame {
                         }
                     }
                 }
-                System.out.println("Orden de Padres: " + ordenPadres);
+                System.out.println("Orden de Padres: " + ordenPadres + ", CantNodos: " + cantNodos);
                 
                 coordX = PanelGrafico.getWidth() / (cantNodos + 1);
                 //dibujar nivel//////////////////
-                for(int i = 0; i < cantNodos ; i++){
+                for(int i = 0; i < cantNodos; i++){
+                    System.out.println("i = " + i);
                     g.setColor(celeste);
                     g.fillArc(coordX,coordY,anchoNodo,altoNodo,0,360);
                     g.setColor(black);
@@ -158,31 +160,30 @@ public class GraficoArbol extends javax.swing.JFrame {
                         anteriorX = coordX;
                         bandera = 1;
                     } else { //resto del arbol
-                        indexNodo=i + (int)Math.pow(3, i);
+                        indexNodo = 3 * i + 1;
                         g.drawString(nivel.get(indexNodo), coordX+20, coordY+30);
 
                         //correspondencia con el padre
-                        System.out.println("Tamanho pantalla en pixeles: " + PanelGrafico.getWidth());
-                        System.out.println("Nodo padre: " + nivel.get(i+(int)Math.pow(3, i) - 1) + ", Nodo hijo: " + nivel.get(i+(int)Math.pow(3, i)));
-                        System.out.println("Posicion padre en ordenPadres: " + ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1)));
-                        System.out.println("Cantidad de Padres en nivel anterior: " + ordenPadres.size());
-                        System.out.println("Posicion X de padre segun orden: " + (PanelGrafico.getWidth() / (int)Math.pow(ordenPadres.size() + 1,(ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1))) + 1) ) );
+                        //System.out.println("Tamanho pantalla en pixeles: " + PanelGrafico.getWidth());
+                        //System.out.println("Nodo padre: " + nivel.get(i+(int)Math.pow(3, i) - 1) + ", Nodo hijo: " + nivel.get(i+(int)Math.pow(3, i)));
+                        //System.out.println("Posicion padre en ordenPadres: " + ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1)));
+                        //System.out.println("Cantidad de Padres en nivel anterior: " + ordenPadres.size());
+                        //System.out.println("Posicion X de padre segun orden: " + (PanelGrafico.getWidth() / (int)Math.pow(ordenPadres.size() + 1,(ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1))) + 1) ) );
                         //anteriorX = (tamanho del panel / (cantidad de padres+1)) * (posicion del padre + i)
-                        anteriorX = (PanelGrafico.getWidth() / (ordenPadres.size() + 1)) * (ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1)) + 1);
+                        anteriorX = (PanelGrafico.getWidth() / (ordenPadres.size() + 1)) * (ordenPadres.lastIndexOf(nivel.get(3 * i)) + 1);
 
                         System.out.println("\n");
 
                         g.drawLine(anteriorX + anchoNodo / 2, anteriorY, coordX + anchoNodo / 2, coordY);
                         textoX = coordX;
                         textoY = anteriorY + 70;
-                        indexArco=i+1+(int)Math.pow(3, i);
+                        indexArco = 3 * i + 2;
                         g.drawString(nivel.get(indexArco), textoX, textoY);
                     }
                     coordX = coordX + PanelGrafico.getWidth() / (cantNodos + 1);
                 }
                 anteriorY = coordY + altoNodo;
                 coordY = coordY + 150;
-                coordX = PanelGrafico.getWidth() / (cantNodos + 1);
                 ///////////////////////////////
                 nivel.clear();
                 ordenPadres.clear();
