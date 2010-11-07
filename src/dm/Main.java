@@ -12,10 +12,7 @@ import my.gui.entropia;
 import java.util.*;
 import my.gui.DataBase;
 
-/**
- *
- * @author Adriana
- */
+
 public class Main {
 
     /**

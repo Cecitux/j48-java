@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class gui extends javax.swing.JFrame {
 
-    public String usuario, password, nombrebd;
+    public String usuario, password, nombrebd, columna;
 
     /** Creates new form gui */
     public gui() {
@@ -48,6 +48,10 @@ public class gui extends javax.swing.JFrame {
         Inform1 = new javax.swing.JLabel();
         Inform2 = new javax.swing.JLabel();
         Inform3 = new javax.swing.JLabel();
+        DatoColumna = new javax.swing.JLabel();
+        DatoCerteza = new javax.swing.JLabel();
+        Certeza = new javax.swing.JSpinner();
+        ColumnaBD = new javax.swing.JTextField();
 
         jFrame1.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,9 +68,10 @@ public class gui extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Algoritmo J48   -    A. Aranda (54210), F. Cardozo (51300), L. Figueredo (51160)");
+        setAlwaysOnTop(true);
         setName("VentanaPrincipal"); // NOI18N
 
-        Titulo2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Titulo2.setFont(new java.awt.Font("Tahoma", 1, 14));
         Titulo2.setForeground(new java.awt.Color(102, 102, 255));
         Titulo2.setText("Conexion a la Base de Datos");
 
@@ -180,7 +185,7 @@ public class gui extends javax.swing.JFrame {
 
         PanelGral.addTab("Log", PanelLog);
 
-        Titulo1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        Titulo1.setFont(new java.awt.Font("Tahoma", 1, 24));
         Titulo1.setForeground(new java.awt.Color(102, 102, 255));
         Titulo1.setText("Implementacion del Algoritmo J48");
 
@@ -190,6 +195,18 @@ public class gui extends javax.swing.JFrame {
         Inform2.setText("presione 'OK' para que la informacion obtenida de la misma sea");
 
         Inform3.setText("procesada. Los resultados obtenidos seran mostrados en el panel.");
+
+        DatoColumna.setText("Columna:");
+
+        DatoCerteza.setText("Porcentaje de Certeza:");
+
+        Certeza.setModel(new javax.swing.SpinnerNumberModel(100, 0, 100, 1));
+
+        ColumnaBD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ColumnaBDActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -209,14 +226,22 @@ public class gui extends javax.swing.JFrame {
                                     .addComponent(Inform3, javax.swing.GroupLayout.Alignment.LEADING)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(55, 55, 55)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(UsuarioBD)
-                                    .addComponent(NombreBD, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
-                                    .addComponent(PasswordBD)
-                                    .addComponent(BotonOK, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(DatoBD, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(DatoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(DatoPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(NombreBD, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE)
+                                        .addComponent(DatoBD, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(DatoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(UsuarioBD)
+                                        .addComponent(DatoPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(PasswordBD)
+                                        .addComponent(DatoColumna, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(DatoCerteza)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(Certeza, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(34, 34, 34))
+                                        .addComponent(ColumnaBD, javax.swing.GroupLayout.DEFAULT_SIZE, 233, Short.MAX_VALUE))
+                                    .addComponent(BotonOK))))
                         .addGap(40, 40, 40)
                         .addComponent(PanelGral, javax.swing.GroupLayout.PREFERRED_SIZE, 562, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(Titulo1))
@@ -228,7 +253,7 @@ public class gui extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addComponent(Titulo1)
                 .addGap(44, 44, 44)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Titulo2)
                         .addGap(18, 18, 18)
@@ -237,22 +262,30 @@ public class gui extends javax.swing.JFrame {
                         .addComponent(Inform2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(Inform3)
-                        .addGap(35, 35, 35)
+                        .addGap(18, 18, 18)
                         .addComponent(DatoBD)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(NombreBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25)
+                        .addGap(18, 18, 18)
                         .addComponent(DatoUsuario)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(UsuarioBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25)
+                        .addGap(18, 18, 18)
                         .addComponent(DatoPassword)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(PasswordBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(DatoColumna)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ColumnaBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(DatoCerteza)
+                            .addComponent(Certeza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(BotonOK))
                     .addComponent(PanelGral, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(61, 61, 61))
+                .addGap(67, 67, 67))
         );
 
         PanelGral.getAccessibleContext().setAccessibleName("Datos de la Tabla");
@@ -270,6 +303,7 @@ public class gui extends javax.swing.JFrame {
         usuario = UsuarioBD.getText();
         nombrebd = NombreBD.getText();
         password = PasswordBD.getText();
+        columna = ColumnaBD.getText();
 
 
         //Cargar los datos de la BD para mostrar en el Panel de Datos
@@ -281,12 +315,12 @@ public class gui extends javax.swing.JFrame {
         
         DataBase datos = new DataBase();
 
-        datos.Conectar(nombrebd, usuario, password);
+        datos.Conectar(nombrebd,usuario, password);
 
         try{
-			datos.getNombresColumnas();
-            datos.ParseoDB();
-			datos.getValoresPantalla();
+            datos.getNombresColumnas();
+            datos.ParseoDB(columna,"");
+            datos.getValoresPantalla();
         }
         catch(SQLException e){
             System.out.println("Error al parsear");
@@ -318,6 +352,10 @@ public class gui extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_PasswordBDActionPerformed
 
+    private void ColumnaBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ColumnaBDActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ColumnaBDActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -332,7 +370,11 @@ public class gui extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonGrafico;
     private javax.swing.JButton BotonOK;
+    private javax.swing.JSpinner Certeza;
+    private javax.swing.JTextField ColumnaBD;
     private javax.swing.JLabel DatoBD;
+    private javax.swing.JLabel DatoCerteza;
+    private javax.swing.JLabel DatoColumna;
     private javax.swing.JLabel DatoPassword;
     private javax.swing.JLabel DatoUsuario;
     private javax.swing.JLabel Inform1;

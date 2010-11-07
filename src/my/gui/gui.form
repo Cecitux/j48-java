@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+<Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
     <Container class="javax.swing.JFrame" name="jFrame1">
       <Properties>
@@ -70,13 +70,13 @@
                                       <Component id="DatoPassword" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
                                       <Component id="PasswordBD" alignment="0" max="32767" attributes="1"/>
                                       <Component id="DatoColumna" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
-                                      <Component id="ColumnaBD" alignment="0" max="32767" attributes="1"/>
                                       <Group type="102" alignment="0" attributes="1">
                                           <Component id="DatoCerteza" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="32767" attributes="0"/>
                                           <Component id="Certeza" min="-2" pref="50" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                                       </Group>
+                                      <Component id="ColumnaBD" alignment="0" pref="233" max="32767" attributes="1"/>
                                   </Group>
                                   <Component id="BotonOK" alignment="1" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -122,7 +122,7 @@
                       <Component id="DatoColumna" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="ColumnaBD" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="DatoCerteza" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="Certeza" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -400,17 +400,22 @@
         <Property name="text" type="java.lang.String" value="Columna:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JPasswordField" name="ColumnaBD">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ColumnaBDActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JLabel" name="DatoCerteza">
       <Properties>
         <Property name="text" type="java.lang.String" value="Porcentaje de Certeza:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSpinner" name="Certeza">
+      <Properties>
+        <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
+          <SpinnerModel initial="100" maximum="100" minimum="0" numberType="java.lang.Integer" stepSize="1" type="number"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="ColumnaBD">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ColumnaBDActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
