@@ -67,13 +67,20 @@ public class entropia {
     * @param cantidad_de_clase
     * @return
     */
-    public static double infodeXT(int numero_registros, int cantidad_total, int cantidad_de_clase[]){
+    public static double infodeXT(int numero_registros, int cantidad_total, ArrayList cantidad_de_clase){
         double probabilidad;
         entropia.resultado_entropia=0.0;
-        for(int i=0; i < cantidad_de_clase.length; i++){
+		int i=0;
+        /*for(int i=0; i < cantidad_de_clase.length; i++){
             probabilidad=entropia.calcular_probabilidad(cantidad_total, cantidad_de_clase[i]);
             entropia.resultado_entropia-= (probabilidad*entropia.logaritmo_base2(probabilidad));
-        }
+        }*/
+
+		while(i<cantidad_de_clase.size()){
+			probabilidad=entropia.calcular_probabilidad(cantidad_total, Integer.parseInt(cantidad_de_clase.get(i).toString()));
+			entropia.resultado_entropia-= (probabilidad*entropia.logaritmo_base2(probabilidad));
+			i++;
+		}
 		entropia.resultado_entropia=(double)cantidad_total/numero_registros*entropia.resultado_entropia;
         return entropia.resultado_entropia;
     }
@@ -85,6 +92,7 @@ public class entropia {
             splitinfo-= (probabilidad*entropia.logaritmo_base2(probabilidad));
 		return splitinfo;
 	}
+
 	public static double infodeT(ArrayList columna){
 		double infoT=0.0;
 		double probabilidad=0.0;
