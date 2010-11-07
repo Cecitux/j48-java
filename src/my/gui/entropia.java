@@ -78,13 +78,11 @@ public class entropia {
         return entropia.resultado_entropia;
     }
 
-	public static double splitinfo(int numero_registros, int cantidad_de_clase[]){
+	public static double splitinfo(int numero_registros, int cantidad_de_clase){
 		double splitinfo=0.0;
 		double probabilidad;
-		for(int i=0; i < cantidad_de_clase.length; i++){
-            probabilidad=entropia.calcular_probabilidad(numero_registros, cantidad_de_clase[i]);
+            probabilidad=entropia.calcular_probabilidad(numero_registros, cantidad_de_clase);
             splitinfo-= (probabilidad*entropia.logaritmo_base2(probabilidad));
-        }
 		return splitinfo;
 	}
 	public static double infodeT(ArrayList columna){
