@@ -166,9 +166,9 @@ public class GraficoArbol extends javax.swing.JFrame {
                         System.out.println("Posicion padre en ordenPadres: " + ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1)));
                         System.out.println("Cantidad de Padres en nivel anterior: " + ordenPadres.size());
                         System.out.println("Posicion X de padre segun orden: " + (PanelGrafico.getWidth() / (int)Math.pow(ordenPadres.size() + 1,(ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1))) + 1) ) );
-                        //anteriorX = tamanho del panel / ( (cantidad de padres+1)^(posicion del padre+1) )
+                        //anteriorX = tamanho del panel / ( (cantidad de padres+1) + (posicion del padre + i) )
                         //anteriorX = PanelGrafico.getWidth() / (int)Math.pow(ordenPadres.size() + 1,(ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1))) + 1);
-                        anteriorX = PanelGrafico.getWidth() / (int)Math.pow(ordenPadres.size() + 1,(ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1)) + 1));
+                        anteriorX = PanelGrafico.getWidth() / (ordenPadres.size() + 1) + (ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1)) + i);
 
                         System.out.println("\n");
 
@@ -178,7 +178,6 @@ public class GraficoArbol extends javax.swing.JFrame {
                         indexArco=i+1+(int)Math.pow(3, i);
                         g.drawString(nivel.get(indexArco), textoX, textoY);
                     }
-                    //anteriorX = PanelGrafico.getWidth() / ordenPadres.size() * (int)Math.pow(cantNodos, (ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1))));
                     coordX = coordX + PanelGrafico.getWidth() / (cantNodos + 1);
                 }
                 anteriorY = coordY + altoNodo;

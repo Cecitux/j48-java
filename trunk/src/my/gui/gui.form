@@ -24,6 +24,7 @@
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
     <Property name="title" type="java.lang.String" value="Algoritmo J48   -    A. Aranda (54210), F. Cardozo (51300), L. Figueredo (51160)"/>
+    <Property name="alwaysOnTop" type="boolean" value="true"/>
     <Property name="name" type="java.lang.String" value="VentanaPrincipal" noResource="true"/>
   </Properties>
   <SyntheticProperties>
@@ -60,14 +61,24 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="UsuarioBD" alignment="0" max="32767" attributes="1"/>
-                                  <Component id="NombreBD" alignment="0" pref="233" max="32767" attributes="1"/>
-                                  <Component id="PasswordBD" alignment="0" max="32767" attributes="1"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="NombreBD" alignment="0" pref="233" max="32767" attributes="1"/>
+                                      <Component id="DatoBD" alignment="0" min="-2" pref="182" max="-2" attributes="1"/>
+                                      <Component id="DatoUsuario" alignment="0" min="-2" pref="178" max="-2" attributes="0"/>
+                                      <Component id="UsuarioBD" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="DatoPassword" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
+                                      <Component id="PasswordBD" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="DatoColumna" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
+                                      <Component id="ColumnaBD" alignment="0" max="32767" attributes="1"/>
+                                      <Group type="102" alignment="0" attributes="1">
+                                          <Component id="DatoCerteza" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace max="32767" attributes="0"/>
+                                          <Component id="Certeza" min="-2" pref="50" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
                                   <Component id="BotonOK" alignment="1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="DatoBD" alignment="0" min="-2" pref="182" max="-2" attributes="1"/>
-                                  <Component id="DatoUsuario" alignment="0" min="-2" pref="178" max="-2" attributes="0"/>
-                                  <Component id="DatoPassword" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -86,8 +97,8 @@
               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
               <Component id="Titulo1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" attributes="1">
                       <Component id="Titulo2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="Inform1" min="-2" max="-2" attributes="0"/>
@@ -95,24 +106,33 @@
                       <Component id="Inform2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="Inform3" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="DatoBD" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="NombreBD" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="DatoUsuario" min="-2" max="-2" attributes="1"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="UsuarioBD" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="DatoPassword" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="PasswordBD" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="DatoColumna" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="ColumnaBD" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="DatoCerteza" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="Certeza" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="BotonOK" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="PanelGral" min="-2" pref="446" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -374,6 +394,23 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="procesada. Los resultados obtenidos seran mostrados en el panel."/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="DatoColumna">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Columna:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="ColumnaBD">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ColumnaBDActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="DatoCerteza">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Porcentaje de Certeza:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="Certeza">
     </Component>
   </SubComponents>
 </Form>
