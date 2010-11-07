@@ -16,7 +16,9 @@ public class tree {
     }
 
     public static void tree(HashMap datos){
-		int[] a = new int[5];
+		//int[] a = new int[5];
+		int suma_total_clase=0;
+		ArrayList<String> a = new ArrayList<String>();
 		double resultado= 0.0;
 		double split=0.0;
 		double infodeT;
@@ -24,12 +26,15 @@ public class tree {
 		double radio_ganancia;
 		String columna_actual;
 		ArrayList<String> prueba = new ArrayList<String>();
+		double split_nodo=-10;
+		String split_nodo_nombre="";
+
 		prueba.add("9");
 		prueba.add("5");
 		Set columna_set = datos.entrySet();
 		Iterator columna_it = columna_set.iterator();
 		infodeT=entropia.infodeT(prueba);
-		System.out.println("Info de T="+infodeT);
+		//System.out.println("Info de T="+infodeT);
         while(columna_it.hasNext()){
             HashMap valores= new HashMap();
             Map.Entry valores_me = (Map.Entry) columna_it.next();
@@ -49,22 +54,30 @@ public class tree {
 				//System.out.println(cantidad);
 				Set cantidad_set = cantidad.entrySet();
 				Iterator cantidad_it=cantidad_set.iterator();
-				int i=0;
+				a.clear();
+				suma_total_clase=0;
 				while (cantidad_it.hasNext()){
 					Map.Entry cantidadval_me = (Map.Entry) cantidad_it.next();
-				   a[i]=Integer.parseInt(cantidadval_me.getValue().toString());
-				   i++;
+					a.add(cantidadval_me.getValue().toString());
+					suma_total_clase+=Integer.parseInt(cantidadval_me.getValue().toString());
                 }
-				resultado=resultado+entropia.infodeXT(14,(a[0]+a[1]), a);
-				split = split+entropia.splitinfo(14, (a[0]+a[1]));
+				resultado=resultado+entropia.infodeXT(14,suma_total_clase, a);
+				split = split+entropia.splitinfo(14, suma_total_clase);
 			}
+			
+			ganancia=infodeT-resultado;
+			
+			radio_ganancia=ganancia/split;
 			System.out.println("infodeXT="+resultado);
 			System.out.println("Split="+split);
-			ganancia=infodeT-resultado;
 			System.out.println("Ganancia="+ganancia);
-			radio_ganancia=ganancia/split;
 			System.out.println("Radio de ganancia="+radio_ganancia);
+			if(split_nodo < radio_ganancia){
+				split_nodo=radio_ganancia;
+				split_nodo_nombre=columna_actual;
+			}
 		}
+		System.out.println("EL NODO ELEGIDO ES "+split_nodo_nombre+" CON EL VALOR "+split_nodo);
     }
 
 }
