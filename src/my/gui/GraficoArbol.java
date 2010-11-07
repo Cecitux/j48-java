@@ -4,7 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import java.util.List;
-import java.lang.Math;
+//import java.lang.Math;
 
 
 public class GraficoArbol extends javax.swing.JFrame {
@@ -124,9 +124,9 @@ public class GraficoArbol extends javax.swing.JFrame {
          arbolito.add("A"); arbolito.add("B"); arbolito.add("arco1"); arbolito.add("-");
          arbolito.add("A"); arbolito.add("C"); arbolito.add("arco2"); arbolito.add(";");
          arbolito.add("B"); arbolito.add("D"); arbolito.add("arco3"); arbolito.add("-");
-         //arbolito.add("B"); arbolito.add("G"); arbolito.add("arco6"); arbolito.add("-");
-         arbolito.add("C"); arbolito.add("E"); arbolito.add("arco4"); arbolito.add("-");
-         arbolito.add("C"); arbolito.add("F"); arbolito.add("arco5"); arbolito.add("#");
+         arbolito.add("B"); arbolito.add("E"); arbolito.add("arco4"); arbolito.add("-");
+         arbolito.add("C"); arbolito.add("F"); arbolito.add("arco5"); arbolito.add("-");
+         arbolito.add("C"); arbolito.add("G"); arbolito.add("arco6"); arbolito.add("#");
 
          arbolitoCopia.add(arbolito.get(0));
          aux = arbolito.get(0);
@@ -138,7 +138,7 @@ public class GraficoArbol extends javax.swing.JFrame {
                 //buscamos el orden de los padres, para poder realizar los arcos a los hijos
                 for (int m = 0; m < nivel.size(); m++){
                     for (int n=0; n <= limite; n++){
-                        indexPadres = n + (int)Math.pow(3, n) - 1;
+                        indexPadres = 3 * n;
                         if (m == indexPadres){
                             if (ordenPadres.contains(nivel.get(indexPadres)) == false){
                                 ordenPadres.add(nivel.get(indexPadres));
@@ -164,11 +164,8 @@ public class GraficoArbol extends javax.swing.JFrame {
                         g.drawString(nivel.get(indexNodo), coordX+20, coordY+30);
 
                         //correspondencia con el padre
-                        //System.out.println("Tamanho pantalla en pixeles: " + PanelGrafico.getWidth());
-                        //System.out.println("Nodo padre: " + nivel.get(i+(int)Math.pow(3, i) - 1) + ", Nodo hijo: " + nivel.get(i+(int)Math.pow(3, i)));
-                        //System.out.println("Posicion padre en ordenPadres: " + ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1)));
-                        //System.out.println("Cantidad de Padres en nivel anterior: " + ordenPadres.size());
-                        //System.out.println("Posicion X de padre segun orden: " + (PanelGrafico.getWidth() / (int)Math.pow(ordenPadres.size() + 1,(ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1))) + 1) ) );
+                        System.out.println("Cantidad de Padres en nivel anterior: " + ordenPadres.size());
+                        System.out.println("Posicion X de padre segun orden: " + ((PanelGrafico.getWidth() / (ordenPadres.size() + 1)) * (ordenPadres.lastIndexOf(nivel.get(3 * i)) + 1)) );
                         //anteriorX = (tamanho del panel / (cantidad de padres+1)) * (posicion del padre + i)
                         anteriorX = (PanelGrafico.getWidth() / (ordenPadres.size() + 1)) * (ordenPadres.lastIndexOf(nivel.get(3 * i)) + 1);
 
