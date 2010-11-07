@@ -124,7 +124,7 @@ public class GraficoArbol extends javax.swing.JFrame {
          arbolito.add("A"); arbolito.add("B"); arbolito.add("arco1"); arbolito.add("-");
          arbolito.add("A"); arbolito.add("C"); arbolito.add("arco2"); arbolito.add(";");
          arbolito.add("B"); arbolito.add("D"); arbolito.add("arco3"); arbolito.add("-");
-        // arbolito.add("C"); arbolito.add("E"); arbolito.add("arco4"); arbolito.add("-");
+         arbolito.add("C"); arbolito.add("E"); arbolito.add("arco4"); arbolito.add("-");
          arbolito.add("C"); arbolito.add("F"); arbolito.add("arco5"); arbolito.add("#");
 
          arbolitoCopia.add(arbolito.get(0));
@@ -149,7 +149,7 @@ public class GraficoArbol extends javax.swing.JFrame {
                 
                 coordX = PanelGrafico.getWidth() / (cantNodos + 1);
                 //dibujar nivel//////////////////
-                for(int i = 0; i < cantNodos; i++){
+                for(int i = 0; i < cantNodos ; i++){
                     g.setColor(celeste);
                     g.fillArc(coordX,coordY,anchoNodo,altoNodo,0,360);
                     g.setColor(black);
@@ -167,8 +167,7 @@ public class GraficoArbol extends javax.swing.JFrame {
                         System.out.println("Posicion padre en ordenPadres: " + ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1)));
                         System.out.println("Cantidad de Padres en nivel anterior: " + ordenPadres.size());
                         System.out.println("Posicion X de padre segun orden: " + (PanelGrafico.getWidth() / (int)Math.pow(ordenPadres.size() + 1,(ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1))) + 1) ) );
-                        //anteriorX = tamanho del panel / ( (cantidad de padres+1) + (posicion del padre + i) )
-                        //anteriorX = PanelGrafico.getWidth() / (int)Math.pow(ordenPadres.size() + 1,(ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1))) + 1);
+                        //anteriorX = (tamanho del panel / (cantidad de padres+1)) * (posicion del padre + i)
                         anteriorX = (PanelGrafico.getWidth() / (ordenPadres.size() + 1)) * (ordenPadres.lastIndexOf(nivel.get(i+(int)Math.pow(3, i) - 1)) + 1);
 
                         System.out.println("\n");
