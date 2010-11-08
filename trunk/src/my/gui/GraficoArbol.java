@@ -115,25 +115,22 @@ public class GraficoArbol extends javax.swing.JFrame {
          * quedaria una lista asi: {"A", ";", "A", "B", "arco1", "A", "C", "arco2", "C", "D", "arco3", "#"}
          */
 
-
-         /* FALTA HACER FUNCIONAR:
-          * Hacer corresponder con el padre (pixeles)
-          */
          
          arbolito.add("A"); arbolito.add(";");
          arbolito.add("A"); arbolito.add("B"); arbolito.add("arco1"); arbolito.add("-");
          arbolito.add("A"); arbolito.add("C"); arbolito.add("arco2"); arbolito.add(";");
          arbolito.add("B"); arbolito.add("D"); arbolito.add("arco3"); arbolito.add("-");
          arbolito.add("B"); arbolito.add("E"); arbolito.add("arco4"); arbolito.add("-");
-         arbolito.add("C"); arbolito.add("F"); arbolito.add("arco5"); arbolito.add("-");
+         arbolito.add("B"); arbolito.add("F"); arbolito.add("arco5"); arbolito.add("-");
          arbolito.add("C"); arbolito.add("G"); arbolito.add("arco6"); arbolito.add("#");
 
          arbolitoCopia.add(arbolito.get(0));
          aux = arbolito.get(0);
          while (arbolito.isEmpty() == false){
+         
             if (aux.compareTo(";") == 0 || aux.compareTo("#") == 0){
                 cantNodos++;
-                limite = nivel.size() / cantNodos - 1;
+                limite = nivel.size() / cantNodos;
                 System.out.println("\nEncontrado el nivel con nodos: " + nivel);
                 //buscamos el orden de los padres, para poder realizar los arcos a los hijos
                 for (int m = 0; m < nivel.size(); m++){
@@ -151,7 +148,6 @@ public class GraficoArbol extends javax.swing.JFrame {
                 coordX = PanelGrafico.getWidth() / (cantNodos + 1);
                 //dibujar nivel//////////////////
                 for(int i = 0; i < cantNodos; i++){
-                    System.out.println("i = " + i);
                     g.setColor(celeste);
                     g.fillArc(coordX,coordY,anchoNodo,altoNodo,0,360);
                     g.setColor(black);
@@ -164,12 +160,8 @@ public class GraficoArbol extends javax.swing.JFrame {
                         g.drawString(nivel.get(indexNodo), coordX+20, coordY+30);
 
                         //correspondencia con el padre
-                        System.out.println("Cantidad de Padres en nivel anterior: " + ordenPadres.size());
-                        System.out.println("Posicion X de padre segun orden: " + ((PanelGrafico.getWidth() / (ordenPadres.size() + 1)) * (ordenPadres.lastIndexOf(nivel.get(3 * i)) + 1)) );
                         //anteriorX = (tamanho del panel / (cantidad de padres+1)) * (posicion del padre + i)
                         anteriorX = (PanelGrafico.getWidth() / (ordenPadres.size() + 1)) * (ordenPadres.lastIndexOf(nivel.get(3 * i)) + 1);
-
-                        System.out.println("\n");
 
                         g.drawLine(anteriorX + anchoNodo / 2, anteriorY, coordX + anchoNodo / 2, coordY);
                         textoX = coordX;
