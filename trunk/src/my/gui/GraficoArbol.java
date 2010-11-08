@@ -72,11 +72,12 @@ public class GraficoArbol extends javax.swing.JFrame {
     public static final Color celeste = new Color(153, 153, 255);
     public static final Color black = new Color(0, 0, 0);
     public int cantNodos = 1, indexNodo=0, indexArco=0, indexPadres=0, limite=0;
-    public static int index=0, bandera=0;
+    public static int index=0, bandera=0,contNivel=0,inicio=0,fin=0, contAux=0;
     public String aux;
     public static List<String> arbolito = new ArrayList<String>();
     public static List<String> arbolitoCopia = new ArrayList<String>();
     public static List<String> nivel = new ArrayList<String>();
+    public static List<String> nivelAnterior = new ArrayList<String>();
     public static List<String> ordenPadres = new ArrayList<String>();
 
     
@@ -125,10 +126,17 @@ public class GraficoArbol extends javax.swing.JFrame {
          arbolito.add("C"); arbolito.add("G"); arbolito.add("arco6"); arbolito.add("#");
 
          arbolitoCopia.add(arbolito.get(0));
+         nivelAnterior.add(arbolito.get(0));
          aux = arbolito.get(0);
          while (arbolito.isEmpty() == false){
          
             if (aux.compareTo(";") == 0 || aux.compareTo("#") == 0){
+
+                if (aux.compareTo(";") == 0){
+                    
+                }
+                System.out.println("Arbolito Copia: " + arbolitoCopia + "\nNivel anterior: " + nivelAnterior);
+
                 cantNodos++;
                 limite = nivel.size() / cantNodos;
                 System.out.println("\nEncontrado el nivel con nodos: " + nivel);
@@ -189,6 +197,7 @@ public class GraficoArbol extends javax.swing.JFrame {
             }
             arbolito.remove(0);
             arbolitoCopia.add(arbolito.get(0));
+            nivelAnterior.add(arbolito.get(0));
             aux = arbolito.get(0);
         }
     }
