@@ -72,7 +72,7 @@ public class GraficoArbol extends javax.swing.JFrame {
     public static final Color celeste = new Color(153, 153, 255);
     public static final Color black = new Color(0, 0, 0);
     public int cantNodos = 1, indexNodo=0, indexArco=0, indexPadres=0, limite=0;
-    public static int index=0, bandera=0,contNivel=0,inicio=0,fin=0, contAux=0;
+    public static int index=0, bandera=0,cont1=0, cont2=0;
     public String aux;
     public static List<String> arbolito = new ArrayList<String>();
     public static List<String> arbolitoCopia = new ArrayList<String>();
@@ -90,9 +90,8 @@ public class GraficoArbol extends javax.swing.JFrame {
 
     @Override public void paint(Graphics g) {
 
-
         super.paint(g);
-
+        
         anteriorX = PanelGrafico.getWidth() / 2;
         anteriorY = 150 + altoNodo;
 
@@ -113,7 +112,7 @@ public class GraficoArbol extends javax.swing.JFrame {
          *              arco3
          *              | D |
          * donde: A es la raiz y es padre de B y C con los arcos 1 y 2 respectivamente; y a su vez C es padre de D con el arco 3.
-         * quedaria una lista asi: {"A", ";", "A", "B", "arco1", "A", "C", "arco2", "C", "D", "arco3", "#"}
+         * quedaria una lista asi: {"A", ";", "A", "B", "arco1", "A", "C", "arco2",";", "C", "D", "arco3", "#"}
          */
 
          
@@ -133,8 +132,18 @@ public class GraficoArbol extends javax.swing.JFrame {
             if (aux.compareTo(";") == 0 || aux.compareTo("#") == 0){
 
                 if (aux.compareTo(";") == 0){
-                    
+                    cont1++;
                 }
+                if (cont1 > 1){
+                    for (int t=0; t < nivelAnterior.indexOf(";"); t++){
+                        if (nivelAnterior.get(t).compareTo(";") != 0 && cont2 < cont1-1){
+                            nivelAnterior.remove(0);
+                        } else {
+                            cont2++;
+                        }
+                    }
+                }
+                
                 System.out.println("Arbolito Copia: " + arbolitoCopia + "\nNivel anterior: " + nivelAnterior);
 
                 cantNodos++;
