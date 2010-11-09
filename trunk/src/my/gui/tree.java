@@ -4,8 +4,10 @@
  */
 
 package my.gui;
+import java.sql.SQLException;
 import java.util.*;
 import java.lang.Integer;
+import my.gui.DataBase;
 /**
  *
  * @author Administrator
@@ -15,26 +17,33 @@ public class tree {
     public tree(){
     }
 
-    public static void tree(HashMap datos){
+    public static void tree(HashMap datos) throws SQLException{
 		//int[] a = new int[5];
 		int suma_total_clase=0;
 		ArrayList<String> a = new ArrayList<String>();
 		double resultado= 0.0;
 		double split=0.0;
-		double infodeT;
-		double ganancia;
-		double radio_ganancia;
+		double infodeT=0.0;
+		double ganancia=0.0;
+		double radio_ganancia=0.0;
 		String columna_actual;
-		ArrayList<String> prueba = new ArrayList<String>();
+		ArrayList prueba = new ArrayList();
 		double split_nodo=-10;
 		String split_nodo_nombre="";
-
-		prueba.add("9");
-		prueba.add("5");
+		int cantidad_total_reg=0;
+		int i=0;
+		//prueba=DataBase.getCantidadValores(DataBase.columna_decision);
+		prueba.add("2");
+		prueba.add("0");
+		while (i<prueba.size()){
+			cantidad_total_reg+=Integer.parseInt(prueba.get(i).toString());
+			i++;
+		}
+		//System.out.println("AAAAAA---------------->"+prueba);
 		Set columna_set = datos.entrySet();
 		Iterator columna_it = columna_set.iterator();
 		infodeT=entropia.infodeT(prueba);
-		//System.out.println("Info de T="+infodeT);
+		System.out.println("Info de T="+infodeT);
         while(columna_it.hasNext()){
             HashMap valores= new HashMap();
             Map.Entry valores_me = (Map.Entry) columna_it.next();
@@ -61,8 +70,8 @@ public class tree {
 					a.add(cantidadval_me.getValue().toString());
 					suma_total_clase+=Integer.parseInt(cantidadval_me.getValue().toString());
                 }
-				resultado=resultado+entropia.infodeXT(14,suma_total_clase, a);
-				split = split+entropia.splitinfo(14, suma_total_clase);
+				resultado=resultado+entropia.infodeXT(cantidad_total_reg,suma_total_clase, a);
+				split = split+entropia.splitinfo(cantidad_total_reg, suma_total_clase);
 			}
 			
 			ganancia=infodeT-resultado;
