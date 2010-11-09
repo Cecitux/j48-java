@@ -62,17 +62,29 @@ public class DataBase {
 	return lista;
     }
 
-    public static ArrayList getCantidadValores(String nom_columna) throws SQLException{
+    public static ArrayList getCantidadValores(String nom_columna, ArrayList nomcol, ArrayList nomval) throws SQLException{
 	Statement stmt = null;
 	ResultSet rs = null;
 	ArrayList lista = new ArrayList();
 	ArrayList val = new ArrayList();
 	Iterator it;
+	String val_col_lista="", col_lista="";
+	//SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
 	//String SQL = "select "+columna_decision+" from "+tabla_d+" group by "+columna_decision;
 	val = getValoresCol(nom_columna);
 	it = val.iterator();
 	while (it.hasNext()){
 	    String SQL = "select count("+nom_columna+") from "+tabla_d+" where "+nom_columna+"= '"+it.next().toString()+"'";
+	    if(!nomcol.isEmpty() && !nomval.isEmpty()){
+		Iterator it_col = nomcol.iterator();
+		Iterator it_colval = nomval.iterator();
+		while (it_col.hasNext()){
+			val_col_lista = it_colval.next().toString();
+			col_lista = it_col.next().toString();
+			SQL = SQL + " and "+col_lista+"= '"+val_col_lista+"'";
+		}
+	    }
+	    System.out.println(SQL);
 	    stmt = connection.createStatement();
 	    rs = stmt.executeQuery(SQL);
 	    while (rs.next()) {
