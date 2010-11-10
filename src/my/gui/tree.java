@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package my.gui;
 import java.sql.SQLException;
@@ -11,10 +7,7 @@ import my.gui.DataBase;
 import my.gui.Log;
 import my.gui.gui;
 
-/**
- *
- * @author Administrator
- */
+
 public class tree {
     static public ArrayList columnas = new ArrayList();
     public tree(){
@@ -36,6 +29,7 @@ public class tree {
         int cantidad_total_reg=0;
         int i=0;
         //prueba=DataBase.getCantidadValores(DataBase.columna_decision);
+
         prueba.add("9");
         prueba.add("5");
         while (i<prueba.size()){
@@ -47,8 +41,8 @@ public class tree {
         Iterator columna_it = columna_set.iterator();
         infodeT=entropia.infodeT(prueba);
         System.out.println("Info de T="+infodeT);
-        //TextoLog.append("  " + new Date() + "\t\t   Calculo de Info(T): " + infodeT + "\n");
-                
+        Log.datosLog.add("  " + new Date() + "\tCalculo de Info(T): " + infodeT + "\n");
+        
         while(columna_it.hasNext()){
             HashMap valores= new HashMap();
             Map.Entry valores_me = (Map.Entry) columna_it.next();
@@ -56,7 +50,7 @@ public class tree {
             valores.putAll((Map)valores_me.getValue());
             columna_actual=valores_me.getKey().toString();
             System.out.println(columna_actual);
-            //TextoLog.append("  " + new Date() + "\t\t   Columna analizada: " + columna_actual + "\n");
+            Log.datosLog.add("  " + new Date() + "\tColumna analizada: " + columna_actual + "\n");
             //System.out.println(valores);
             Set valores_set = valores.entrySet();
             Iterator valores_it = valores_set.iterator();
@@ -84,20 +78,20 @@ public class tree {
 
             radio_ganancia=ganancia/split;
             System.out.println("infodeXT="+resultado);
-            //TextoLog.append("  " + new Date() + "\t\t   Calculo de Info(T): " + resultado + "\n");
+            Log.datosLog.add("  " + new Date() + "\tCalculo de Info(T): " + resultado + "\n");
             System.out.println("Split="+split);
-            //TextoLog.append("  " + new Date() + "\t\t   Calculo de SplitInfo(T): " + split + "\n");
+            Log.datosLog.add("  " + new Date() + "\tCalculo de SplitInfo(T): " + split + "\n");
             System.out.println("Ganancia="+ganancia);
-            //TextoLog.append("  " + new Date() + "\t\t   Calculo de Ganancia(T): " + ganancia + "\n");
+            Log.datosLog.add("  " + new Date() + "\tCalculo de Ganancia(T): " + ganancia + "\n");
             System.out.println("Radio de ganancia="+radio_ganancia);
-            //TextoLog.append("  " + new Date() + "\t\t   Calculo de RadioDeGanancia(T): " + radio_ganancia + "\n");
+            Log.datosLog.add("  " + new Date() + "\tCalculo de RadioDeGanancia(T): " + radio_ganancia + "\n");
             if(split_nodo < radio_ganancia){
                 split_nodo=radio_ganancia;
                 split_nodo_nombre=columna_actual;
             }
         }
         System.out.println("EL NODO ELEGIDO ES "+split_nodo_nombre+" CON EL VALOR "+split_nodo);
-        //TextoLog.append("  " + new Date() + "\t\t   Nodo Elegido: " + split_nodo_nombre +", con el valor: " + split_nodo + "\n");
+        Log.datosLog.add("  " + new Date() + "\tNodo Elegido: " + split_nodo_nombre +", con el valor: " + split_nodo + "\n");
     }
 
 }

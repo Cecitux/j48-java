@@ -10,10 +10,13 @@ import java.util.ArrayList;
 
 public class gui extends javax.swing.JFrame {
 
-    public String usuario, password, nombrebd, columna;
+    public String usuario, password, nombrebd, columna, datosDiscretizar;
+    public static List<String> columnas = new ArrayList<String>();
+    public static List<String> valores = new ArrayList<String>();
     ArrayList prueba1 = new ArrayList();
     ArrayList prueba2 = new ArrayList();
     HashMap map = new HashMap();
+    public static Log log = new Log();
 
     /** Creates new form gui */
     public gui() {
@@ -62,10 +65,10 @@ public class gui extends javax.swing.JFrame {
         Certeza = new javax.swing.JSpinner();
         ColumnaBD = new javax.swing.JTextField();
         Discretizacion = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        Promedio = new javax.swing.JRadioButton();
+        Especifico = new javax.swing.JRadioButton();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        DatosDiscretizacion = new javax.swing.JTextArea();
 
         jFrame1.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,7 +88,7 @@ public class gui extends javax.swing.JFrame {
         setAlwaysOnTop(true);
         setName("VentanaPrincipal"); // NOI18N
 
-        Titulo2.setFont(new java.awt.Font("Tahoma", 1, 14));
+        Titulo2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         Titulo2.setForeground(new java.awt.Color(102, 102, 255));
         Titulo2.setText("Conexion a la Base de Datos");
 
@@ -135,7 +138,7 @@ public class gui extends javax.swing.JFrame {
             PanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelDatosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -165,7 +168,7 @@ public class gui extends javax.swing.JFrame {
             PanelArbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelArbolLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 466, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(BotonGrafico)
                 .addContainerGap())
@@ -193,7 +196,7 @@ public class gui extends javax.swing.JFrame {
             PanelLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelLogLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -222,25 +225,26 @@ public class gui extends javax.swing.JFrame {
             }
         });
 
-        Discretizacion.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        Discretizacion.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         Discretizacion.setText("Tipo de Discretizacion de Datos Numericos:");
 
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Promedio de los Valores Dados");
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroup1.add(Promedio);
+        Promedio.setSelected(true);
+        Promedio.setText("Promedio de los Valores Dados");
+        Promedio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRadioButton1ActionPerformed(evt);
+                PromedioActionPerformed(evt);
             }
         });
 
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Valores Especificos:");
+        buttonGroup1.add(Especifico);
+        Especifico.setText("Valores Especificos:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(3);
-        jTextArea1.setTabSize(5);
-        jTextArea1.setText("columna,valor;...");
-        jScrollPane4.setViewportView(jTextArea1);
+        DatosDiscretizacion.setColumns(20);
+        DatosDiscretizacion.setRows(3);
+        DatosDiscretizacion.setTabSize(5);
+        DatosDiscretizacion.setText("columna,valor;...");
+        jScrollPane4.setViewportView(DatosDiscretizacion);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -249,46 +253,50 @@ public class gui extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Titulo2)
                     .addComponent(Titulo1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(16, 16, 16)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(Inform1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(Inform2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(Inform3)
-                                    .addComponent(Discretizacion, javax.swing.GroupLayout.Alignment.LEADING)))
+                                .addComponent(Titulo2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(55, 55, 55)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(DatoBD, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(DatoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(DatoPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(DatoColumna, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(DatoCerteza)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
-                                        .addComponent(Certeza, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(55, 55, 55))
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(ColumnaBD, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(PasswordBD, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(UsuarioBD, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(NombreBD, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE))
-                                    .addComponent(BotonOK, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGap(16, 16, 16)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(Inform1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(Inform2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(Inform3)
+                                            .addComponent(Discretizacion, javax.swing.GroupLayout.Alignment.LEADING)))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
+                                        .addGap(55, 55, 55)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jRadioButton2)
-                                            .addComponent(jRadioButton1)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(31, 31, 31)
-                                        .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)))))
-                        .addGap(40, 40, 40)
+                                            .addComponent(DatoBD, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(DatoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(DatoPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(DatoColumna, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(BotonOK, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(10, 10, 10)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(Especifico)
+                                                    .addComponent(Promedio)))
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                    .addGap(31, 31, 31)
+                                                    .addComponent(jScrollPane4))
+                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                    .addComponent(DatoCerteza)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                    .addComponent(Certeza, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(ColumnaBD, javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(PasswordBD, javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(UsuarioBD, javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(NombreBD, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)))))
+                                .addGap(39, 39, 39)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(PanelGral, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                        .addGap(1, 1, 1)))
                 .addGap(51, 51, 51))
         );
         layout.setVerticalGroup(
@@ -299,10 +307,10 @@ public class gui extends javax.swing.JFrame {
                         .addGap(43, 43, 43)
                         .addComponent(Titulo1)
                         .addGap(26, 26, 26)
-                        .addComponent(Titulo2)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(Titulo2)
+                                .addGap(18, 18, 18)
                                 .addComponent(Inform1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(Inform2)
@@ -329,18 +337,18 @@ public class gui extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(Discretizacion)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jRadioButton1)
+                                .addComponent(Promedio)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jRadioButton2)
+                                .addComponent(Especifico)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane4)
                                 .addGap(18, 18, 18)
                                 .addComponent(BotonOK))
-                            .addComponent(PanelGral, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(PanelGral, javax.swing.GroupLayout.PREFERRED_SIZE, 584, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(205, 205, 205)
                         .addComponent(DatoBD)))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         PanelGral.getAccessibleContext().setAccessibleName("Datos de la Tabla");
@@ -360,6 +368,12 @@ public class gui extends javax.swing.JFrame {
         password = PasswordBD.getText();
         columna = ColumnaBD.getText();
 
+        if (Especifico.isEnabled() == true){
+            datosDiscretizar = DatosDiscretizacion.getText();
+            for (int i=0; i< datosDiscretizar.length(); i++){
+                //parsear el string
+            }
+        }
 
         //Cargar los datos de la BD para mostrar en el Panel de Datos
         TextoDatos.setText("\n  Base de Datos: ");
@@ -388,7 +402,7 @@ public class gui extends javax.swing.JFrame {
         
         //Generar el Log
         TextoLog.setText("");
-        Log log = new Log();
+
         for(int i = 0; i < log.datosLog.size(); i++){
             TextoLog.append(log.datosLog.get(i).toString());
         }
@@ -398,7 +412,7 @@ public class gui extends javax.swing.JFrame {
         
        // JOptionPane.showMessageDialog(jFrame1, password);
         datos.Desconectar();
-        TextoLog.append("  " + new Date() + "\t   Termino de la Ejecucion\n");
+        TextoLog.append("  " + new Date() + "\tTermino de la Ejecucion\n");
     }//GEN-LAST:event_BotonOKActionPerformed
 
     /*private void BotonGraficoActionPerformed(java.awt.event.ActionEvent evt) {
@@ -413,9 +427,9 @@ public class gui extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ColumnaBDActionPerformed
 
-    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+    private void PromedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PromedioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton1ActionPerformed
+    }//GEN-LAST:event_PromedioActionPerformed
 
     /**
     * @param args the command line arguments
@@ -438,7 +452,9 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JLabel DatoColumna;
     private javax.swing.JLabel DatoPassword;
     private javax.swing.JLabel DatoUsuario;
+    private javax.swing.JTextArea DatosDiscretizacion;
     private javax.swing.JLabel Discretizacion;
+    private javax.swing.JRadioButton Especifico;
     private javax.swing.JLabel Inform1;
     private javax.swing.JLabel Inform2;
     private javax.swing.JLabel Inform3;
@@ -448,9 +464,10 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.JTabbedPane PanelGral;
     private javax.swing.JPanel PanelLog;
     private javax.swing.JPasswordField PasswordBD;
+    private javax.swing.JRadioButton Promedio;
     private javax.swing.JTextArea TextoArbol;
     private javax.swing.JTextArea TextoDatos;
-    private javax.swing.JTextArea TextoLog;
+    public javax.swing.JTextArea TextoLog;
     private javax.swing.JLabel Titulo1;
     private javax.swing.JLabel Titulo2;
     private javax.swing.JTextField UsuarioBD;
@@ -459,13 +476,10 @@ public class gui extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JFrame jFrame1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JTextArea jTextArea1;
     // End of variables declaration//GEN-END:variables
 
     
