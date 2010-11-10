@@ -4,11 +4,16 @@ package my.gui;
 
 import com.mysql.jdbc.log.Log;
 import java.sql.SQLException;
+import java.util.*;
+import java.util.ArrayList;
 
 
 public class gui extends javax.swing.JFrame {
 
     public String usuario, password, nombrebd, columna;
+    ArrayList prueba1 = new ArrayList();
+    ArrayList prueba2 = new ArrayList();
+    HashMap map = new HashMap();
 
     /** Creates new form gui */
     public gui() {
@@ -319,11 +324,12 @@ public class gui extends javax.swing.JFrame {
 
         try{
             datos.getNombresColumnas();
-            datos.ParseoDB(columna,"");
+            map = datos.ParseoDB(prueba1,prueba2);
+            tree.tree(map);
             datos.getValoresPantalla();
         }
         catch(SQLException e){
-            System.out.println("Error al parsear");
+            System.out.println("Error al parsear: " + e);
         }
         TextoDatos.append("      ");
         for(int i = 0; i < datos.data.size(); i++){
