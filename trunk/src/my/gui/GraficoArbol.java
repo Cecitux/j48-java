@@ -129,7 +129,7 @@ public class GraficoArbol extends javax.swing.JFrame {
                 if (aux.compareTo(";") == 0){
                     cont1++;
                 }
-                if (cont1 > 2){
+                if (cont1 > 1){
                     for (int t=0; t < nivelAnterior.indexOf(";"); t++){
                         if (nivelAnterior.get(t).compareTo(";") != 0 && cont2 < cont1-1){
                             nivelAnterior.remove(0);
