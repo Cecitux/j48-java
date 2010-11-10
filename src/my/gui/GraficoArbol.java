@@ -9,8 +9,18 @@ import java.util.List;
 
 public class GraficoArbol extends javax.swing.JFrame {
 
-    //public static List<String> arbol = new ArrayList<String>();
-
+    public static int coordX = 0, coordY = 150, altoNodo = 50, anchoNodo = 70;
+    public static int anteriorX = 0, anteriorY = 0, textoX = 0, textoY = 0;
+    public static final Color celeste = new Color(153, 153, 255);
+    public static final Color black = new Color(0, 0, 0);
+    public int cantNodos = 1, indexNodo=0, indexArco=0, indexPadres=0, limite=0;
+    public static int index=0, bandera=0,cont1=0, cont2=0;
+    public String aux;
+    public static List<String> arbolito = new ArrayList<String>();
+    public static List<String> arbolitoCopia = new ArrayList<String>();
+    public static List<String> nivel = new ArrayList<String>();
+    public static List<String> nivelAnterior = new ArrayList<String>();
+    public static List<String> ordenPadres = new ArrayList<String>();
 
     /** Creates new form GraficoArbol */
     public GraficoArbol() {
@@ -66,21 +76,7 @@ public class GraficoArbol extends javax.swing.JFrame {
     /**
     * @param args the command line arguments
     */
-    
-    public static int coordX = 0, coordY = 150, altoNodo = 50, anchoNodo = 70;
-    public static int anteriorX = 0, anteriorY = 0, textoX = 0, textoY = 0;
-    public static final Color celeste = new Color(153, 153, 255);
-    public static final Color black = new Color(0, 0, 0);
-    public int cantNodos = 1, indexNodo=0, indexArco=0, indexPadres=0, limite=0;
-    public static int index=0, bandera=0,cont1=0, cont2=0;
-    public String aux;
-    public static List<String> arbolito = new ArrayList<String>();
-    public static List<String> arbolitoCopia = new ArrayList<String>();
-    public static List<String> nivel = new ArrayList<String>();
-    public static List<String> nivelAnterior = new ArrayList<String>();
-    public static List<String> ordenPadres = new ArrayList<String>();
-
-    
+       
 
     public GraficoArbol(JScrollPane PanelGrafico, JLabel jLabel1) {
         this.PanelGrafico = PanelGrafico;
@@ -114,7 +110,6 @@ public class GraficoArbol extends javax.swing.JFrame {
          * donde: A es la raiz y es padre de B y C con los arcos 1 y 2 respectivamente; y a su vez C es padre de D con el arco 3.
          * quedaria una lista asi: {"A", ";", "A", "B", "arco1", "A", "C", "arco2",";", "C", "D", "arco3", "#"}
          */
-
          
          arbolito.add("A"); arbolito.add(";");
          arbolito.add("A"); arbolito.add("B"); arbolito.add("arco1"); arbolito.add("-");
@@ -134,7 +129,7 @@ public class GraficoArbol extends javax.swing.JFrame {
                 if (aux.compareTo(";") == 0){
                     cont1++;
                 }
-                if (cont1 > 1){
+                if (cont1 > 2){
                     for (int t=0; t < nivelAnterior.indexOf(";"); t++){
                         if (nivelAnterior.get(t).compareTo(";") != 0 && cont2 < cont1-1){
                             nivelAnterior.remove(0);

@@ -383,7 +383,6 @@ public class gui extends javax.swing.JFrame {
         TextoDatos.append("\n\n  Información extraida de la Base de Datos: \n");
         
         DataBase datos = new DataBase();
-
         datos.Conectar(nombrebd,usuario, password);
 
         try{
