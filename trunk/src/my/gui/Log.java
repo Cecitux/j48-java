@@ -20,7 +20,7 @@ public class Log {
             "  Adriana Aranda (54210), Fernando Cardozo (51300), Lorena Figueredo (51160)\n" +
             "  Universidad Católica - Nuestra Señora de la Asunción\n" +
             "  Asunción, Paraguay  -  2010\n\n  " +
-            new Date() + "\t   Inicio de la Ejecucion\n";
+            new Date() + "\tInicio de la Ejecucion\n";
             datosLog.add(encabezado);
     }
 
