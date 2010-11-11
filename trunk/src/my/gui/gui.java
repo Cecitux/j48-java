@@ -88,7 +88,7 @@ public class gui extends javax.swing.JFrame {
         setAlwaysOnTop(true);
         setName("VentanaPrincipal"); // NOI18N
 
-        Titulo2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Titulo2.setFont(new java.awt.Font("Tahoma", 1, 14));
         Titulo2.setForeground(new java.awt.Color(102, 102, 255));
         Titulo2.setText("Conexion a la Base de Datos");
 
@@ -152,6 +152,11 @@ public class gui extends javax.swing.JFrame {
         jScrollPane2.setViewportView(TextoArbol);
 
         BotonGrafico.setText("Ver Grafico del Arbol");
+        BotonGrafico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonGraficoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelArbolLayout = new javax.swing.GroupLayout(PanelArbol);
         PanelArbol.setLayout(PanelArbolLayout);
@@ -225,7 +230,7 @@ public class gui extends javax.swing.JFrame {
             }
         });
 
-        Discretizacion.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        Discretizacion.setFont(new java.awt.Font("Tahoma", 1, 12));
         Discretizacion.setText("Tipo de Discretizacion de Datos Numericos:");
 
         buttonGroup1.add(Promedio);
@@ -256,45 +261,40 @@ public class gui extends javax.swing.JFrame {
                     .addComponent(Titulo1)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Titulo2)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(Titulo2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE))
+                                .addGap(16, 16, 16)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(Inform1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Inform2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Inform3)
+                                    .addComponent(Discretizacion, javax.swing.GroupLayout.Alignment.LEADING)))
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(55, 55, 55)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(DatoBD, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(DatoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(DatoPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(DatoColumna, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(BotonOK, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(16, 16, 16)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(Inform1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(Inform2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(Inform3)
-                                            .addComponent(Discretizacion, javax.swing.GroupLayout.Alignment.LEADING)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(55, 55, 55)
+                                        .addGap(10, 10, 10)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(DatoBD, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(DatoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(DatoPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(DatoColumna, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(BotonOK, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGap(10, 10, 10)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(Especifico)
-                                                    .addComponent(Promedio)))
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                    .addGap(31, 31, 31)
-                                                    .addComponent(jScrollPane4))
-                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                    .addComponent(DatoCerteza)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(Certeza, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addComponent(ColumnaBD, javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(PasswordBD, javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(UsuarioBD, javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addComponent(NombreBD, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)))))
-                                .addGap(39, 39, 39)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(Especifico)
+                                            .addComponent(Promedio)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addGap(31, 31, 31)
+                                            .addComponent(jScrollPane4))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(DatoCerteza)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(Certeza, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(ColumnaBD, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(PasswordBD, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(UsuarioBD, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(NombreBD, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                         .addComponent(PanelGral, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(1, 1, 1)))
                 .addGap(51, 51, 51))
@@ -429,6 +429,13 @@ public class gui extends javax.swing.JFrame {
     private void PromedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PromedioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_PromedioActionPerformed
+
+    private void BotonGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonGraficoActionPerformed
+        // TODO add your handling code here:
+        GraficoArbol g=new GraficoArbol();
+        g.setAlwaysOnTop(true);
+        g.setVisible(true);
+    }//GEN-LAST:event_BotonGraficoActionPerformed
 
     /**
     * @param args the command line arguments
