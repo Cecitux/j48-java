@@ -17,6 +17,8 @@ public class gui extends javax.swing.JFrame {
     ArrayList prueba2 = new ArrayList();
     HashMap map = new HashMap();
     public static Log log = new Log();
+    public static String c = "", aux = "#";
+
 
     /** Creates new form gui */
     public gui() {
@@ -370,9 +372,29 @@ public class gui extends javax.swing.JFrame {
 
         if (Especifico.isEnabled() == true){
             datosDiscretizar = DatosDiscretizacion.getText();
+            datosDiscretizar.trim();
+            
             for (int i=0; i< datosDiscretizar.length(); i++){
                 //parsear el string
+                c = datosDiscretizar.substring(i, i+1);
+
+                if (c.compareTo(",") == 0){
+                    columnas.add(aux);
+                    System.out.println("Columnas: " + columnas);
+                } else if (c.compareTo(";") == 0){
+                    valores.add(aux);
+                    System.out.println("Valores: " + valores);
+                } else {
+                    if (aux.compareTo("#") == 0){
+                        //aux.concat(c);
+                        aux.replace("x", c);
+                    }
+                    System.out.println("aux = " + aux + ", c = " + c);
+                    aux.concat(c);
+                    System.out.println("Aux: " + aux);
+                }
             }
+            System.out.println("Columnas: " + columnas + "\nValores: " + valores);
         }
 
         //Cargar los datos de la BD para mostrar en el Panel de Datos

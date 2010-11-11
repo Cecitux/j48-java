@@ -9,7 +9,7 @@ import java.util.List;
 
 public class GraficoArbol extends javax.swing.JFrame {
 
-    public static int coordX = 0, coordY = 150, altoNodo = 50, anchoNodo = 70;
+    public static int coordX = 0, coordY = 140, altoNodo = 50, anchoNodo = 70;
     public static int anteriorX = 0, anteriorY = 0, textoX = 0, textoY = 0;
     public static final Color celeste = new Color(153, 153, 255);
     public static final Color black = new Color(0, 0, 0);
@@ -89,7 +89,7 @@ public class GraficoArbol extends javax.swing.JFrame {
         super.paint(g);
         
         anteriorX = PanelGrafico.getWidth() / 2;
-        anteriorY = 150 + altoNodo;
+        anteriorY = 140 + altoNodo;
 
         coordX = PanelGrafico.getWidth() / (cantNodos + 1);
         cantNodos = 0;
@@ -179,14 +179,14 @@ public class GraficoArbol extends javax.swing.JFrame {
 
                         g.drawLine(anteriorX + anchoNodo / 2, anteriorY, coordX + anchoNodo / 2, coordY);
                         textoX = coordX;
-                        textoY = anteriorY + 70;
+                        textoY = anteriorY + 50;
                         indexArco = 3 * i + 2;
                         g.drawString(nivel.get(indexArco), textoX, textoY);
                     }
                     coordX = coordX + PanelGrafico.getWidth() / (cantNodos + 1);
                 }
                 anteriorY = coordY + altoNodo;
-                coordY = coordY + 150;
+                coordY = coordY + 140;
                 ///////////////////////////////
                 nivel.clear();
                 ordenPadres.clear();
@@ -208,7 +208,7 @@ public class GraficoArbol extends javax.swing.JFrame {
                 aux = arbolito.get(0);
             }else{
                 coordX=0;
-                coordY=150 + altoNodo;
+                coordY=140 + altoNodo;
                 bandera = 0;
                 arbolitoCopia.clear();
                 nivelAnterior.clear();
