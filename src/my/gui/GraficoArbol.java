@@ -39,14 +39,14 @@ public class GraficoArbol extends javax.swing.JFrame {
         PanelGrafico = new javax.swing.JScrollPane();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Arbol Generado");
         setResizable(false);
 
         PanelGrafico.setBackground(new java.awt.Color(255, 255, 255));
         PanelGrafico.setAutoscrolls(true);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(102, 102, 255));
         jLabel1.setText("Arbol generado mediante el Algoritmo J48");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -54,20 +54,20 @@ public class GraficoArbol extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(PanelGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 858, Short.MAX_VALUE)
+                    .addComponent(PanelGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
-                .addContainerGap())
+                .addGap(23, 23, 23))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+                .addGap(31, 31, 31)
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(PanelGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(PanelGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
@@ -118,6 +118,8 @@ public class GraficoArbol extends javax.swing.JFrame {
          arbolito.add("B"); arbolito.add("E"); arbolito.add("arco4"); arbolito.add("-");
          arbolito.add("B"); arbolito.add("F"); arbolito.add("arco5"); arbolito.add("-");
          arbolito.add("C"); arbolito.add("G"); arbolito.add("arco6"); arbolito.add("#");
+
+         System.out.println("Arbolito: " + arbolito);
 
          arbolitoCopia.add(arbolito.get(0));
          nivelAnterior.add(arbolito.get(0));
@@ -200,9 +202,19 @@ public class GraficoArbol extends javax.swing.JFrame {
                 }
             }
             arbolito.remove(0);
-            arbolitoCopia.add(arbolito.get(0));
-            nivelAnterior.add(arbolito.get(0));
-            aux = arbolito.get(0);
+            if (arbolito.size() != 0){
+                arbolitoCopia.add(arbolito.get(0));
+                nivelAnterior.add(arbolito.get(0));
+                aux = arbolito.get(0);
+            }else{
+                coordX=0;
+                coordY=150 + altoNodo;
+                bandera = 0;
+                arbolitoCopia.clear();
+                nivelAnterior.clear();
+                arbolito.clear();
+                nivel.clear();
+            }
         }
     }
 
