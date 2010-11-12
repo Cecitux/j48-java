@@ -17,7 +17,8 @@ public class gui extends javax.swing.JFrame {
     ArrayList prueba2 = new ArrayList();
     HashMap map = new HashMap();
     public static Log log = new Log();
-    public static String c = "", aux = "#";
+    public static String c = "", aux = "";
+    public static int certeza;
 
 
     /** Creates new form gui */
@@ -246,11 +247,17 @@ public class gui extends javax.swing.JFrame {
 
         buttonGroup1.add(Especifico);
         Especifico.setText("Valores Especificos:");
+        Especifico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EspecificoActionPerformed(evt);
+            }
+        });
 
         DatosDiscretizacion.setColumns(20);
         DatosDiscretizacion.setRows(3);
         DatosDiscretizacion.setTabSize(5);
         DatosDiscretizacion.setText("columna,valor;...");
+        DatosDiscretizacion.setEnabled(false);
         jScrollPane4.setViewportView(DatosDiscretizacion);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -279,15 +286,7 @@ public class gui extends javax.swing.JFrame {
                                     .addComponent(DatoPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(DatoColumna, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(BotonOK, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(Especifico)
-                                            .addComponent(Promedio)))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                            .addGap(31, 31, 31)
-                                            .addComponent(jScrollPane4))
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                             .addComponent(DatoCerteza)
                                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -295,7 +294,15 @@ public class gui extends javax.swing.JFrame {
                                         .addComponent(ColumnaBD, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(PasswordBD, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(UsuarioBD, javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(NombreBD, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)))))
+                                        .addComponent(NombreBD, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addGap(31, 31, 31)
+                                            .addComponent(jScrollPane4)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(Especifico)
+                                            .addComponent(Promedio))))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                         .addComponent(PanelGral, javax.swing.GroupLayout.PREFERRED_SIZE, 647, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(1, 1, 1)))
@@ -369,33 +376,40 @@ public class gui extends javax.swing.JFrame {
         nombrebd = NombreBD.getText();
         password = PasswordBD.getText();
         columna = ColumnaBD.getText();
+        certeza = Integer.valueOf(Certeza.getValue().toString());
+        UsuarioBD.setEnabled(false);
+        NombreBD.setEnabled(false);
+        PasswordBD.setEnabled(false);
+        ColumnaBD.setEnabled(false);
+        Certeza.setEnabled(false);
 
         if (Especifico.isEnabled() == true){
             datosDiscretizar = DatosDiscretizacion.getText();
-            datosDiscretizar.trim();
+            datosDiscretizar = datosDiscretizar.trim();
             
             for (int i=0; i< datosDiscretizar.length(); i++){
                 //parsear el string
                 c = datosDiscretizar.substring(i, i+1);
 
+                if ((c.compareTo(" ") == 0) || (c.compareTo("\n") == 0) || (c.compareTo("\t") == 0)){
+                    //ignorar
+                } else
                 if (c.compareTo(",") == 0){
                     columnas.add(aux);
-                    System.out.println("Columnas: " + columnas);
+                    aux = "";
                 } else if (c.compareTo(";") == 0){
                     valores.add(aux);
-                    System.out.println("Valores: " + valores);
+                    aux = "";
                 } else {
-                    if (aux.compareTo("#") == 0){
-                        //aux.concat(c);
-                        aux.replace("x", c);
-                    }
-                    System.out.println("aux = " + aux + ", c = " + c);
-                    aux.concat(c);
-                    System.out.println("Aux: " + aux);
+                    aux = aux.concat(c);
                 }
             }
             System.out.println("Columnas: " + columnas + "\nValores: " + valores);
         }
+
+        Promedio.setEnabled(false);
+        Especifico.setEnabled(false);
+        DatosDiscretizacion.setEnabled(false);
 
         //Cargar los datos de la BD para mostrar en el Panel de Datos
         TextoDatos.setText("\n  Base de Datos: ");
@@ -428,10 +442,6 @@ public class gui extends javax.swing.JFrame {
             TextoLog.append(log.datosLog.get(i).toString());
         }
 
-        //GraficoArbol arbol = new GraficoArbol();
-        //arbol.setVisible(true);
-        
-       // JOptionPane.showMessageDialog(jFrame1, password);
         datos.Desconectar();
         TextoLog.append("  " + new Date() + "\tTermino de la Ejecucion\n");
     }//GEN-LAST:event_BotonOKActionPerformed
@@ -450,6 +460,11 @@ public class gui extends javax.swing.JFrame {
 
     private void PromedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PromedioActionPerformed
         // TODO add your handling code here:
+        if (Promedio.isSelected() == true) {
+            DatosDiscretizacion.setEnabled(false);
+        } else {
+            DatosDiscretizacion.setEnabled(true);
+        }
     }//GEN-LAST:event_PromedioActionPerformed
 
     private void BotonGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonGraficoActionPerformed
@@ -458,6 +473,15 @@ public class gui extends javax.swing.JFrame {
         g.setAlwaysOnTop(true);
         g.setVisible(true);
     }//GEN-LAST:event_BotonGraficoActionPerformed
+
+    private void EspecificoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EspecificoActionPerformed
+        // TODO add your handling code here:
+        if (Especifico.isSelected() == true) {
+            DatosDiscretizacion.setEnabled(true);
+        } else {
+            DatosDiscretizacion.setEnabled(false);
+        }
+    }//GEN-LAST:event_EspecificoActionPerformed
 
     /**
     * @param args the command line arguments
