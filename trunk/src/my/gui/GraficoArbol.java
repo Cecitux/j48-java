@@ -164,7 +164,7 @@ public class GraficoArbol extends javax.swing.JFrame {
          arbolito.add("B"); arbolito.add("D"); arbolito.add("arco3"); arbolito.add("-");
          arbolito.add("B"); arbolito.add("E"); arbolito.add("arco4"); arbolito.add("-");
          arbolito.add("B"); arbolito.add("F"); arbolito.add("arco5"); arbolito.add("-");
-         arbolito.add("C"); arbolito.add("G"); arbolito.add("arco6"); arbolito.add("#");
+         arbolito.add("B"); arbolito.add("G"); arbolito.add("arco6"); arbolito.add("#");
 
          System.out.println("Arbolito: " + arbolito);
 
@@ -186,32 +186,42 @@ public class GraficoArbol extends javax.swing.JFrame {
 
                 if (cont >2){
                     //nivelAnterior = arbolito.subList(posicion.get(cont-2), posicion.get(cont-1));
-                    for(int p=posicion.get(cont-2); p< posicion.get(cont-1); p++){
-                        nivelAnterior.add(arbolitoCopia.get(p));
+                    for(int p = posicion.get(cont-3) + 1; p < posicion.get(cont-2); p++){
+                        if (arbolitoCopia.get(p).equals("-") == false)
+                            nivelAnterior.add(arbolitoCopia.get(p));
                     }
-                } else if (cont == 1){
+                } else if (cont == 1 || cont == 2){
                     if (aux.compareTo(";") == 0){
-                        posAux = arbolitoCopia.lastIndexOf(";");
+                        posAux = arbolitoCopia.indexOf(";");
                     } else {
-                        posAux = arbolitoCopia.lastIndexOf("#");
+                        posAux = arbolitoCopia.indexOf("#");
                     }
                     for (int n=0; n<posAux; n++){
                         nivelAnterior.add(arbolitoCopia.get(n));
                     }
                 }
                 
-                System.out.println("Arbolito Copia: " + arbolitoCopia + "\nNivel anterior: " + nivelAnterior);
+                System.out.println("Nivel actual: " + nivel + "\nNivel anterior: " + nivelAnterior);
 
                 cantNodos++;
-                limite = nivel.size() / cantNodos;
+                limite = nivelAnterior.size() / cantNodos;
                 System.out.println("\nEncontrado el nivel con nodos: " + nivel);
                 //buscamos el orden de los padres, para poder realizar los arcos a los hijos
-                for (int m = 0; m < nivel.size(); m++){
+                for (int m = 0; m < nivelAnterior.size(); m++){
                     for (int n=0; n <= limite; n++){
-                        indexPadres = 3 * n;
-                        if (m == indexPadres){
-                            if (ordenPadres.contains(nivel.get(indexPadres)) == false){
-                                ordenPadres.add(nivel.get(indexPadres));
+                        if (nivelAnterior.size() == 1){
+                            indexPadres = 3 * n;
+                            if (m == indexPadres){
+                                if (ordenPadres.contains(nivelAnterior.get(indexPadres)) == false){
+                                    ordenPadres.add(nivelAnterior.get(indexPadres));
+                                }
+                            }
+                        } else {
+                            indexPadres = 3 * n + 1;
+                            if (m == indexPadres){
+                                if (ordenPadres.contains(nivelAnterior.get(indexPadres)) == false){
+                                    ordenPadres.add(nivelAnterior.get(indexPadres));
+                                }
                             }
                         }
                     }
