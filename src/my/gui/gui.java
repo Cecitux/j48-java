@@ -19,6 +19,7 @@ public class gui extends javax.swing.JFrame {
     public static Log log = new Log();
     public static String c = "", aux = "";
     public static int certeza;
+    public static List<String> arbolTexto = new ArrayList<String>();
 
 
     /** Creates new form gui */
@@ -155,6 +156,7 @@ public class gui extends javax.swing.JFrame {
         jScrollPane2.setViewportView(TextoArbol);
 
         BotonGrafico.setText("Ver Grafico del Arbol");
+        BotonGrafico.setEnabled(false);
         BotonGrafico.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonGraficoActionPerformed(evt);
@@ -382,6 +384,7 @@ public class gui extends javax.swing.JFrame {
         PasswordBD.setEnabled(false);
         ColumnaBD.setEnabled(false);
         Certeza.setEnabled(false);
+        BotonGrafico.setEnabled(true);
 
         if (Especifico.isEnabled() == true){
             datosDiscretizar = DatosDiscretizacion.getText();
@@ -441,10 +444,25 @@ public class gui extends javax.swing.JFrame {
         for(int i = 0; i < log.datosLog.size(); i++){
             TextoLog.append(log.datosLog.get(i).toString());
         }
-
+        //arbolTexto();
         datos.Desconectar();
         TextoLog.append("  " + new Date() + "\tTermino de la Ejecucion\n");
     }//GEN-LAST:event_BotonOKActionPerformed
+
+   /* public void arbolTexto(){
+        for(int i = 0; i < GraficoArbol.arbolito.size(); i++){
+            if (i == 0){
+                TextoArbol.append(GraficoArbol.arbolito.get(i).toString());
+            }
+            if (GraficoArbol.arbolito.get(i).equals(";")){
+                TextoArbol.append("___");
+                if ((GraficoArbol.arbolito.get(i+1).equals(GraficoArbol.arbolito.get(i-1)) && (i-1 == 0)) || (GraficoArbol.arbolito.get(i+1).equals(GraficoArbol.arbolito.get(i-4)) && (i-1<0))){
+                    TextoArbol.append(GraficoArbol.arbolito.get(i+1));
+                }
+            }
+        }
+        System.out.println("\n\n" + TextoArbol.getText());
+    }*/
 
     /*private void BotonGraficoActionPerformed(java.awt.event.ActionEvent evt) {
         GraficoArbol arbol = new GraficoArbol();

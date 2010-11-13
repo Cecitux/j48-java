@@ -166,7 +166,6 @@ public class GraficoArbol extends javax.swing.JFrame {
          arbolito.add("B"); arbolito.add("F"); arbolito.add("arco5"); arbolito.add("-");
          arbolito.add("B"); arbolito.add("G"); arbolito.add("arco6"); arbolito.add("#");
 
-         System.out.println("Arbolito: " + arbolito);
 
          arbolitoCopia.add(arbolito.get(0));
          //posicion.add(0);
@@ -182,7 +181,6 @@ public class GraficoArbol extends javax.swing.JFrame {
                 if (arbolitoCopia.contains("#") == true  && posicion.contains(arbolitoCopia.lastIndexOf("#")) == false){
                     posicion.add(arbolitoCopia.lastIndexOf("#"));
                 }
-                System.out.println("posicion: " + posicion);
 
                 if (cont >2){
                     //nivelAnterior = arbolito.subList(posicion.get(cont-2), posicion.get(cont-1));
@@ -201,11 +199,9 @@ public class GraficoArbol extends javax.swing.JFrame {
                     }
                 }
                 
-                System.out.println("Nivel actual: " + nivel + "\nNivel anterior: " + nivelAnterior);
 
                 cantNodos++;
                 limite = nivelAnterior.size() / cantNodos;
-                System.out.println("\nEncontrado el nivel con nodos: " + nivel);
                 //buscamos el orden de los padres, para poder realizar los arcos a los hijos
                 for (int m = 0; m < nivelAnterior.size(); m++){
                     for (int n=0; n <= limite; n++){
@@ -226,7 +222,6 @@ public class GraficoArbol extends javax.swing.JFrame {
                         }
                     }
                 }
-                System.out.println("Orden de Padres: " + ordenPadres + ", CantNodos: " + cantNodos);
                 
                 coordX = Tamanho / (cantNodos + 1); //PanelGrafico.getWidth() / (cantNodos + 1);
                 //dibujar nivel//////////////////
