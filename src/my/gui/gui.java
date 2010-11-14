@@ -13,8 +13,9 @@ public class gui extends javax.swing.JFrame {
     public String usuario, password, nombrebd, columna, datosDiscretizar;
     public static List<String> columnas = new ArrayList<String>();
     public static List<String> valores = new ArrayList<String>();
-    ArrayList prueba1 = new ArrayList();
-    ArrayList prueba2 = new ArrayList();
+    ArrayList columna_arbol = new ArrayList();
+    ArrayList valor_columna_arbol = new ArrayList();
+    ArrayList valores_decision= new ArrayList();
     HashMap map = new HashMap();
     public static Log log = new Log();
     public static String c = "", aux = "";
@@ -407,12 +408,14 @@ public class gui extends javax.swing.JFrame {
                     aux = aux.concat(c);
                 }
             }
-            System.out.println("Columnas: " + columnas + "\nValores: " + valores);
+            //System.out.println("Columnas: " + columnas + "\nValores: " + valores);
         }
 
         Promedio.setEnabled(false);
         Especifico.setEnabled(false);
         DatosDiscretizacion.setEnabled(false);
+
+	DataBase.columna_decision=columna;
 
         //Cargar los datos de la BD para mostrar en el Panel de Datos
         TextoDatos.setText("\n  Base de Datos: ");
@@ -426,8 +429,10 @@ public class gui extends javax.swing.JFrame {
 
         try{
             datos.getNombresColumnas();
-            map = datos.ParseoDB(prueba1,prueba2);
-            tree.tree(map);
+	    tree.generar_arbol(columna_arbol, valores_decision, 1.0);
+            //map = datos.ParseoDB(columna_arbol,valor_columna_arbol);
+	    //valores_decision=datos.getCantidadValores(columna_arbol, valor_columna_arbol);
+            //System.out.println(tree.calcular_nodo(map,valores_decision));
             datos.getValoresPantalla();
         }
         catch(SQLException e){
