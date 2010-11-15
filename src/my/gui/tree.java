@@ -57,6 +57,7 @@ public class tree {
         //int[] a = new int[5];
         int suma_total_clase=0;
         ArrayList<String> a = new ArrayList<String>();
+		ArrayList label = new ArrayList();
 		ArrayList retorno=new ArrayList();
         double resultado= 0.0;
         double split=0.0;
@@ -99,6 +100,7 @@ public class tree {
                 suma_total_clase=0;
                 while (cantidad_it.hasNext()){
                     Map.Entry cantidadval_me = (Map.Entry) cantidad_it.next();
+					label.add(cantidadval_me.getKey().toString());
                     a.add(cantidadval_me.getValue().toString());
                     suma_total_clase+=Integer.parseInt(cantidadval_me.getValue().toString());
                 }
@@ -107,7 +109,6 @@ public class tree {
             }
 			
             ganancia=infodeT-resultado;
-
             radio_ganancia=ganancia/split;
            // System.out.println("infodeXT="+resultado);
             Log.datosLog.add("  " + new Date() + "\tCalculo de Info(T): " + resultado + "\n");
@@ -126,6 +127,7 @@ public class tree {
         Log.datosLog.add("  " + new Date() + "\tNodo Elegido: " + split_nodo_nombre +", con el valor: " + split_nodo + "\n");
 	retorno.add(split_nodo_nombre);
 	retorno.add(infodeT);
+
 	return retorno;
     }
 
