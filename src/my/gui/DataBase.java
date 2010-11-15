@@ -160,7 +160,7 @@ public class DataBase {
 	tam = val.size();
 	while(i<tam){
 	    if(val.get(i).toString().equals(val_c)){
-		System.out.println("encontrado "+val.get(i).toString());
+		//System.out.println("encontrado "+val.get(i).toString());
 		return i;
 	    }
 	    i++;
@@ -259,73 +259,72 @@ public class DataBase {
 		    hdb.put(auxlista, hdbvalor_segundo_nivel);
 		}else{
 ///------DESDE AQUI SE DISCRETIZAN LOS VALORES (SI LOS HAY)
-		    //if(auxlista.contentEquals(nom_col_dis.get(0).toString())){
-			itval = queryactual.iterator();
-			while (itval.hasNext()){
-			    //contar la cantidad de ocurrencias con respecto a la columna objetivo
-			    HashMap hdbval = new HashMap();
-			    itval1 = val_col_desicion.iterator();
-			    while (itval1.hasNext()){
-				auxval1 = itval1.next().toString();
-				hdbval.put(auxval1, 0);
+		    itval = queryactual.iterator();
+		    while (itval.hasNext()){
+			//contar la cantidad de ocurrencias con respecto a la columna objetivo
+			HashMap hdbval = new HashMap();
+			itval1 = val_col_desicion.iterator();
+			while (itval1.hasNext()){
+			    auxval1 = itval1.next().toString();
+			    hdbval.put(auxval1, 0);
+			}
+			auxval = itval.next().toString();
+			//if(!auxval.contentEquals(valactual)){
+			itval1 = val_col_desicion.iterator();
+			posactual = buscarValDis(nom_col_dis, auxlista);
+			while (itval1.hasNext()){
+			    auxval1 = itval1.next().toString();
+			    //SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
+
+			    if(posactual != -1){
+				if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
+				    SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"<= "+Integer.parseInt(val_col_dis.get(posactual).toString())+"";
+				}else{
+				    SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"> "+Integer.parseInt(val_col_dis.get(posactual).toString())+"";
+				}
+			    }else{
+				SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
 			    }
-			    auxval = itval.next().toString();
-			    //if(!auxval.contentEquals(valactual)){
-			    itval1 = val_col_desicion.iterator();
-			    posactual = buscarValDis(nom_col_dis, auxlista);
-			    while (itval1.hasNext()){
-				auxval1 = itval1.next().toString();
-				//SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
-				
-				if(posactual != -1){
-				    if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
-					SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"<= "+Integer.parseInt(val_col_dis.get(posactual).toString())+"";
-				    }else{
-					SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"> "+Integer.parseInt(val_col_dis.get(posactual).toString())+"";
-				    }
-				}else{
-				    SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
+			    //hdbval.put(auxval1, 0);
+			    if(!nomcol.isEmpty() && !valactual.isEmpty()){
+				Iterator it_col = nomcol.iterator();
+				Iterator it_colval = valactual.iterator();
+				while (it_col.hasNext()){
+				    val_col_lista = it_colval.next().toString();
+				    col_lista = it_col.next().toString();
+				    SQLcantnum = SQLcantnum + " and "+col_lista+"= '"+val_col_lista+"'";
 				}
-				//hdbval.put(auxval1, 0);
-				if(!nomcol.isEmpty() && !valactual.isEmpty()){
-				    Iterator it_col = nomcol.iterator();
-				    Iterator it_colval = valactual.iterator();
-				    while (it_col.hasNext()){
-					val_col_lista = it_colval.next().toString();
-					col_lista = it_col.next().toString();
-					SQLcantnum = SQLcantnum + " and "+col_lista+"= '"+val_col_lista+"'";
-				    }
-				}
-				System.out.println(SQLcantnum);
-				stmt = connection.createStatement();
-				rs = stmt.executeQuery(SQLcantnum);
-				while (rs.next()) {
-				    numvalcol = Integer.parseInt(rs.getString("count("+auxlista+")"));
-				}
-				if(posactual != -1){
-				    if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
-					hdbval.put(auxval1, numvalcol);
-				    }else{
-					hdbval.put(auxval1, numvalcol);
-				    }
-				}else{
-				    hdbval.put(auxval1, numvalcol);
-				}
+			    }
+			    //System.out.println(SQLcantnum);
+			    stmt = connection.createStatement();
+			    rs = stmt.executeQuery(SQLcantnum);
+			    while (rs.next()) {
+				numvalcol = Integer.parseInt(rs.getString("count("+auxlista+")"));
 			    }
 			    if(posactual != -1){
 				if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
-				    hdbvalor_segundo_nivel.put("<="+val_col_dis.get(posactual).toString(), hdbval);
+				    hdbval.put(auxval1, numvalcol);
 				}else{
-				    hdbvalor_segundo_nivel.put(">"+val_col_dis.get(posactual).toString(), hdbval);
+				    hdbval.put(auxval1, numvalcol);
 				}
 			    }else{
-				hdbvalor_segundo_nivel.put(auxval, hdbval);
+				hdbval.put(auxval1, numvalcol);
 			    }
-			
+			}
+			if(posactual != -1){
+			    if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
+				hdbvalor_segundo_nivel.put("<="+val_col_dis.get(posactual).toString(), hdbval);
+			    }else{
+				hdbvalor_segundo_nivel.put(">"+val_col_dis.get(posactual).toString(), hdbval);
+			    }
+			}else{
+			    hdbvalor_segundo_nivel.put(auxval, hdbval);
 			}
 
-			queryactual.clear();
-			hdb.put(auxlista, hdbvalor_segundo_nivel);
+		    }
+
+		    queryactual.clear();
+		    hdb.put(auxlista, hdbvalor_segundo_nivel);
 		}
 		queryactual.clear();
 	    }
