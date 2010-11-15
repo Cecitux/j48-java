@@ -13,11 +13,14 @@ public class DataBase {
     //Variables de Lore para la BD
     public static Connection connection;
     public static ArrayList data = new ArrayList();
-    public static String columna_decision="play";
+    public static String columna_decision="";
     public static String tabla_d = "";
     //int[] cantValDecision;
     //Los nombres de las columnas de la tabla
     public static ArrayList nom_columnas = new ArrayList();
+
+    public static ArrayList nom_col_dis = new ArrayList();
+    public static ArrayList val_col_dis = new ArrayList();
     //Conectar a la BD
     public static void Conectar(String nombre, String usuario, String pass) {
         // cadenaconexion = "";
@@ -62,7 +65,7 @@ public class DataBase {
 	return lista;
     }
 
-    public static ArrayList getCantidadValores(String nom_columna, ArrayList nomcol, ArrayList nomval) throws SQLException{
+    public static ArrayList getCantidadValores(ArrayList nomcol, ArrayList nomval) throws SQLException{
 	Statement stmt = null;
 	ResultSet rs = null;
 	ArrayList lista = new ArrayList();
@@ -71,10 +74,10 @@ public class DataBase {
 	String val_col_lista="", col_lista="";
 	//SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
 	//String SQL = "select "+columna_decision+" from "+tabla_d+" group by "+columna_decision;
-	val = getValoresCol(nom_columna);
+	val = getValoresCol(columna_decision);
 	it = val.iterator();
 	while (it.hasNext()){
-	    String SQL = "select count("+nom_columna+") from "+tabla_d+" where "+nom_columna+"= '"+it.next().toString()+"'";
+	    String SQL = "select count("+columna_decision+") from "+tabla_d+" where "+columna_decision+"= '"+it.next().toString()+"'";
 	    if(!nomcol.isEmpty() && !nomval.isEmpty()){
 		Iterator it_col = nomcol.iterator();
 		Iterator it_colval = nomval.iterator();
@@ -84,11 +87,11 @@ public class DataBase {
 			SQL = SQL + " and "+col_lista+"= '"+val_col_lista+"'";
 		}
 	    }
-	    System.out.println(SQL);
+	    //System.out.println(SQL);
 	    stmt = connection.createStatement();
 	    rs = stmt.executeQuery(SQL);
 	    while (rs.next()) {
-		lista.add(rs.getString("count("+nom_columna+")"));
+		lista.add(rs.getString("count("+columna_decision+")"));
 	    }
 	}
 	
@@ -109,13 +112,13 @@ public class DataBase {
 	while (rs.next()) {
 	    while (it_nomcol.hasNext()){
 		lineafila = lineafila + "\t"+ rs.getString(it_nomcol.next().toString());
+	    }
+	    lineafila = lineafila.substring(1);
+	    lineafila = lineafila + "\t\n      ";
+	    data.add(lineafila);
+	    it_nomcol = nom_columnas.iterator();
+	    lineafila = "";
 	}
-	lineafila = lineafila.substring(1);
-	lineafila = lineafila + "\t\n      ";
-	data.add(lineafila);
-	it_nomcol = nom_columnas.iterator();
-	lineafila = "";
-    }
     }
     //funcion que obitiene el nombre de la tabla y los nombres de las columnas
     public static void getNombresColumnas()throws SQLException{
@@ -151,6 +154,19 @@ public class DataBase {
 	//System.out.println("hola "+ val_c);
 	return false;
     }
+
+    public static int buscarValDis(ArrayList val, String val_c){
+	int i=0, tam;
+	tam = val.size();
+	while(i<tam){
+	    if(val.get(i).toString().equals(val_c)){
+		System.out.println("encontrado "+val.get(i).toString());
+		return i;
+	    }
+	    i++;
+	}
+	return -1;
+    }
     /**
      *
      * @param nomcol:
@@ -167,7 +183,7 @@ public class DataBase {
 	ArrayList val_col_desicion = new ArrayList();
 
 	//ArrayList auxvalor = new ArrayList();
-	int numreg = 0, numvalcol=0;
+	int numreg = 0, numvalcol=0, numvalcoldismay=0, numvalcoldismen=0;
 	int band_col=0;
 	String col_lista="";
 	String val_col_lista="";
@@ -178,6 +194,7 @@ public class DataBase {
 	String SQLcantnum="";
 	String SQLcol="";
 	Iterator itval, itval1;
+	int posactual=0;
 	val_col_desicion = getValoresCol(columna_decision);
     //----------GUARDA TODAS LAS VARIABLES DE UNA COLUMNA
 	//auxlista = columnas
@@ -198,7 +215,7 @@ public class DataBase {
 
 		}
 	    }
-	    System.out.println(nom_columnas_actual);
+	    //System.out.println(nom_columnas_actual);
 	    it_nomcol = nom_columnas_actual.iterator();
 	}
 	while (it_nomcol.hasNext()){
@@ -207,38 +224,111 @@ public class DataBase {
 	    queryactual = getValoresCol(auxlista);
 	    HashMap hdbvalor_segundo_nivel = new HashMap();
 	    if(!auxlista.contentEquals(columna_decision)){
-		itval = queryactual.iterator();
-		while (itval.hasNext()){
-		    //contar la cantidad de ocurrencias con respecto a la columna objetivo
-		    HashMap hdbval = new HashMap();
-		    auxval = itval.next().toString();
-		    //if(!auxval.contentEquals(valactual)){
-		    itval1 = val_col_desicion.iterator();
-		    while (itval1.hasNext()){
-			auxval1 = itval1.next().toString();
-			SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
-			if(!nomcol.isEmpty() && !valactual.isEmpty()){
-			    Iterator it_col = nomcol.iterator();
-			    Iterator it_colval = valactual.iterator();
-			    while (it_col.hasNext()){
-				val_col_lista = it_colval.next().toString();
-				col_lista = it_col.next().toString();
-				SQLcantnum = SQLcantnum + " and "+col_lista+"= '"+val_col_lista+"'";
+		if(nom_col_dis.isEmpty()){
+		    //System.out.println("Esta vacio");
+		    itval = queryactual.iterator();
+		    while (itval.hasNext()){
+			//contar la cantidad de ocurrencias con respecto a la columna objetivo
+			HashMap hdbval = new HashMap();
+			auxval = itval.next().toString();
+			//if(!auxval.contentEquals(valactual)){
+			itval1 = val_col_desicion.iterator();
+			while (itval1.hasNext()){
+			    auxval1 = itval1.next().toString();
+			    SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
+			    if(!nomcol.isEmpty() && !valactual.isEmpty()){
+				Iterator it_col = nomcol.iterator();
+				Iterator it_colval = valactual.iterator();
+				while (it_col.hasNext()){
+				    val_col_lista = it_colval.next().toString();
+				    col_lista = it_col.next().toString();
+				    SQLcantnum = SQLcantnum + " and "+col_lista+"= '"+val_col_lista+"'";
+				}
 			    }
+			    //System.out.println(SQLcantnum);
+			    stmt = connection.createStatement();
+			    rs = stmt.executeQuery(SQLcantnum);
+			    while (rs.next()) {
+				numvalcol = Integer.parseInt(rs.getString("count("+auxlista+")"));
+			    }
+			    hdbval.put(auxval1, numvalcol);
 			}
-			stmt = connection.createStatement();
-			rs = stmt.executeQuery(SQLcantnum);
-			while (rs.next()) {
-			    numvalcol = Integer.parseInt(rs.getString("count("+auxlista+")"));
-			}
-			hdbval.put(auxval1, numvalcol);
+			hdbvalor_segundo_nivel.put(auxval, hdbval);
 		    }
-		    hdbvalor_segundo_nivel.put(auxval, hdbval);
+		    queryactual.clear();
+		    hdb.put(auxlista, hdbvalor_segundo_nivel);
+		}else{
+///------DESDE AQUI SE DISCRETIZAN LOS VALORES (SI LOS HAY)
+		    //if(auxlista.contentEquals(nom_col_dis.get(0).toString())){
+			itval = queryactual.iterator();
+			while (itval.hasNext()){
+			    //contar la cantidad de ocurrencias con respecto a la columna objetivo
+			    HashMap hdbval = new HashMap();
+			    itval1 = val_col_desicion.iterator();
+			    while (itval1.hasNext()){
+				auxval1 = itval1.next().toString();
+				hdbval.put(auxval1, 0);
+			    }
+			    auxval = itval.next().toString();
+			    //if(!auxval.contentEquals(valactual)){
+			    itval1 = val_col_desicion.iterator();
+			    posactual = buscarValDis(nom_col_dis, auxlista);
+			    while (itval1.hasNext()){
+				auxval1 = itval1.next().toString();
+				//SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
+				
+				if(posactual != -1){
+				    if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
+					SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"<= "+Integer.parseInt(val_col_dis.get(posactual).toString())+"";
+				    }else{
+					SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"> "+Integer.parseInt(val_col_dis.get(posactual).toString())+"";
+				    }
+				}else{
+				    SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
+				}
+				//hdbval.put(auxval1, 0);
+				if(!nomcol.isEmpty() && !valactual.isEmpty()){
+				    Iterator it_col = nomcol.iterator();
+				    Iterator it_colval = valactual.iterator();
+				    while (it_col.hasNext()){
+					val_col_lista = it_colval.next().toString();
+					col_lista = it_col.next().toString();
+					SQLcantnum = SQLcantnum + " and "+col_lista+"= '"+val_col_lista+"'";
+				    }
+				}
+				System.out.println(SQLcantnum);
+				stmt = connection.createStatement();
+				rs = stmt.executeQuery(SQLcantnum);
+				while (rs.next()) {
+				    numvalcol = Integer.parseInt(rs.getString("count("+auxlista+")"));
+				}
+				if(posactual != -1){
+				    if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
+					hdbval.put(auxval1, numvalcol);
+				    }else{
+					hdbval.put(auxval1, numvalcol);
+				    }
+				}else{
+				    hdbval.put(auxval1, numvalcol);
+				}
+			    }
+			    if(posactual != -1){
+				if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
+				    hdbvalor_segundo_nivel.put("<="+val_col_dis.get(posactual).toString(), hdbval);
+				}else{
+				    hdbvalor_segundo_nivel.put(">"+val_col_dis.get(posactual).toString(), hdbval);
+				}
+			    }else{
+				hdbvalor_segundo_nivel.put(auxval, hdbval);
+			    }
+			
+			}
+
+			queryactual.clear();
+			hdb.put(auxlista, hdbvalor_segundo_nivel);
 		}
 		queryactual.clear();
-		hdb.put(auxlista, hdbvalor_segundo_nivel);
 	    }
-	    queryactual.clear();
 	}
 	//}
 	//Imprime el diccionario actual
