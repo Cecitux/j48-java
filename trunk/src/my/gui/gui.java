@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class gui extends javax.swing.JFrame {
 
-    public String usuario, password, nombrebd, columna, datosDiscretizar;
+    public static String usuario, password, nombrebd, columna, datosDiscretizar;
     ArrayList columna_arbol = new ArrayList();
     ArrayList valor_columna_arbol = new ArrayList();
     ArrayList valores_decision= new ArrayList();
@@ -415,7 +415,7 @@ public class gui extends javax.swing.JFrame {
                     aux = aux.concat(c);
                 }
             }
-            System.out.println("Columnas: " + DataBase.nom_col_dis + "\nValores: " + DataBase.val_col_dis);
+           // System.out.println("Columnas: " + DataBase.nom_col_dis + "\nValores: " + DataBase.val_col_dis);
         }
 
         Promedio.setEnabled(false);
@@ -452,7 +452,6 @@ public class gui extends javax.swing.JFrame {
         
         //Generar el Log
         TextoLog.setText("");
-        TextoLog.append("  " + new Date() + "\tBase de Datos analizada: " + nombrebd + "\n");
         for(int i = 0; i < log.datosLog.size(); i++){
             TextoLog.append(log.datosLog.get(i).toString());
         }

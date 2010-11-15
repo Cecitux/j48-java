@@ -22,6 +22,9 @@ public class Log {
             "  Asunción, Paraguay  -  2010\n\n  " +
             new Date() + "\tInicio de la Ejecucion\n";
             datosLog.add(encabezado);
+           // datosLog.add("  " + new Date() + "\tBase de Datos analizada: " + gui.nombrebd + "\n");
+           // datosLog.add("  " + new Date() + "\tColumna analizada: " + gui.columna + "\n");
+           // datosLog.add("  " + new Date() + "\tPorcentaje de Certeza: " + gui.certeza + "\n");
     }
 
     private static String formatoDato(){
