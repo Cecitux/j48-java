@@ -2,6 +2,7 @@
 package my.gui;
 
 import my.gui.Log;
+import my.gui.GraficoArbol;
 //import com.mysql.jdbc.log.Log;
 import java.sql.SQLException;
 import java.util.*;
@@ -387,6 +388,14 @@ public class gui extends javax.swing.JFrame {
         Certeza.setEnabled(false);
         BotonGrafico.setEnabled(true);
 
+        GraficoArbol.arbolito.add("A"); GraficoArbol.arbolito.add(";");
+        GraficoArbol.arbolito.add("A"); GraficoArbol.arbolito.add("B"); GraficoArbol.arbolito.add("arco1"); GraficoArbol.arbolito.add("-");
+        GraficoArbol.arbolito.add("A"); GraficoArbol.arbolito.add("C"); GraficoArbol.arbolito.add("arco2"); GraficoArbol.arbolito.add(";");
+        GraficoArbol.arbolito.add("B"); GraficoArbol.arbolito.add("D"); GraficoArbol.arbolito.add("arco3"); GraficoArbol.arbolito.add("-");
+        GraficoArbol.arbolito.add("B"); GraficoArbol.arbolito.add("E"); GraficoArbol.arbolito.add("arco4"); GraficoArbol.arbolito.add("-");
+        GraficoArbol.arbolito.add("B"); GraficoArbol.arbolito.add("F"); GraficoArbol.arbolito.add("arco5"); GraficoArbol.arbolito.add("-");
+        GraficoArbol.arbolito.add("B"); GraficoArbol.arbolito.add("G"); GraficoArbol.arbolito.add("arco6"); GraficoArbol.arbolito.add("#");
+
         if (Especifico.isEnabled() == true){
             datosDiscretizar = DatosDiscretizacion.getText();
             datosDiscretizar = datosDiscretizar.trim();
@@ -449,25 +458,37 @@ public class gui extends javax.swing.JFrame {
         for(int i = 0; i < log.datosLog.size(); i++){
             TextoLog.append(log.datosLog.get(i).toString());
         }
-        //arbolTexto();
+        arbolTextual(arbolTexto, 0, null);
         datos.Desconectar();
         TextoLog.append("  " + new Date() + "\tTermino de la Ejecucion\n");
     }//GEN-LAST:event_BotonOKActionPerformed
 
-   /* public void arbolTexto(){
-        for(int i = 0; i < GraficoArbol.arbolito.size(); i++){
+    public void arbolTextual( List<String> arbolTexto, int inicio, String padre){
+        System.out.println("\narbolTexto: " + arbolTexto + ", inicio: " + inicio);
+        System.out.println("Tamanho arbolito: " + GraficoArbol.arbolito.size());
+        for(int i = inicio; i < GraficoArbol.arbolito.size(); i++){
             if (i == 0){
-                TextoArbol.append(GraficoArbol.arbolito.get(i).toString());
+                arbolTexto.add(GraficoArbol.arbolito.get(i));
+                padre = GraficoArbol.arbolito.get(i);
             }
-            if (GraficoArbol.arbolito.get(i).equals(";")){
-                TextoArbol.append("___");
-                if ((GraficoArbol.arbolito.get(i+1).equals(GraficoArbol.arbolito.get(i-1)) && (i-1 == 0)) || (GraficoArbol.arbolito.get(i+1).equals(GraficoArbol.arbolito.get(i-4)) && (i-1<0))){
-                    TextoArbol.append(GraficoArbol.arbolito.get(i+1));
+            if (i > 0 && i < GraficoArbol.arbolito.size() &&
+                (GraficoArbol.arbolito.get(i - 1).equals(";") == true || GraficoArbol.arbolito.get(i - 1).equals("-") == true)
+                && arbolTexto.contains(GraficoArbol.arbolito.get(i))
+                && GraficoArbol.arbolito.get(i).equals(padre)){
+                arbolTexto.add("___");
+                arbolTexto.add(GraficoArbol.arbolito.get(i+1));
+                arbolTexto.add(GraficoArbol.arbolito.get(i+2));
+                padre = GraficoArbol.arbolito.get(i+1);
+                
+                if (GraficoArbol.arbolito.get(i).equals("#")){
+                    return;
+                }else{
+                    arbolTextual(arbolTexto, i + 1, padre);
                 }
             }
         }
-        System.out.println("\n\n" + TextoArbol.getText());
-    }*/
+        System.out.println(arbolTexto);
+    }
 
     /*private void BotonGraficoActionPerformed(java.awt.event.ActionEvent evt) {
         GraficoArbol arbol = new GraficoArbol();
