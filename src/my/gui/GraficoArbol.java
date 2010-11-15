@@ -40,16 +40,13 @@ public class GraficoArbol extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        PanelGrafico = new javax.swing.JScrollPane();
         jLabel1 = new javax.swing.JLabel();
         ZooMax = new javax.swing.JButton();
         ZooMin = new javax.swing.JButton();
+        PanelGrafico = new javax.swing.JScrollPane();
 
         setTitle("Arbol Generado");
         setResizable(false);
-
-        PanelGrafico.setBackground(new java.awt.Color(255, 255, 255));
-        PanelGrafico.setAutoscrolls(true);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24));
         jLabel1.setForeground(new java.awt.Color(102, 102, 255));
@@ -69,21 +66,25 @@ public class GraficoArbol extends javax.swing.JFrame {
             }
         });
 
+        PanelGrafico.setAutoscrolls(true);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(PanelGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 840, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(PanelGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 841, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 252, Short.MAX_VALUE)
                         .addComponent(ZooMin)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ZooMax, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(23, 23, 23))
+                        .addComponent(ZooMax, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -99,8 +100,9 @@ public class GraficoArbol extends javax.swing.JFrame {
                             .addComponent(ZooMax)
                             .addComponent(ZooMin))
                         .addGap(1, 1, 1)))
-                .addComponent(PanelGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 601, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PanelGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
@@ -109,6 +111,18 @@ public class GraficoArbol extends javax.swing.JFrame {
     private void ZooMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZooMaxActionPerformed
         // TODO add your handling code here:
         Tamanho = PanelGrafico.getWidth() + 1000;
+        System.out.println("tamanho:" + Tamanho);
+        coordX=0;
+        coordY=140 + altoNodo;
+        anteriorX=0;
+        anteriorY=0;
+        bandera = 0;
+        arbolitoCopia.clear();
+        nivelAnterior.clear();
+        arbolito.clear();
+        nivel.clear();
+        posicion.clear();
+        cont=0;
         PanelGrafico.repaint();
     }//GEN-LAST:event_ZooMaxActionPerformed
 
@@ -116,6 +130,7 @@ public class GraficoArbol extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (TamInicial >= PanelGrafico.getWidth() - 1000){
             Tamanho = PanelGrafico.getWidth() - 1000;
+            System.out.println("tamanho:" + Tamanho);
             PanelGrafico.repaint();
         }
     }//GEN-LAST:event_ZooMinActionPerformed
