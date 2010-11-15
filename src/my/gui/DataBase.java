@@ -33,7 +33,7 @@ public class DataBase {
             connection = DriverManager.getConnection(prueba);
             System.out.println("Conectado");
 
-          
+
         } catch (SQLException e) {
             System.out.println("SQL Exception: "+ e.toString());
         } catch (ClassNotFoundException cE) {
@@ -66,106 +66,106 @@ public class DataBase {
     }
 
     public static ArrayList getCantidadValores(ArrayList nomcol, ArrayList nomval) throws SQLException{
-	Statement stmt = null;
-	ResultSet rs = null;
-	ArrayList lista = new ArrayList();
-	ArrayList val = new ArrayList();
-	Iterator it;
-	String val_col_lista="", col_lista="";
-	//SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
-	//String SQL = "select "+columna_decision+" from "+tabla_d+" group by "+columna_decision;
-	val = getValoresCol(columna_decision);
-	it = val.iterator();
-	while (it.hasNext()){
-	    String SQL = "select count("+columna_decision+") from "+tabla_d+" where "+columna_decision+"= '"+it.next().toString()+"'";
-	    if(!nomcol.isEmpty() && !nomval.isEmpty()){
-		Iterator it_col = nomcol.iterator();
-		Iterator it_colval = nomval.iterator();
-		while (it_col.hasNext()){
-			val_col_lista = it_colval.next().toString();
-			col_lista = it_col.next().toString();
-			SQL = SQL + " and "+col_lista+"= '"+val_col_lista+"'";
-		}
-	    }
-	    //System.out.println(SQL);
-	    stmt = connection.createStatement();
-	    rs = stmt.executeQuery(SQL);
-	    while (rs.next()) {
-		lista.add(rs.getString("count("+columna_decision+")"));
-	    }
+		Statement stmt = null;
+		ResultSet rs = null;
+		ArrayList lista = new ArrayList();
+		ArrayList val = new ArrayList();
+		Iterator it;
+		String val_col_lista="", col_lista="";
+		//SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
+		//String SQL = "select "+columna_decision+" from "+tabla_d+" group by "+columna_decision;
+		val = getValoresCol(columna_decision);
+		it = val.iterator();
+		while (it.hasNext()){
+			String SQL = "select count("+columna_decision+") from "+tabla_d+" where "+columna_decision+"= '"+it.next().toString()+"'";
+			if(!nomcol.isEmpty() && !nomval.isEmpty()){
+			Iterator it_col = nomcol.iterator();
+			Iterator it_colval = nomval.iterator();
+			while (it_col.hasNext()){
+				val_col_lista = it_colval.next().toString();
+				col_lista = it_col.next().toString();
+				SQL = SQL + " and "+col_lista+"= '"+val_col_lista+"'";
+			}
+			}
+			//System.out.println(SQL);
+			stmt = connection.createStatement();
+			rs = stmt.executeQuery(SQL);
+			while (rs.next()) {
+			lista.add(rs.getString("count("+columna_decision+")"));
+			}
 	}
-	
+
 	return lista;
     }
     //Funcion que devuelve los valores de las tablas para mostrarlos en pantalla
     public static void getValoresPantalla()throws SQLException{
-	Statement stmt = null;
-	ResultSet rs = null;
-	//Esto no se usa, se debe hacer una funcion para traer los nombres de las columnas
+		Statement stmt = null;
+		ResultSet rs = null;
+		//Esto no se usa, se debe hacer una funcion para traer los nombres de las columnas
 
-	String lineafila = "";
-	 //Para mostrar en pantalla
-	String SQL = "select * from "+tabla_d;
-	stmt = connection.createStatement();
-	rs = stmt.executeQuery(SQL);
-	Iterator it_nomcol = nom_columnas.iterator();
-	while (rs.next()) {
-	    while (it_nomcol.hasNext()){
-		lineafila = lineafila + "\t"+ rs.getString(it_nomcol.next().toString());
-	    }
-	    lineafila = lineafila.substring(1);
-	    lineafila = lineafila + "\t\n      ";
-	    data.add(lineafila);
-	    it_nomcol = nom_columnas.iterator();
-	    lineafila = "";
-	}
+		String lineafila = "";
+		 //Para mostrar en pantalla
+		String SQL = "select * from "+tabla_d;
+		stmt = connection.createStatement();
+		rs = stmt.executeQuery(SQL);
+		Iterator it_nomcol = nom_columnas.iterator();
+		while (rs.next()) {
+			while (it_nomcol.hasNext()){
+			lineafila = lineafila + "\t"+ rs.getString(it_nomcol.next().toString());
+			}
+			lineafila = lineafila.substring(1);
+			lineafila = lineafila + "\t\n      ";
+			data.add(lineafila);
+			it_nomcol = nom_columnas.iterator();
+			lineafila = "";
+		}
     }
     //funcion que obitiene el nombre de la tabla y los nombres de las columnas
     public static void getNombresColumnas()throws SQLException{
-	//SQL query command
-	Statement stmt = null;
-	ResultSet rs = null;
-	String SQL = "show tables";
-	ArrayList list = new ArrayList();
-	stmt = connection.createStatement();
-	rs = stmt.executeQuery(SQL);
-	//Ver nombres de las tablas (se toma la primera)
-	while (rs.next()) {
-	    list.add(rs.getString("Tables_in_com"));
-	}
-	tabla_d = list.get(4).toString();
-	//Nombres de las columnas
-	SQL = "describe "+tabla_d;
-	stmt = connection.createStatement();
-	rs = stmt.executeQuery(SQL);
-	while (rs.next()) {
-	    nom_columnas.add(rs.getString("Field"));
-	}
+		//SQL query command
+		Statement stmt = null;
+		ResultSet rs = null;
+		String SQL = "show tables";
+		ArrayList list = new ArrayList();
+		stmt = connection.createStatement();
+		rs = stmt.executeQuery(SQL);
+		//Ver nombres de las tablas (se toma la primera)
+		while (rs.next()) {
+			list.add(rs.getString("Tables_in_com"));
+		}
+		tabla_d = list.get(0).toString();
+		//Nombres de las columnas
+		SQL = "describe "+tabla_d;
+		stmt = connection.createStatement();
+		rs = stmt.executeQuery(SQL);
+		while (rs.next()) {
+			nom_columnas.add(rs.getString("Field"));
+		}
     }
 
     public static boolean buscarVal(ArrayList val, String val_c){
-	Iterator it_val = val.iterator();
-	while (it_val.hasNext()){
-	    if(it_val.next().toString().contentEquals(val_c)){
-		//System.out.println("son iguales: "+val_c);
-		return true; //distinto de cero
-	    }
-	}
-	//System.out.println("hola "+ val_c);
-	return false;
+		Iterator it_val = val.iterator();
+		while (it_val.hasNext()){
+			if(it_val.next().toString().contentEquals(val_c)){
+			//System.out.println("son iguales: "+val_c);
+			return true; //distinto de cero
+			}
+		}
+		//System.out.println("hola "+ val_c);
+		return false;
     }
 
     public static int buscarValDis(ArrayList val, String val_c){
-	int i=0, tam;
-	tam = val.size();
-	while(i<tam){
-	    if(val.get(i).toString().equals(val_c)){
-		//System.out.println("encontrado "+val.get(i).toString());
-		return i;
-	    }
-	    i++;
-	}
-	return -1;
+		int i=0, tam;
+		tam = val.size();
+		while(i<tam){
+			if(val.get(i).toString().equals(val_c)){
+			//System.out.println("encontrado "+val.get(i).toString());
+			return i;
+			}
+			i++;
+		}
+		return -1;
     }
     /**
      *
