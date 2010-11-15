@@ -388,14 +388,14 @@ public class gui extends javax.swing.JFrame {
         Certeza.setEnabled(false);
         BotonGrafico.setEnabled(true);
 
-        GraficoArbol.arbolito.add("A"); GraficoArbol.arbolito.add(";");
+      /*  GraficoArbol.arbolito.add("A"); GraficoArbol.arbolito.add(";");
         GraficoArbol.arbolito.add("A"); GraficoArbol.arbolito.add("B"); GraficoArbol.arbolito.add("arco1"); GraficoArbol.arbolito.add("-");
         GraficoArbol.arbolito.add("A"); GraficoArbol.arbolito.add("C"); GraficoArbol.arbolito.add("arco2"); GraficoArbol.arbolito.add(";");
         GraficoArbol.arbolito.add("B"); GraficoArbol.arbolito.add("D"); GraficoArbol.arbolito.add("arco3"); GraficoArbol.arbolito.add("-");
         GraficoArbol.arbolito.add("B"); GraficoArbol.arbolito.add("E"); GraficoArbol.arbolito.add("arco4"); GraficoArbol.arbolito.add("-");
         GraficoArbol.arbolito.add("B"); GraficoArbol.arbolito.add("F"); GraficoArbol.arbolito.add("arco5"); GraficoArbol.arbolito.add("-");
         GraficoArbol.arbolito.add("B"); GraficoArbol.arbolito.add("G"); GraficoArbol.arbolito.add("arco6"); GraficoArbol.arbolito.add("#");
-
+*/
         if (Especifico.isEnabled() == true){
             datosDiscretizar = DatosDiscretizacion.getText();
             datosDiscretizar = datosDiscretizar.trim();
@@ -458,12 +458,12 @@ public class gui extends javax.swing.JFrame {
         for(int i = 0; i < log.datosLog.size(); i++){
             TextoLog.append(log.datosLog.get(i).toString());
         }
-        arbolTextual(arbolTexto, 0, null);
+        //arbolTextual(arbolTexto, 0, null);
         datos.Desconectar();
         TextoLog.append("  " + new Date() + "\tTermino de la Ejecucion\n");
     }//GEN-LAST:event_BotonOKActionPerformed
 
-    public void arbolTextual( List<String> arbolTexto, int inicio, String padre){
+    /*public void arbolTextual( List<String> arbolTexto, int inicio, String padre){
         System.out.println("\narbolTexto: " + arbolTexto + ", inicio: " + inicio);
         System.out.println("Tamanho arbolito: " + GraficoArbol.arbolito.size());
         for(int i = inicio; i < GraficoArbol.arbolito.size(); i++){
@@ -488,7 +488,7 @@ public class gui extends javax.swing.JFrame {
             }
         }
         System.out.println(arbolTexto);
-    }
+    }*/
 
     /*private void BotonGraficoActionPerformed(java.awt.event.ActionEvent evt) {
         GraficoArbol arbol = new GraficoArbol();
