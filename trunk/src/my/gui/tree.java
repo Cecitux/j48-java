@@ -26,32 +26,38 @@ public class tree {
 	valores_col_decision=DataBase.getCantidadValores(columna, valores);
 	nodo=calcular_nodo(mapa,valores_col_decision);
 	infodeT=Double.parseDouble(nodo.get(1).toString());
-	columna.add(nodo.get(0));
-	if(infodeT!=0.0){
+	
+        System.out.println("infodeT: "+infodeT);
+        System.out.println("**********");
+	if(infodeT != 0){
 	    //DataBase.getNombresColumnas();
 	    System.out.println("-----------------");
 	    System.out.println("columna: "+columna);
-	    System.out.println("valores:"+valores);
-	    System.out.println("infodeT: "+infodeT);
+	    columna.add(nodo.get(0));
+	    //System.out.println("infodeT: "+infodeT);
+
 	    
-	    System.out.println("salw");
 	    
 	    //nodo=calcular_nodo(mapa,valores_col_decision);
 	    //infodeT=Double.parseDouble(nodo.get(1).toString());
 	    //columna.add(nodo.get(0));
 	    valores_aux=DataBase.getValoresCol(nodo.get(0).toString());
-	    System.out.println("valores_aux: "+valores_aux);
+	   
 	    while(!valores_aux.isEmpty()){
+                
 		valores.add(valores_aux.get(0));
 		valores_aux.remove(0);
-		
+		System.out.println("valores:"+valores);
+                 System.out.println("valores_aux: "+valores_aux);
 		generar_arbol(columna, valores, infodeT);
 		
 		System.out.println("voy a otra iteracion");
 	    }
 	    ultimo_valor=valores.size()-1;
 	    valores.remove(ultimo_valor);
-	}
+	}else{
+            System.out.println("Es un nodo hoja");
+        }
 
     }
 
@@ -84,7 +90,7 @@ public class tree {
         Set columna_set = datos.entrySet();
         Iterator columna_it = columna_set.iterator();
         infodeT=entropia.infodeT(valores_col_decision);
-        System.out.println("Info de T="+infodeT);
+        //System.out.println("Info de T="+infodeT);
         Log.datosLog.add("  " + new Date() + "\tCalculo de Info(T): " + infodeT + "\n");
         
         while(columna_it.hasNext()){
