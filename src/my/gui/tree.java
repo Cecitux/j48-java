@@ -14,51 +14,43 @@ public class tree {
     }
 
     public static void generar_arbol(ArrayList columna,ArrayList valores,Double infodeT) throws SQLException{
-	HashMap mapa=new HashMap();
-	ArrayList nodo=new ArrayList();
-	ArrayList valores_aux=new ArrayList();
-	ArrayList valores_col_decision=new ArrayList();
-	int ultimo_valor=0;
-	//Double split=0.0;
-	//int i=0;
+		HashMap mapa=new HashMap();
+		ArrayList nodo=new ArrayList();
+		ArrayList valores_aux=new ArrayList();
+		ArrayList valores_col_decision=new ArrayList();
+		int ultimo_valor=0;
+		int ultima_columna=0;
 
-	mapa=DataBase.ParseoDB(columna, valores);
-	valores_col_decision=DataBase.getCantidadValores(columna, valores);
-	nodo=calcular_nodo(mapa,valores_col_decision);
-	infodeT=Double.parseDouble(nodo.get(1).toString());
-	
-        System.out.println("infodeT: "+infodeT);
-        System.out.println("**********");
-	if(infodeT != 0){
-	    //DataBase.getNombresColumnas();
-	    System.out.println("-----------------");
-	    System.out.println("columna: "+columna);
-	    columna.add(nodo.get(0));
-	    //System.out.println("infodeT: "+infodeT);
-
-	    
-	    
-	    //nodo=calcular_nodo(mapa,valores_col_decision);
-	    //infodeT=Double.parseDouble(nodo.get(1).toString());
-	    //columna.add(nodo.get(0));
-	    valores_aux=DataBase.getValoresCol(nodo.get(0).toString());
-	   
-	    while(!valores_aux.isEmpty()){
-                
-		valores.add(valores_aux.get(0));
-		valores_aux.remove(0);
-		System.out.println("valores:"+valores);
-                 System.out.println("valores_aux: "+valores_aux);
-		generar_arbol(columna, valores, infodeT);
-		
-		System.out.println("voy a otra iteracion");
-	    }
-	    ultimo_valor=valores.size()-1;
-	    valores.remove(ultimo_valor);
-	}else{
-            System.out.println("Es un nodo hoja");
-        }
-
+		mapa=DataBase.ParseoDB(columna, valores);
+		valores_col_decision=DataBase.getCantidadValores(columna, valores);
+		nodo=calcular_nodo(mapa,valores_col_decision);
+		infodeT=Double.parseDouble(nodo.get(1).toString());
+		System.out.println("infodeT: "+infodeT);
+		System.out.println("**********");
+		if(infodeT != 0){
+			System.out.println("-----------------");
+			System.out.println("columna: "+columna);
+			columna.add(nodo.get(0));
+			valores_aux=DataBase.getValoresCol(nodo.get(0).toString());
+			while(!valores_aux.isEmpty()){
+				valores.add(valores_aux.get(0));
+				valores_aux.remove(0);
+				System.out.println("valores:"+valores);
+				System.out.println("valores_aux: "+valores_aux);
+				generar_arbol(columna, valores, infodeT);
+				System.out.println("voy a otra iteracion");
+			}
+			ultima_columna=columna.size()-1;
+			columna.remove(ultima_columna);
+			if(!valores.isEmpty()){
+				ultimo_valor=valores.size()-1;
+				valores.remove(ultimo_valor);
+			}
+		}else{
+			ultimo_valor=valores.size()-1;
+			valores.remove(ultimo_valor);
+			System.out.println("Es un nodo hoja");
+		}
     }
 
     public static ArrayList calcular_nodo(HashMap datos,ArrayList valores_col_decision ) throws SQLException{
