@@ -68,8 +68,18 @@ public class DataBase {
 	    
 	}else{
 	    posactual = buscarValDis(nom_col_dis, nom_columna);
-	    lista.add("<= "+val_col_dis.get(posactual));
-	    lista.add("> "+val_col_dis.get(posactual));
+	    if(posactual!=-1){
+		lista.add("<= "+val_col_dis.get(posactual).toString());
+		lista.add("> "+val_col_dis.get(posactual).toString());
+		//System.out.println(lista);
+	    }else{
+		String SQL = "select "+nom_columna+" from "+tabla_d+" group by "+nom_columna;
+		stmt = connection.createStatement();
+		rs = stmt.executeQuery(SQL);
+		while (rs.next()) {
+		    lista.add(rs.getString(nom_columna));
+		}
+	    }
 	}
 	return lista;
     }
@@ -142,7 +152,7 @@ public class DataBase {
 		while (rs.next()) {
 			list.add(rs.getString("Tables_in_com"));
 		}
-		tabla_d = list.get(4).toString();
+		tabla_d = list.get(5).toString();
 		//Nombres de las columnas
 		SQL = "describe "+tabla_d;
 		stmt = connection.createStatement();
