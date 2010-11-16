@@ -55,46 +55,55 @@ public class DataBase {
 	Statement stmt = null;
 	ResultSet rs = null;
 	ArrayList lista = new ArrayList();
+	int posactual;
+	int cantcol=0, i=0;
 	//String SQL = "select "+columna_decision+" from "+tabla_d+" group by "+columna_decision;
-	String SQL = "select "+nom_columna+" from "+tabla_d+" group by "+nom_columna;
-	stmt = connection.createStatement();
-	rs = stmt.executeQuery(SQL);
-	while (rs.next()) {
-	    lista.add(rs.getString(nom_columna));
+	if(nom_col_dis.isEmpty()){
+	    String SQL = "select "+nom_columna+" from "+tabla_d+" group by "+nom_columna;
+	    stmt = connection.createStatement();
+	    rs = stmt.executeQuery(SQL);
+	    while (rs.next()) {
+		lista.add(rs.getString(nom_columna));
+	    }
+	    
+	}else{
+	    posactual = buscarValDis(nom_col_dis, nom_columna);
+	    lista.add("<= "+val_col_dis.get(posactual));
+	    lista.add("> "+val_col_dis.get(posactual));
 	}
 	return lista;
     }
 
     public static ArrayList getCantidadValores(ArrayList nomcol, ArrayList nomval) throws SQLException{
-		Statement stmt = null;
-		ResultSet rs = null;
-		ArrayList lista = new ArrayList();
-		ArrayList val = new ArrayList();
-		Iterator it;
-		String val_col_lista="", col_lista="";
-		//SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
-		//String SQL = "select "+columna_decision+" from "+tabla_d+" group by "+columna_decision;
-		val = getValoresCol(columna_decision);
-		it = val.iterator();
-		while (it.hasNext()){
-			String SQL = "select count("+columna_decision+") from "+tabla_d+" where "+columna_decision+"= '"+it.next().toString()+"'";
-			if(!nomcol.isEmpty() && !nomval.isEmpty()){
-			Iterator it_col = nomcol.iterator();
-			Iterator it_colval = nomval.iterator();
-			while (it_col.hasNext()){
-				val_col_lista = it_colval.next().toString();
-				col_lista = it_col.next().toString();
-				SQL = SQL + " and "+col_lista+"= '"+val_col_lista+"'";
-			}
-			}
-			//System.out.println(SQL);
-			stmt = connection.createStatement();
-			rs = stmt.executeQuery(SQL);
-			while (rs.next()) {
-			lista.add(rs.getString("count("+columna_decision+")"));
-			}
-	}
+	Statement stmt = null;
+	ResultSet rs = null;
+	ArrayList lista = new ArrayList();
+	ArrayList val = new ArrayList();
+	Iterator it;
+	String val_col_lista="", col_lista="";
 
+	//SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
+	//String SQL = "select "+columna_decision+" from "+tabla_d+" group by "+columna_decision;
+	val = getValoresCol(columna_decision);
+	it = val.iterator();
+	while (it.hasNext()){
+		String SQL = "select count("+columna_decision+") from "+tabla_d+" where "+columna_decision+"= '"+it.next().toString()+"'";
+		if(!nomcol.isEmpty() && !nomval.isEmpty()){
+		    Iterator it_col = nomcol.iterator();
+		    Iterator it_colval = nomval.iterator();
+		    while (it_col.hasNext()){
+			    val_col_lista = it_colval.next().toString();
+			    col_lista = it_col.next().toString();
+			    SQL = SQL + " and "+col_lista+"= '"+val_col_lista+"'";
+		    }
+		}
+		//System.out.println(SQL);
+		stmt = connection.createStatement();
+		rs = stmt.executeQuery(SQL);
+		while (rs.next()) {
+		    lista.add(rs.getString("count("+columna_decision+")"));
+		}
+	}
 	return lista;
     }
     //Funcion que devuelve los valores de las tablas para mostrarlos en pantalla
@@ -110,14 +119,14 @@ public class DataBase {
 		rs = stmt.executeQuery(SQL);
 		Iterator it_nomcol = nom_columnas.iterator();
 		while (rs.next()) {
-			while (it_nomcol.hasNext()){
+		    while (it_nomcol.hasNext()){
 			lineafila = lineafila + "\t"+ rs.getString(it_nomcol.next().toString());
-			}
-			lineafila = lineafila.substring(1);
-			lineafila = lineafila + "\t\n      ";
-			data.add(lineafila);
-			it_nomcol = nom_columnas.iterator();
-			lineafila = "";
+		    }
+		    lineafila = lineafila.substring(1);
+		    lineafila = lineafila + "\t\n      ";
+		    data.add(lineafila);
+		    it_nomcol = nom_columnas.iterator();
+		    lineafila = "";
 		}
     }
     //funcion que obitiene el nombre de la tabla y los nombres de las columnas
@@ -133,7 +142,7 @@ public class DataBase {
 		while (rs.next()) {
 			list.add(rs.getString("Tables_in_com"));
 		}
-		tabla_d = list.get(0).toString();
+		tabla_d = list.get(4).toString();
 		//Nombres de las columnas
 		SQL = "describe "+tabla_d;
 		stmt = connection.createStatement();
