@@ -18,7 +18,6 @@ public class tree {
 		ArrayList nodo=new ArrayList();
 		ArrayList valores_aux=new ArrayList();
 		ArrayList valores_col_decision=new ArrayList();
-		//ArrayList arbol=new ArrayList();
 		int ultimo_valor=0;
 		int ultima_columna=0;
 		mapa=DataBase.ParseoDB(columna, valores);
@@ -72,11 +71,13 @@ public class tree {
             cantidad_total_reg+=Integer.parseInt(valores_col_decision.get(i).toString());
             i++;
         }
-        Set columna_set = datos.entrySet();
-        Iterator columna_it = columna_set.iterator();
+
         infodeT=entropia.infodeT(valores_col_decision);
         Log.datosLog.add("  " + new Date() + "\tCalculo de Info(T): " + infodeT + "\n");
+
         if(infodeT!=0){
+			Set columna_set = datos.entrySet();
+			Iterator columna_it = columna_set.iterator();
 			while(columna_it.hasNext()){
 				HashMap valores= new HashMap();
 				Map.Entry valores_me = (Map.Entry) columna_it.next();
@@ -92,7 +93,6 @@ public class tree {
 					HashMap cantidad = new HashMap();
 					Map.Entry cantidad_me = (Map.Entry) valores_it.next();
 					cantidad.putAll((Map) cantidad_me.getValue());
-					//System.out.println(cantidad);
 					Set cantidad_set = cantidad.entrySet();
 					Iterator cantidad_it=cantidad_set.iterator();
 					a.clear();
@@ -126,10 +126,11 @@ public class tree {
 			Log.datosLog.add("\n  " + new Date() + "\tNodo Elegido: " + split_nodo_nombre +", con el valor: " + split_nodo + "\n\n");
 		}
         
-	retorno.add(split_nodo_nombre);
-	retorno.add(infodeT);
+		retorno.add(split_nodo_nombre);
+		retorno.add(infodeT);
 
-	return retorno;
+		return retorno;
     }
+
 
 }
