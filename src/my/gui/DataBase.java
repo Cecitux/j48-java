@@ -60,6 +60,7 @@ public class DataBase {
 	//String SQL = "select "+columna_decision+" from "+tabla_d+" group by "+columna_decision;
 	if(nom_col_dis.isEmpty()){
 	    String SQL = "select "+nom_columna+" from "+tabla_d+" group by "+nom_columna;
+	    System.out.println(SQL +" 1");
 	    stmt = connection.createStatement();
 	    rs = stmt.executeQuery(SQL);
 	    while (rs.next()) {
@@ -69,11 +70,13 @@ public class DataBase {
 	}else{
 	    posactual = buscarValDis(nom_col_dis, nom_columna);
 	    if(posactual!=-1){
-		lista.add("<= "+val_col_dis.get(posactual).toString());
-		lista.add("> "+val_col_dis.get(posactual).toString());
+		lista.add("<="+val_col_dis.get(posactual).toString());
+		lista.add(">"+val_col_dis.get(posactual).toString());
+		//System.out.println("===============================================");
 		//System.out.println(lista);
 	    }else{
 		String SQL = "select "+nom_columna+" from "+tabla_d+" group by "+nom_columna;
+		//System.out.println(SQL);
 		stmt = connection.createStatement();
 		rs = stmt.executeQuery(SQL);
 		while (rs.next()) {
@@ -215,6 +218,7 @@ public class DataBase {
 	Iterator itval, itval1;
 	int posactual=0;
 	val_col_desicion = getValoresCol(columna_decision);
+	
     //----------GUARDA TODAS LAS VARIABLES DE UNA COLUMNA
 	//auxlista = columnas
 	//queryactual = distintos valores de las columnas
@@ -240,11 +244,19 @@ public class DataBase {
 	while (it_nomcol.hasNext()){
 	    //select puertas from cars group by puertas;
 	    auxlista = it_nomcol.next().toString();
-	    queryactual = getValoresCol(auxlista);
+	    //System.out.println("queryactual");
+	    //queryactual = getValoresCol(auxlista);
+	    SQL = "select "+auxlista+" from "+tabla_d+" group by "+auxlista;
+	    stmt = connection.createStatement();
+	    rs = stmt.executeQuery(SQL);
+	    while (rs.next()) {
+		queryactual.add(rs.getString(auxlista));
+	    }
+	    //System.out.println(queryactual);
 	    HashMap hdbvalor_segundo_nivel = new HashMap();
 	    if(!auxlista.contentEquals(columna_decision)){
 		if(nom_col_dis.isEmpty()){
-		    //System.out.println("Esta vacio");
+		    
 		    itval = queryactual.iterator();
 		    while (itval.hasNext()){
 			//contar la cantidad de ocurrencias con respecto a la columna objetivo
@@ -279,6 +291,7 @@ public class DataBase {
 		}else{
 ///------DESDE AQUI SE DISCRETIZAN LOS VALORES (SI LOS HAY)
 		    itval = queryactual.iterator();
+		    //System.out.println("Esta vacio");
 		    while (itval.hasNext()){
 			//contar la cantidad de ocurrencias con respecto a la columna objetivo
 			HashMap hdbval = new HashMap();
@@ -294,8 +307,8 @@ public class DataBase {
 			while (itval1.hasNext()){
 			    auxval1 = itval1.next().toString();
 			    //SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
-
 			    if(posactual != -1){
+				//System.out.println(auxval+" "+val_col_dis.get(posactual).toString());
 				if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
 				    SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"<= "+Integer.parseInt(val_col_dis.get(posactual).toString())+"";
 				}else{
