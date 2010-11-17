@@ -13,7 +13,7 @@ public class tree {
     public tree(){
     }
 	//TODO: armar la lista para el grafico del arbol
-    public static ArrayList generar_arbol(ArrayList columna,ArrayList valores,Double infodeT,ArrayList arbol) throws SQLException{
+    public static ArrayList generar_arbol(ArrayList columna,ArrayList valores,Double infodeT,ArrayList arbol, int profundidad) throws SQLException{
 		HashMap mapa=new HashMap();
 		ArrayList nodo=new ArrayList();
 		ArrayList valores_aux=new ArrayList();
@@ -34,12 +34,12 @@ public class tree {
 			valores_aux=DataBase.getValoresCol(nodo.get(0).toString());
 			arbol.add("@");
 			while(!valores_aux.isEmpty()){
-				
+				arbol.add(profundidad);
 				valores.add(valores_aux.get(0));
 				arbol.add(valores_aux.get(0));
 				
 				valores_aux.remove(0);
-				generar_arbol(columna, valores, infodeT,arbol);
+				generar_arbol(columna, valores, infodeT,arbol, profundidad+1);
 				arbol.add("*");
 			}
 			ultima_columna=columna.size()-1;
