@@ -435,11 +435,11 @@ public class gui extends javax.swing.JFrame {
 
         try{
             datos.getNombresColumnas();
-			arbolTexto=tree.generar_arbol(columna_arbol, valores_decision, 1.0, arbolTexto);
+			tree.generar_arbol(columna_arbol, valores_decision, 1.0, arbolTexto,0);
             //map = datos.ParseoDB(columna_arbol,valor_columna_arbol);
 			//valores_decision=datos.getCantidadValores(columna_arbol, valor_columna_arbol);
             //System.out.println(tree.calcular_nodo(map,valores_decision));
-			System.out.println("a");
+			System.out.println(arbolTexto);
             datos.getValoresPantalla();
         }
         catch(SQLException e){
@@ -511,7 +511,9 @@ public class gui extends javax.swing.JFrame {
 
     private void BotonGraficoActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
-        GraficoArbol g=new GraficoArbol();
+		ArrayList arbolgrafico = new ArrayList();
+		arbolgrafico=GraficoArbol.parseaAbol(arbolTexto);
+        GraficoArbol g=new GraficoArbol(arbolgrafico);
         g.setAlwaysOnTop(true);
         g.setVisible(true);
     }                                            
