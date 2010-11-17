@@ -81,7 +81,7 @@ public class DataBase {
 		}
 	    }
 	}
-	//System.out.println("lista "+lista);
+	System.out.println("lista "+lista+" "+nom_columna);
 	return lista;
     }
 
@@ -251,7 +251,13 @@ public class DataBase {
 	while (it_nomcol.hasNext()){
 	    //select puertas from cars group by puertas;
 	    auxlista = it_nomcol.next().toString();
-	    queryactual = getValoresCol(auxlista);
+	    SQL = "select "+auxlista+" from "+tabla_d+" group by "+auxlista;
+		stmt = connection.createStatement();
+		rs = stmt.executeQuery(SQL);
+		while (rs.next()) {
+		    queryactual.add(rs.getString(auxlista));
+		}
+	    //queryactual = getValoresCol(auxlista);
 	    HashMap hdbvalor_segundo_nivel = new HashMap();
 	    if(!auxlista.contentEquals(columna_decision)){
 		if(nom_col_dis.isEmpty()){
@@ -307,8 +313,8 @@ public class DataBase {
 			    //SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
 
 			    if(posactual != -1){
-				auxval = truncarStr(auxval);
-				//System.out.println("gola "+auxval);
+				//auxval = truncarStr(auxval);
+				System.out.println("gola "+auxval+" "+val_col_dis.get(posactual).toString());
 				if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
 				    SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"<= "+Integer.parseInt(val_col_dis.get(posactual).toString())+"";
 				}else{
