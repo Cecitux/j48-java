@@ -69,8 +69,8 @@ public class DataBase {
 	}else{
 	    posactual = buscarValDis(nom_col_dis, nom_columna);
 	    if(posactual != -1){
-		lista.add("<= "+val_col_dis.get(posactual).toString());
-		lista.add("> "+val_col_dis.get(posactual).toString());
+		lista.add(val_col_dis.get(posactual).toString());
+		lista.add(val_col_dis.get(posactual).toString());
 		
 	    }else{
 		String SQL = "select "+nom_columna+" from "+tabla_d+" group by "+nom_columna;
@@ -326,7 +326,7 @@ public class DataBase {
 
 			    if(posactual != -1){
 				//auxval = truncarStr(auxval);
-				System.out.println("gola "+auxval+" "+val_col_dis.get(posactual).toString());
+				//System.out.println("gola "+auxval+" "+val_col_dis.get(posactual).toString());
 				if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
 				    SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"<= "+Integer.parseInt(val_col_dis.get(posactual).toString())+"";
 				}else{
