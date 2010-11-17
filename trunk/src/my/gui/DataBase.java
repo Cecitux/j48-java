@@ -57,9 +57,10 @@ public class DataBase {
 	ArrayList lista = new ArrayList();
 	int posactual;
 	int cantcol=0, i=0;
+	String SQL = "";
 	//String SQL = "select "+columna_decision+" from "+tabla_d+" group by "+columna_decision;
 	if(nom_col_dis.isEmpty()){
-	    String SQL = "select "+nom_columna+" from "+tabla_d+" group by "+nom_columna;
+	    SQL = "select "+nom_columna+" from "+tabla_d+" group by "+nom_columna;
 	    stmt = connection.createStatement();
 	    rs = stmt.executeQuery(SQL);
 	    while (rs.next()) {
@@ -69,11 +70,11 @@ public class DataBase {
 	}else{
 	    posactual = buscarValDis(nom_col_dis, nom_columna);
 	    if(posactual != -1){
-		lista.add(val_col_dis.get(posactual).toString());
-		lista.add(val_col_dis.get(posactual).toString());
+		lista.add("<= "+val_col_dis.get(posactual).toString());
+		lista.add("> "+val_col_dis.get(posactual).toString());
 		
 	    }else{
-		String SQL = "select "+nom_columna+" from "+tabla_d+" group by "+nom_columna;
+		SQL = "select "+nom_columna+" from "+tabla_d+" group by "+nom_columna;
 		stmt = connection.createStatement();
 		rs = stmt.executeQuery(SQL);
 		while (rs.next()) {
@@ -82,6 +83,7 @@ public class DataBase {
 	    }
 	}
 	System.out.println("lista "+lista+" "+nom_columna);
+	System.out.println("gvc "+SQL);
 	return lista;
     }
 
@@ -124,13 +126,19 @@ public class DataBase {
 					i++;
 				}
 				if(b==0){
+					val_col_lista = truncarStr(val_col_lista);
 					SQL = SQL + " and "+col_lista+"= '"+val_col_lista+"'";
 				}else{
-					SQL = SQL + " and "+col_lista+" '"+val_col_lista+"'";
+					if(val_col_lista.contains(">") || val_col_lista.contains("<")){
+					    //val_col_lista = truncarStr(val_col_lista);
+					    SQL = SQL + " and "+col_lista+" "+val_col_lista+"";
+					}else{
+					    SQL = SQL + " and "+col_lista+"= '"+val_col_lista+"'";
+					}
 				}
 		    }
 		}
-		//System.out.println("hola "+SQL);
+		System.out.println("veer "+SQL);
 		stmt = connection.createStatement();
 		rs = stmt.executeQuery(SQL);
 		while (rs.next()) {
@@ -236,7 +244,7 @@ public class DataBase {
 	String SQLcantnum="";
 	String SQLcol="";
 	Iterator itval, itval1;
-	int posactual=0;
+	int posactual=0, posactualres;
 	val_col_desicion = getValoresCol(columna_decision);
     //----------GUARDA TODAS LAS VARIABLES DE UNA COLUMNA
 	//auxlista = columnas
@@ -325,8 +333,9 @@ public class DataBase {
 			    //SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
 
 			    if(posactual != -1){
-				//auxval = truncarStr(auxval);
-				//System.out.println("gola "+auxval+" "+val_col_dis.get(posactual).toString());
+				auxval = truncarStr(auxval);
+				System.out.println(auxval);
+				System.out.println("gola "+Integer.parseInt(auxval)+" "+Integer.parseInt(val_col_dis.get(posactual).toString()));
 				if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
 				    SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"<= "+Integer.parseInt(val_col_dis.get(posactual).toString())+"";
 				}else{
@@ -342,7 +351,19 @@ public class DataBase {
 				while (it_col.hasNext()){
 				    val_col_lista = it_colval.next().toString();
 				    col_lista = it_col.next().toString();
-				    SQLcantnum = SQLcantnum + " and "+col_lista+"= '"+val_col_lista+"'";
+				    posactualres = buscarValDis(nom_col_dis, col_lista);
+				    if(posactualres != -1){
+					val_col_lista = truncarStr(val_col_lista);
+					System.out.println("hola1 "+val_col_lista);
+					if(Integer.parseInt(val_col_lista) <= Integer.parseInt(val_col_dis.get(posactualres).toString())){
+					    SQLcantnum = SQLcantnum + " and "+col_lista+"<= "+val_col_lista+"";
+					}else{
+					    SQLcantnum = SQLcantnum + " and "+col_lista+"> "+val_col_lista+"";
+					}
+					System.out.println("gola1 "+Integer.parseInt(val_col_lista)+" "+Integer.parseInt(val_col_dis.get(posactualres).toString()));
+				    }else{
+					SQLcantnum = SQLcantnum + " and "+col_lista+"= '"+val_col_lista+"'";
+				    }
 				}
 			    }
 			    System.out.println(SQLcantnum);
@@ -351,15 +372,15 @@ public class DataBase {
 			    while (rs.next()) {
 				numvalcol = Integer.parseInt(rs.getString("count("+auxlista+")"));
 			    }
-			    if(posactual != -1){
+			    /*if(posactual != -1){
 				if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
 				    hdbval.put(auxval1, numvalcol);
 				}else{
 				    hdbval.put(auxval1, numvalcol);
 				}
-			    }else{
+			    }else{*/
 				hdbval.put(auxval1, numvalcol);
-			    }
+			    //}
 			}
 			if(posactual != -1){
 			    if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
