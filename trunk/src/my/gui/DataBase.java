@@ -102,6 +102,7 @@ public class DataBase {
 	ArrayList val = new ArrayList();
 	Iterator it;
 	String val_col_lista="", col_lista="";
+	int i=0, b=0;
 
 	//SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
 	//String SQL = "select "+columna_decision+" from "+tabla_d+" group by "+columna_decision;
@@ -113,9 +114,20 @@ public class DataBase {
 		    Iterator it_col = nomcol.iterator();
 		    Iterator it_colval = nomval.iterator();
 		    while (it_col.hasNext()){
+				i=0;
 			    val_col_lista = it_colval.next().toString();
 			    col_lista = it_col.next().toString();
-			    SQL = SQL + " and "+col_lista+"= '"+val_col_lista+"'";
+				while (nom_col_dis.size()>i){
+					if(nom_col_dis.get(i).equals(col_lista)){
+						b=1;
+					}
+					i++;
+				}
+				if(b==0){
+					SQL = SQL + " and "+col_lista+"= '"+val_col_lista+"'";
+				}else{
+					SQL = SQL + " and "+col_lista+" '"+val_col_lista+"'";
+				}
 		    }
 		}
 		//System.out.println("hola "+SQL);
