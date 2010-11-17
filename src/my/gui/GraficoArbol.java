@@ -25,8 +25,9 @@ public class GraficoArbol extends javax.swing.JFrame {
     public List<Integer> posicion = new ArrayList<Integer>();
 
     /** Creates new form GraficoArbol */
-    public GraficoArbol() {
+    public GraficoArbol(ArrayList arbolgrafico) {
         initComponents();
+		arbolito=arbolgrafico;
         TamInicial = PanelGrafico.getWidth();
         Tamanho = TamInicial;
     }
@@ -145,6 +146,68 @@ public class GraficoArbol extends javax.swing.JFrame {
         this.jLabel1 = jLabel1;
     }
 
+	public static ArrayList parseaAbol(ArrayList prueba1){
+		ArrayList salida = new ArrayList();
+		ArrayList<Integer> ar  = new ArrayList<Integer>();
+		ArrayList<Integer> as  = new ArrayList<Integer>();
+		ArrayList<Integer> nu  = new ArrayList<Integer>();
+		String padre="";
+		int nivel=0, limite=0;
+		int num, b=0;
+		salida.add(prueba1.get(0));
+		salida.add(";");
+		//padre=prueba1.get(0).toString();
+		//salida.add(prueba1.get(0));
+		int i=0;
+		while(i<prueba1.size()){
+			try{
+
+				num = Integer.parseInt(prueba1.get(i).toString());
+				if(num>limite){limite=num;}
+				nu.add(i);
+			}catch(Exception e){
+
+			}
+			if(prueba1.get(i)=="@"){
+				ar.add(i);
+			}
+			if(prueba1.get(i)=="*"){
+				as.add(i);
+			}
+			i++;
+		}
+		i=0;
+		num=0;
+		while(num<=limite){
+			while(i<nu.size()){
+				nivel=Integer.parseInt(prueba1.get(nu.get(i)).toString());
+				if(num==nivel){
+					if(b==0){
+						padre=prueba1.get(nu.get(i)-2).toString();
+						b=1;
+					}
+					salida.add(padre);
+					salida.add(prueba1.get(nu.get(i)+2));
+					salida.add(prueba1.get(nu.get(i)+1));
+					salida.add("-");
+				}
+				if(nivel==num-1){
+					b=0;
+				}
+				i++;
+			}
+			i=salida.size();
+			salida.remove(i-1);
+			salida.add(";");
+			num++;
+			i=0;
+		}
+		i=salida.size();
+		salida.remove(i-1);
+		salida.add("#");
+
+		return salida;
+	}
 
     @Override public void paint(Graphics g) {
 
@@ -173,14 +236,13 @@ public class GraficoArbol extends javax.swing.JFrame {
          * quedaria una lista asi: {"A", ";", "A", "B", "arco1", "A", "C", "arco2",";", "C", "D", "arco3", "#"}
          */
          
-         arbolito.add("A"); arbolito.add(";");
+         /*arbolito.add("A"); arbolito.add(";");
          arbolito.add("A"); arbolito.add("B"); arbolito.add("arco1"); arbolito.add("-");
          arbolito.add("A"); arbolito.add("C"); arbolito.add("arco2"); arbolito.add(";");
          arbolito.add("B"); arbolito.add("D"); arbolito.add("arco3"); arbolito.add("-");
          arbolito.add("B"); arbolito.add("E"); arbolito.add("arco4"); arbolito.add("-");
          arbolito.add("B"); arbolito.add("F"); arbolito.add("arco5"); arbolito.add("-");
-         arbolito.add("B"); arbolito.add("G"); arbolito.add("arco6"); arbolito.add("#");
-
+         arbolito.add("B"); arbolito.add("G"); arbolito.add("arco6"); arbolito.add("#");*/
 
          arbolitoCopia.add(arbolito.get(0));
          //posicion.add(0);
