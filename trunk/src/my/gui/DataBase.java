@@ -250,7 +250,7 @@ public class DataBase {
     //----------GUARDA TODAS LAS VARIABLES DE UNA COLUMNA
 	//auxlista = columnas
 	//queryactual = distintos valores de las columnas
-	System.out.println("inicio");
+	System.out.println("inicio "+nom_col_dis+" "+val_col_dis);
 	SQL = "select count(*) from "+tabla_d;
 	stmt = connection.createStatement();
 	rs = stmt.executeQuery(SQL);
@@ -265,7 +265,7 @@ public class DataBase {
 	}*/
 	
 	Iterator it_nomcol = nom_columnas.iterator();
-	if(nomcol.contains(columna_decision)){
+	//if(nomcol.contains(columna_decision)){
 	    if((!nomcol.isEmpty() && !valactual.isEmpty())){
 		while (it_nomcol.hasNext()){
 		    nom_columnas_aux = it_nomcol.next().toString();
@@ -273,11 +273,16 @@ public class DataBase {
 			nom_columnas_actual.add(nom_columnas_aux);
 		    }
 		}
-		//System.out.println("lalala "+nom_columnas_actual);
 		it_nomcol = nom_columnas_actual.iterator();
+		if(nom_columnas_actual.contains(columna_decision) && nom_columnas_actual.size()==1){
+		    it_nomcol = nom_columnas.iterator();
+		}
+		//System.out.println("lalala "+nom_columnas_actual);
+		
 	    }
-	}
-	//System.out.println("lalala "+nom_columnas_actual);
+	    //System.out.println("dentro "+nom_columnas_actual);
+	//}
+	//System.out.println("fuera "+nom_columnas+"nomcol "+nomcol);
 	while (it_nomcol.hasNext()){
 	    //select puertas from cars group by puertas;
 	    auxlista = it_nomcol.next().toString();
@@ -292,7 +297,7 @@ public class DataBase {
 	    //queryactual = getValoresCol(auxlista);
 	    HashMap hdbvalor_segundo_nivel = new HashMap();
 	    if(!auxlista.contentEquals(columna_decision)){
-		if(nom_col_dis.isEmpty()){
+		if(nom_col_dis.contains("columna") && (nom_col_dis.size() == 1)){
 		    //System.out.println("Esta vacio");
 		    itval = queryactual.iterator();
 		    while (itval.hasNext()){
@@ -313,7 +318,7 @@ public class DataBase {
 				    SQLcantnum = SQLcantnum + " and "+col_lista+"= '"+val_col_lista+"'";
 				}
 			    }
-			    //System.out.println(SQLcantnum);
+			    System.out.println(SQLcantnum);
 			    stmt = connection.createStatement();
 			    rs = stmt.executeQuery(SQLcantnum);
 			    while (rs.next()) {
@@ -327,6 +332,7 @@ public class DataBase {
 		    hdb.put(auxlista, hdbvalor_segundo_nivel);
 		}else{
 ///------DESDE AQUI SE DISCRETIZAN LOS VALORES (SI LOS HAY)
+		    //System.out.println("no tiene q entrar");
 		    itval = queryactual.iterator();
 		    while (itval.hasNext()){
 			//contar la cantidad de ocurrencias con respecto a la columna objetivo
