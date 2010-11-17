@@ -75,6 +75,7 @@ public class DataBase {
 		
 	    }else{
 		SQL = "select "+nom_columna+" from "+tabla_d+" group by "+nom_columna;
+		System.out.println("gvc "+SQL);
 		stmt = connection.createStatement();
 		rs = stmt.executeQuery(SQL);
 		while (rs.next()) {
@@ -83,7 +84,7 @@ public class DataBase {
 	    }
 	}
 	//System.out.println("lista "+lista+" "+nom_columna);
-	//System.out.println("gvc "+SQL);
+	
 	return lista;
     }
 
@@ -183,7 +184,7 @@ public class DataBase {
 		while (rs.next()) {
 			list.add(rs.getString("Tables_in_com"));
 		}
-		tabla_d = list.get(5).toString();
+		tabla_d = list.get(2).toString();
 		//Nombres de las columnas
 		SQL = "describe "+tabla_d;
 		stmt = connection.createStatement();
@@ -249,6 +250,7 @@ public class DataBase {
     //----------GUARDA TODAS LAS VARIABLES DE UNA COLUMNA
 	//auxlista = columnas
 	//queryactual = distintos valores de las columnas
+	System.out.println("inicio");
 	SQL = "select count(*) from "+tabla_d;
 	stmt = connection.createStatement();
 	rs = stmt.executeQuery(SQL);
@@ -256,27 +258,37 @@ public class DataBase {
 	    numreg = Integer.parseInt(rs.getString("count(*)"));
 	}
 	//System.out.println("valactualini "+valactual);
+	/*System.out.println("nomccol "+nomcol);
+	if(nomcol.contains(columna_decision)){
+	    System.out.println("lelelelelee");
+	    
+	}*/
+	
 	Iterator it_nomcol = nom_columnas.iterator();
-	if(!nomcol.isEmpty() && !valactual.isEmpty()){
-	    while (it_nomcol.hasNext()){
-		nom_columnas_aux = it_nomcol.next().toString();
-		if(!buscarVal(nomcol, nom_columnas_aux)){
-		    nom_columnas_actual.add(nom_columnas_aux);
-
+	if(nomcol.contains(columna_decision)){
+	    if((!nomcol.isEmpty() && !valactual.isEmpty())){
+		while (it_nomcol.hasNext()){
+		    nom_columnas_aux = it_nomcol.next().toString();
+		    if(!buscarVal(nomcol, nom_columnas_aux)){
+			nom_columnas_actual.add(nom_columnas_aux);
+		    }
 		}
+		//System.out.println("lalala "+nom_columnas_actual);
+		it_nomcol = nom_columnas_actual.iterator();
 	    }
-	    //System.out.println(nom_columnas_actual);
-	    it_nomcol = nom_columnas_actual.iterator();
 	}
+	//System.out.println("lalala "+nom_columnas_actual);
 	while (it_nomcol.hasNext()){
 	    //select puertas from cars group by puertas;
 	    auxlista = it_nomcol.next().toString();
 	    SQL = "select "+auxlista+" from "+tabla_d+" group by "+auxlista;
+	    //System.out.println("queryactual "+SQL);
 		stmt = connection.createStatement();
 		rs = stmt.executeQuery(SQL);
 		while (rs.next()) {
 		    queryactual.add(rs.getString(auxlista));
 		}
+
 	    //queryactual = getValoresCol(auxlista);
 	    HashMap hdbvalor_segundo_nivel = new HashMap();
 	    if(!auxlista.contentEquals(columna_decision)){
