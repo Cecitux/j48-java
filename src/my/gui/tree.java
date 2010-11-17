@@ -21,24 +21,30 @@ public class tree {
 		int ultimo_valor=0;
 		int ultima_columna=0;
 		mapa=DataBase.ParseoDB(columna, valores);
+		System.out.println("columna: "+columna);
+		System.out.println("valores:"+valores);
 		valores_col_decision=DataBase.getCantidadValores(columna, valores);
 		nodo=calcular_nodo(mapa,valores_col_decision);
 		infodeT=Double.parseDouble(nodo.get(1).toString());
 		if(infodeT != 0){
 			columna.add(nodo.get(0));
-			arbol.add(",");
+			//arbol.add(",");
 			arbol.add(nodo.get(0));
 			
 			valores_aux=DataBase.getValoresCol(nodo.get(0).toString());
+			arbol.add("@");
 			while(!valores_aux.isEmpty()){
+				
 				valores.add(valores_aux.get(0));
 				arbol.add(valores_aux.get(0));
+				
 				valores_aux.remove(0);
 				generar_arbol(columna, valores, infodeT,arbol);
+				arbol.add("*");
 			}
 			ultima_columna=columna.size()-1;
 			columna.remove(ultima_columna);
-			arbol.add("#");
+			//arbol.add("#");
 			if(!valores.isEmpty()){
 				ultimo_valor=valores.size()-1;
 				valores.remove(ultimo_valor);
@@ -46,17 +52,19 @@ public class tree {
 		}else{
 			ultimo_valor=valores.size()-1;
 			valores.remove(ultimo_valor);
-			arbol.add("#");
-			System.out.println("Es un nodo hoja");
+			arbol.add(nodo.get(2));
+			System.out.println("\nEs un nodo hoja con valor "+nodo.get(2)+"\n");
 		}
 		return arbol;
     }
 
-    public static ArrayList calcular_nodo(HashMap datos,ArrayList valores_col_decision ) throws SQLException{
+    public static ArrayList calcular_nodo(HashMap datos,ArrayList valores_col_decision) throws SQLException{
         int suma_total_clase=0;
         ArrayList<String> a = new ArrayList<String>();
 		ArrayList label = new ArrayList();
+		ArrayList values = new ArrayList();
 		ArrayList retorno=new ArrayList();
+
         double resultado= 0.0;
         double split=0.0;
         double infodeT=0.0;
@@ -75,7 +83,7 @@ public class tree {
         infodeT=entropia.infodeT(valores_col_decision);
         Log.datosLog.add("  " + new Date() + "\tCalculo de Info(T): " + infodeT + "\n");
 
-        if(infodeT!=0){
+        //if(infodeT!=0){
 			Set columna_set = datos.entrySet();
 			Iterator columna_it = columna_set.iterator();
 			while(columna_it.hasNext()){
@@ -100,35 +108,49 @@ public class tree {
 					while (cantidad_it.hasNext()){
 						Map.Entry cantidadval_me = (Map.Entry) cantidad_it.next();
 						label.add(cantidadval_me.getKey().toString());
+						values.add(cantidadval_me.getValue().toString());
 						a.add(cantidadval_me.getValue().toString());
 						suma_total_clase+=Integer.parseInt(cantidadval_me.getValue().toString());
 					}
-					resultado=resultado+entropia.infodeXT(cantidad_total_reg,suma_total_clase, a);
-					split = split+entropia.splitinfo(cantidad_total_reg, suma_total_clase);
+					if(infodeT!=0){
+						resultado=resultado+entropia.infodeXT(cantidad_total_reg,suma_total_clase, a);
+						split = split+entropia.splitinfo(cantidad_total_reg, suma_total_clase);
+					}
 				}
-
-				ganancia=infodeT-resultado;
-				radio_ganancia=ganancia/split;
-			   // System.out.println("infodeXT="+resultado);
-				Log.datosLog.add("  " + new Date() + "\tCalculo de Info(T): " + resultado + "\n");
-			   // System.out.println("Split="+split);
-				Log.datosLog.add("  " + new Date() + "\tCalculo de SplitInfo(T): " + split + "\n");
-				//System.out.println("Ganancia="+ganancia);
-				Log.datosLog.add("  " + new Date() + "\tCalculo de Ganancia(T): " + ganancia + "\n");
-			   // System.out.println("Radio de ganancia="+radio_ganancia);
-				Log.datosLog.add("  " + new Date() + "\tCalculo de RadioDeGanancia(T): " + radio_ganancia + "\n");
-				if(split_nodo < radio_ganancia){
-					split_nodo=radio_ganancia;
-					split_nodo_nombre=columna_actual;
+				if(infodeT!=0){
+					ganancia=infodeT-resultado;
+					radio_ganancia=ganancia/split;
+					Log.datosLog.add("  " + new Date() + "\tCalculo de Info(T): " + resultado + "\n");
+					Log.datosLog.add("  " + new Date() + "\tCalculo de SplitInfo(T): " + split + "\n");
+					Log.datosLog.add("  " + new Date() + "\tCalculo de Ganancia(T): " + ganancia + "\n");
+					Log.datosLog.add("  " + new Date() + "\tCalculo de RadioDeGanancia(T): " + radio_ganancia + "\n");
+					if(split_nodo < radio_ganancia){
+						split_nodo=radio_ganancia;
+						split_nodo_nombre=columna_actual;
+					}
 				}
 			}
-			System.out.println("EL NODO ELEGIDO ES "+split_nodo_nombre+" CON EL VALOR "+split_nodo);
-			Log.datosLog.add("\n  " + new Date() + "\tNodo Elegido: " + split_nodo_nombre +", con el valor: " + split_nodo + "\n\n");
-		}
-        
+			if(infodeT!=0){
+				System.out.println("EL NODO ELEGIDO ES "+split_nodo_nombre+" CON EL VALOR "+split_nodo);
+				Log.datosLog.add("\n  " + new Date() + "\tNodo Elegido: " + split_nodo_nombre +", con el valor: " + split_nodo + "\n\n");
+			}else{
+				System.out.println("!!!!!!!!!!!!!");
+				System.out.println(label);
+				System.out.println(values);
+			}
 		retorno.add(split_nodo_nombre);
 		retorno.add(infodeT);
-
+		if(infodeT==0){
+			i=0;
+			while (!values.isEmpty()){
+				if (Integer.parseInt(values.get(i).toString())!=0){
+					retorno.add(label.get(i));
+					break;
+				}
+				i++;
+			}
+		}
+		System.out.println("@@@@@"+retorno+"\n");
 		return retorno;
     }
 
