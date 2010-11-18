@@ -9,7 +9,7 @@ import java.util.List;
 
 public class GraficoArbol extends javax.swing.JFrame {
 
-    public static int coordX = 0, coordY = 140, altoNodo = 50, anchoNodo = 70;
+    public static int coordX = 0, coordY = 120, altoNodo = 50, anchoNodo = 100;
     public static int TamInicial, Tamanho;
     public static int anteriorX = 0, anteriorY = 0, textoX = 0, textoY = 0;
     public static final Color celeste = new Color(153, 153, 255);
@@ -27,7 +27,7 @@ public class GraficoArbol extends javax.swing.JFrame {
     /** Creates new form GraficoArbol */
     public GraficoArbol(ArrayList arbolgrafico) {
         initComponents();
-		arbolito=arbolgrafico;
+	arbolito=arbolgrafico;
         TamInicial = PanelGrafico.getWidth();
         Tamanho = TamInicial;
     }
@@ -42,30 +42,15 @@ public class GraficoArbol extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        ZooMax = new javax.swing.JButton();
-        ZooMin = new javax.swing.JButton();
         PanelGrafico = new javax.swing.JScrollPane();
 
         setTitle("Arbol Generado");
+        setAlwaysOnTop(true);
         setResizable(false);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(102, 102, 255));
         jLabel1.setText("Arbol generado mediante el Algoritmo J48");
-
-        ZooMax.setText("+");
-        ZooMax.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ZooMaxActionPerformed(evt);
-            }
-        });
-
-        ZooMin.setText("-");
-        ZooMin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ZooMinActionPerformed(evt);
-            }
-        });
 
         PanelGrafico.setAutoscrolls(true);
 
@@ -74,71 +59,26 @@ public class GraficoArbol extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(PanelGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 841, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 252, Short.MAX_VALUE)
-                        .addComponent(ZooMin)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ZooMax, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24))))
+                    .addComponent(jLabel1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(PanelGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 1165, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(ZooMax)
-                            .addComponent(ZooMin))
-                        .addGap(1, 1, 1)))
+                .addContainerGap()
+                .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(PanelGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 602, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addComponent(PanelGrafico, javax.swing.GroupLayout.PREFERRED_SIZE, 667, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ZooMaxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZooMaxActionPerformed
-        // TODO add your handling code here:
-        Tamanho = PanelGrafico.getWidth() + 1000;
-        System.out.println("tamanho:" + Tamanho);
-        coordX=0;
-        coordY=140 + altoNodo;
-        anteriorX=0;
-        anteriorY=0;
-        bandera = 0;
-        arbolitoCopia.clear();
-        nivelAnterior.clear();
-        arbolito.clear();
-        nivel.clear();
-        posicion.clear();
-        cont=0;
-        PanelGrafico.repaint();
-    }//GEN-LAST:event_ZooMaxActionPerformed
-
-    private void ZooMinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ZooMinActionPerformed
-        // TODO add your handling code here:
-        if (TamInicial >= PanelGrafico.getWidth() - 1000){
-            Tamanho = PanelGrafico.getWidth() - 1000;
-            System.out.println("tamanho:" + Tamanho);
-            PanelGrafico.repaint();
-        }
-    }//GEN-LAST:event_ZooMinActionPerformed
-
-    /**
-    * @param args the command line arguments
-    */
        
 
     public GraficoArbol(JScrollPane PanelGrafico, JLabel jLabel1) {
@@ -235,14 +175,10 @@ public class GraficoArbol extends javax.swing.JFrame {
          * donde: A es la raiz y es padre de B y C con los arcos 1 y 2 respectivamente; y a su vez C es padre de D con el arco 3.
          * quedaria una lista asi: {"A", ";", "A", "B", "arco1", "A", "C", "arco2",";", "C", "D", "arco3", "#"}
          */
-         
-         /*arbolito.add("A"); arbolito.add(";");
-         arbolito.add("A"); arbolito.add("B"); arbolito.add("arco1"); arbolito.add("-");
-         arbolito.add("A"); arbolito.add("C"); arbolito.add("arco2"); arbolito.add(";");
-         arbolito.add("B"); arbolito.add("D"); arbolito.add("arco3"); arbolito.add("-");
-         arbolito.add("B"); arbolito.add("E"); arbolito.add("arco4"); arbolito.add("-");
-         arbolito.add("B"); arbolito.add("F"); arbolito.add("arco5"); arbolito.add("-");
-         arbolito.add("B"); arbolito.add("G"); arbolito.add("arco6"); arbolito.add("#");*/
+
+         arbolito = gui.arbolgrafico;
+         System.out.println("Arbolitoooo: " + arbolito);
+
 
          arbolitoCopia.add(arbolito.get(0));
          //posicion.add(0);
@@ -319,8 +255,8 @@ public class GraficoArbol extends javax.swing.JFrame {
                         anteriorX = (PanelGrafico.getWidth() / (ordenPadres.size() + 1)) * (ordenPadres.lastIndexOf(nivel.get(3 * i)) + 1);
 
                         g.drawLine(anteriorX + anchoNodo / 2, anteriorY, coordX + anchoNodo / 2, coordY);
-                        textoX = coordX;
-                        textoY = anteriorY + 50;
+                        textoX = (( anteriorX + anchoNodo / 2 ) + ( coordX + anchoNodo )) / 2;
+                        textoY = ( anteriorY + coordY ) / 2;
                         indexArco = 3 * i + 2;
                         g.drawString(nivel.get(indexArco), textoX, textoY);
                     }
@@ -351,9 +287,11 @@ public class GraficoArbol extends javax.swing.JFrame {
                 coordX=0;
                 coordY=140 + altoNodo;
                 bandera = 0;
+                arbolito.clear();
+                //arbolito = arbolitoCopia;
+                //System.out.println("Nuevo valor de arbolito: " + arbolito + "\nArbolito Copia: " + arbolitoCopia);
                 arbolitoCopia.clear();
                 nivelAnterior.clear();
-                arbolito.clear();
                 nivel.clear();
                 posicion.clear();
                 cont=0;
@@ -364,15 +302,13 @@ public class GraficoArbol extends javax.swing.JFrame {
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new GraficoArbol().setVisible(true);
+               // new GraficoArbol().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane PanelGrafico;
-    private javax.swing.JButton ZooMax;
-    private javax.swing.JButton ZooMin;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 
