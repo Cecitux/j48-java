@@ -175,10 +175,11 @@ public class GraficoArbol extends javax.swing.JFrame {
          * donde: A es la raiz y es padre de B y C con los arcos 1 y 2 respectivamente; y a su vez C es padre de D con el arco 3.
          * quedaria una lista asi: {"A", ";", "A", "B", "arco1", "A", "C", "arco2",";", "C", "D", "arco3", "#"}
          */
-
-         arbolito = gui.arbolgrafico;
-         System.out.println("Arbolitoooo: " + arbolito);
-
+         if (arbolito.size() == 0){
+             for(int i=0; i<arbolitoCopia.size(); i++)
+                 arbolito.add(arbolitoCopia.get(i));
+             arbolitoCopia.clear();
+         }
 
          arbolitoCopia.add(arbolito.get(0));
          //posicion.add(0);
@@ -284,13 +285,10 @@ public class GraficoArbol extends javax.swing.JFrame {
                 arbolitoCopia.add(arbolito.get(0));
                 aux = arbolito.get(0);
             }else{
-                coordX=0;
-                coordY=140 + altoNodo;
+                coordX = 0;
+                coordY = 120;
                 bandera = 0;
                 arbolito.clear();
-                //arbolito = arbolitoCopia;
-                //System.out.println("Nuevo valor de arbolito: " + arbolito + "\nArbolito Copia: " + arbolitoCopia);
-                arbolitoCopia.clear();
                 nivelAnterior.clear();
                 nivel.clear();
                 posicion.clear();
