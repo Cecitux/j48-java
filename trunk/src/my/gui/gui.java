@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class gui extends javax.swing.JFrame {
 
-    public String usuario, password, nombrebd, columna, datosDiscretizar;
+    public static String usuario, password, nombrebd, columna, datosDiscretizar;
     ArrayList columna_arbol = new ArrayList();
     ArrayList valor_columna_arbol = new ArrayList();
     ArrayList valores_decision= new ArrayList();
@@ -19,6 +19,7 @@ public class gui extends javax.swing.JFrame {
     public static String c = "", aux = "";
     public static int certeza;
     ArrayList arbolTexto = new ArrayList();
+    public static ArrayList arbolgrafico = new ArrayList();
 
 
     /** Creates new form gui */
@@ -385,14 +386,6 @@ public class gui extends javax.swing.JFrame {
         Certeza.setEnabled(false);
         BotonGrafico.setEnabled(true);
 
-      /*  GraficoArbol.arbolito.add("A"); GraficoArbol.arbolito.add(";");
-        GraficoArbol.arbolito.add("A"); GraficoArbol.arbolito.add("B"); GraficoArbol.arbolito.add("arco1"); GraficoArbol.arbolito.add("-");
-        GraficoArbol.arbolito.add("A"); GraficoArbol.arbolito.add("C"); GraficoArbol.arbolito.add("arco2"); GraficoArbol.arbolito.add(";");
-        GraficoArbol.arbolito.add("B"); GraficoArbol.arbolito.add("D"); GraficoArbol.arbolito.add("arco3"); GraficoArbol.arbolito.add("-");
-        GraficoArbol.arbolito.add("B"); GraficoArbol.arbolito.add("E"); GraficoArbol.arbolito.add("arco4"); GraficoArbol.arbolito.add("-");
-        GraficoArbol.arbolito.add("B"); GraficoArbol.arbolito.add("F"); GraficoArbol.arbolito.add("arco5"); GraficoArbol.arbolito.add("-");
-        GraficoArbol.arbolito.add("B"); GraficoArbol.arbolito.add("G"); GraficoArbol.arbolito.add("arco6"); GraficoArbol.arbolito.add("#");
-*/
         if (Especifico.isEnabled() == true){
             datosDiscretizar = DatosDiscretizacion.getText();
             datosDiscretizar = datosDiscretizar.trim();
@@ -435,11 +428,11 @@ public class gui extends javax.swing.JFrame {
 
         try{
             datos.getNombresColumnas();
-			tree.generar_arbol(columna_arbol, valores_decision, 1.0, arbolTexto,0);
+            tree.generar_arbol(columna_arbol, valores_decision, 1.0, arbolTexto,0);
             //map = datos.ParseoDB(columna_arbol,valor_columna_arbol);
-			//valores_decision=datos.getCantidadValores(columna_arbol, valor_columna_arbol);
+            //valores_decision=datos.getCantidadValores(columna_arbol, valor_columna_arbol);
             //System.out.println(tree.calcular_nodo(map,valores_decision));
-			System.out.println(arbolTexto);
+            System.out.println(arbolTexto);
             datos.getValoresPantalla();
         }
         catch(SQLException e){
@@ -452,7 +445,7 @@ public class gui extends javax.swing.JFrame {
         
         //Generar el Log
         TextoLog.setText("");
-        TextoLog.append("  " + new Date() + "\tBase de Datos analizada: " + nombrebd + "\n");
+        //TextoLog.append("  Base de Datos analizada: " + nombrebd + "\n");
         for(int i = 0; i < log.datosLog.size(); i++){
             TextoLog.append(log.datosLog.get(i).toString());
         }
@@ -460,33 +453,6 @@ public class gui extends javax.swing.JFrame {
         datos.Desconectar();
         TextoLog.append("  " + new Date() + "\tTermino de la Ejecucion\n");
     }                                       
-
-    /*public void arbolTextual( List<String> arbolTexto, int inicio, String padre){
-        System.out.println("\narbolTexto: " + arbolTexto + ", inicio: " + inicio);
-        System.out.println("Tamanho arbolito: " + GraficoArbol.arbolito.size());
-        for(int i = inicio; i < GraficoArbol.arbolito.size(); i++){
-            if (i == 0){
-                arbolTexto.add(GraficoArbol.arbolito.get(i));
-                padre = GraficoArbol.arbolito.get(i);
-            }
-            if (i > 0 && i < GraficoArbol.arbolito.size() &&
-                (GraficoArbol.arbolito.get(i - 1).equals(";") == true || GraficoArbol.arbolito.get(i - 1).equals("-") == true)
-                && arbolTexto.contains(GraficoArbol.arbolito.get(i))
-                && GraficoArbol.arbolito.get(i).equals(padre)){
-                arbolTexto.add("___");
-                arbolTexto.add(GraficoArbol.arbolito.get(i+1));
-                arbolTexto.add(GraficoArbol.arbolito.get(i+2));
-                padre = GraficoArbol.arbolito.get(i+1);
-                
-                if (GraficoArbol.arbolito.get(i).equals("#")){
-                    return;
-                }else{
-                    arbolTextual(arbolTexto, i + 1, padre);
-                }
-            }
-        }
-        System.out.println(arbolTexto);
-    }*/
 
     /*private void BotonGraficoActionPerformed(java.awt.event.ActionEvent evt) {
         GraficoArbol arbol = new GraficoArbol();
@@ -511,8 +477,7 @@ public class gui extends javax.swing.JFrame {
 
     private void BotonGraficoActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
-		ArrayList arbolgrafico = new ArrayList();
-		arbolgrafico=GraficoArbol.parseaAbol(arbolTexto);
+	arbolgrafico=GraficoArbol.parseaAbol(arbolTexto);
         GraficoArbol g=new GraficoArbol(arbolgrafico);
         g.setAlwaysOnTop(true);
         g.setVisible(true);
