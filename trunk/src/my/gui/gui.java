@@ -20,11 +20,17 @@ public class gui extends javax.swing.JFrame {
     public static int certeza;
     ArrayList arbolTexto = new ArrayList();
     public static ArrayList arbolgrafico = new ArrayList();
+    static int nivel=0, contAst=0;
+    static String padre = "", result = "";
 
 
     /** Creates new form gui */
     public gui() {
         initComponents();
+        NombreBD.setText("com");
+        UsuarioBD.setText("root");
+        PasswordBD.setText("mysql");
+        ColumnaBD.setText("play");
     }
 
     /** This method is called from within the constructor to
@@ -449,7 +455,10 @@ public class gui extends javax.swing.JFrame {
         for(int i = 0; i < log.datosLog.size(); i++){
             TextoLog.append(log.datosLog.get(i).toString());
         }
-        //arbolTextual(arbolTexto, 0, null);
+        
+        TextoArbol.setText("\n  Traduccion del Arbol Generado a Reglas:\n");
+        TextoArbol.append(arbolReglas());
+
         datos.Desconectar();
         TextoLog.append("  " + new Date() + "\tTermino de la Ejecucion\n");
     }                                       
@@ -478,6 +487,7 @@ public class gui extends javax.swing.JFrame {
     private void BotonGraficoActionPerformed(java.awt.event.ActionEvent evt) {                                             
         // TODO add your handling code here:
 	arbolgrafico=GraficoArbol.parseaAbol(arbolTexto);
+        System.out.println("Arbol P: " + arbolTexto);
         GraficoArbol g=new GraficoArbol(arbolgrafico);
         g.setAlwaysOnTop(true);
         g.setVisible(true);
@@ -490,7 +500,47 @@ public class gui extends javax.swing.JFrame {
         } else {
             DatosDiscretizacion.setEnabled(false);
         }
-    }                                          
+    }
+
+    public String arbolReglas() {
+        //System.out.println("Arbol Profundidad: " + arbolTexto);
+        padre = arbolTexto.get(0).toString();
+        //result.concat(padre);
+        for (int i = 1; i < arbolTexto.size(); i++){
+            if (arbolTexto.get(i-1).toString().equals("@")){
+                nivel = Integer.valueOf(arbolTexto.get(i).toString());
+                result = result.concat("\n  if (" + padre + " == " + arbolTexto.get(i + 1) + ") then\n      Node = " + arbolTexto.get(i + 2));
+                nivel++;
+                padre = arbolTexto.get(i - 2).toString();
+                result = result.concat("\n      -");
+            }
+            if (i >=2)
+            if (arbolTexto.get(i).toString().equals("*")){
+                contAst++;
+                if (i <= (arbolTexto.size() - 2)){
+                    if (contAst == 1){
+                        if ( Integer.valueOf(arbolTexto.get(i+1).toString()) == nivel){
+                            result = result.concat("\n  else if (" + padre);
+                            if (!arbolTexto.get(i + 2).toString().matches("(?i).[a-zA-Z]*"))
+                                result = result.concat(" == ");
+                            result = result.concat(arbolTexto.get(i + 2) + ") then\n\tNode = " + arbolTexto.get(i + 3));
+                        }
+                        if (nivel < 0)
+                            nivel--;
+                    } else {
+                        //System.out.println(String.valueOf(nivel));
+                        //padre = arbolTexto.get( (arbolTexto.indexOf(String.valueOf(nivel))) ).toString();
+                        nivel--;
+                    }
+                }
+            }
+            //if (arbolTexto.get(i).equals("*") == false && arbolTexto.get(i-1).equals("*") == true)
+            //    contAst=0;
+        }
+        System.out.println(result);
+        return result;
+    }
+
 
     /**
     * @param args the command line arguments

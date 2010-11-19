@@ -104,7 +104,8 @@ public class GraficoArbol extends javax.swing.JFrame {
 
 				num = Integer.parseInt(prueba1.get(i).toString());
 				if(num>limite){limite=num;}
-				nu.add(i);
+                                if (prueba1.get(i - 1).equals("@") || prueba1.get(i - 1).equals("*"))
+                                    nu.add(i);
 			}catch(Exception e){
 
 			}
@@ -181,7 +182,8 @@ public class GraficoArbol extends javax.swing.JFrame {
              arbolitoCopia.clear();
          }
          System.out.println("Arbolito: " + arbolito);
-         arbolitoCopia.add(arbolito.get(0));
+
+        arbolitoCopia.add(arbolito.get(0));
          //posicion.add(0);
          aux = arbolito.get(0);
          while (arbolito.isEmpty() == false){
@@ -236,6 +238,7 @@ public class GraficoArbol extends javax.swing.JFrame {
                         }
                     }
                 }
+                System.out.println("Orden Padres: " + ordenPadres + "\nCantidad de Nodos: " + cantNodos);
                 
                 coordX = Tamanho / (cantNodos + 1); //PanelGrafico.getWidth() / (cantNodos + 1);
                 //dibujar nivel//////////////////
