@@ -180,7 +180,7 @@ public class GraficoArbol extends javax.swing.JFrame {
                  arbolito.add(arbolitoCopia.get(i));
              arbolitoCopia.clear();
          }
-
+         System.out.println("Arbolito: " + arbolito);
          arbolitoCopia.add(arbolito.get(0));
          //posicion.add(0);
          aux = arbolito.get(0);
