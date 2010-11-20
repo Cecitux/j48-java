@@ -21,7 +21,7 @@ public class gui extends javax.swing.JFrame {
     ArrayList arbolTexto = new ArrayList();
     public static ArrayList arbolgrafico = new ArrayList();
     static int nivel=0, contAst=0;
-    static String padre = "", result = "";
+    static String padre = "", result = "", nro = "";
 
 
     /** Creates new form gui */
@@ -512,8 +512,6 @@ public class gui extends javax.swing.JFrame {
                 padre = arbolTexto.get(i - 2).toString();
                 nivel = Integer.valueOf(arbolTexto.get(i).toString());
                 result = result.concat("\n  if (" + padre + " == " + arbolTexto.get(i + 1) + ") then\n      Node = " + arbolTexto.get(i + 2));
-                //if (i != 2)
-                  //  nivel++;
                 result = result.concat("\n      -");
             }
 
@@ -530,8 +528,12 @@ public class gui extends javax.swing.JFrame {
                                 result = result.concat(arbolTexto.get(i + 2) + ") then\n\tNode = " + arbolTexto.get(i + 3));
                             }
                             nivel = Integer.valueOf(arbolTexto.get(i + 1).toString());
-                            if (contAst > 1 && (arbolTexto.indexOf(String.valueOf(nivel)) - 2)>=0 )
+                            nro = String.valueOf(nivel).toString();
+                            System.out.println(nro);
+                            System.out.println(arbolTexto.indexOf(nro));
+                            if (contAst > 1 && (arbolTexto.indexOf(nro)-2>=0 ))
                                 padre = arbolTexto.get(arbolTexto.indexOf(String.valueOf(nivel)) - 2).toString();
+                            System.out.println("Padre: " + padre);
                         }
                     }
                 }
