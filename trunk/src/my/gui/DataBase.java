@@ -184,7 +184,7 @@ public class DataBase {
 		while (rs.next()) {
 			list.add(rs.getString("Tables_in_com"));
 		}
-		tabla_d = list.get(4).toString();
+		tabla_d = list.get(5).toString();
 		//Nombres de las columnas
 		SQL = "describe "+tabla_d;
 		stmt = connection.createStatement();

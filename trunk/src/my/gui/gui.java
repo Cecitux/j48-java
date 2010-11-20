@@ -515,7 +515,10 @@ public class gui extends javax.swing.JFrame {
                     result = result.concat("\n        ");
                 if (nivel == 0)
                     result = result.concat("\n");
-                result = result.concat("  IF (" + padre + " == " + arbolTexto.get(i + 1) + ") THEN");
+                result = result.concat("  IF (" + padre);
+                if (arbolTexto.get(i + 2).toString().contains("<") == false && arbolTexto.get(i + 2).toString().contains(">") == false)
+                    result = result.concat("==");
+                result = result.concat(arbolTexto.get(i + 1) + ") THEN");
                 for (int j=0; j<nivel; j++)
                     result = result.concat("\n        ");
                 if (nivel == 0)
@@ -537,8 +540,8 @@ public class gui extends javax.swing.JFrame {
                                 result = result.concat("\n");
                             if ( Integer.valueOf(arbolTexto.get(i+1).toString()) == nivel){
                                 result = result.concat("  ELSE IF (" + padre);
-                                //if (!arbolTexto.get(i + 2).toString().matches("(?i).[a-zA-Z]*"))
-                                    result = result.concat(" == ");
+                                if (arbolTexto.get(i + 2).toString().contains("<") == false && arbolTexto.get(i + 2).toString().contains(">") == false)
+                                    result = result.concat("==");
                                 result = result.concat(arbolTexto.get(i + 2) + ") THEN");
                                 for (int j=0; j<nivel; j++)
                                     result = result.concat("\n        ");
