@@ -13,7 +13,7 @@ public class tree {
     public tree(){
     }
 	//TODO: armar la lista para el grafico del arbol
-    public static ArrayList generar_arbol(ArrayList columna,ArrayList valores,Double infodeT,ArrayList arbol, int profundidad) throws SQLException{
+    public static void generar_arbol(ArrayList columna,ArrayList valores,Double infodeT,ArrayList arbol, int profundidad) throws SQLException{
 		HashMap mapa=new HashMap();
 		ArrayList nodo=new ArrayList();
 		ArrayList valores_aux=new ArrayList();
@@ -55,7 +55,7 @@ public class tree {
 			arbol.add(nodo.get(2));
 			System.out.println("\nEs un nodo hoja con valor "+nodo.get(2)+"\n");
 		}
-		return arbol;
+	
     }
 
     public static ArrayList calcular_nodo(HashMap datos,ArrayList valores_col_decision) throws SQLException{
@@ -75,6 +75,7 @@ public class tree {
         String split_nodo_nombre="";
         int cantidad_total_reg=0;
         int i=0;
+		label=DataBase.getValoresCol(DataBase.columna_decision);
         while (i<valores_col_decision.size()){
             cantidad_total_reg+=Integer.parseInt(valores_col_decision.get(i).toString());
             i++;
@@ -106,9 +107,16 @@ public class tree {
 					a.clear();
 					suma_total_clase=0;
 					while (cantidad_it.hasNext()){
+						i=0;
 						Map.Entry cantidadval_me = (Map.Entry) cantidad_it.next();
-						label.add(cantidadval_me.getKey().toString());
+						//label.add(cantidadval_me.getKey().toString());
+
 						values.add(cantidadval_me.getValue().toString());
+						while(i<label.size()){
+							if(label.get(i).equals(cantidadval_me.getValue().toString())){
+								
+							}
+						}
 						a.add(cantidadval_me.getValue().toString());
 						suma_total_clase+=Integer.parseInt(cantidadval_me.getValue().toString());
 					}
@@ -142,7 +150,7 @@ public class tree {
 		retorno.add(infodeT);
 		if(infodeT==0){
 			i=0;
-			while (!values.isEmpty()){
+			while (i<values.size()){
 				if (Integer.parseInt(values.get(i).toString())!=0){
 					retorno.add(label.get(i));
 					break;
