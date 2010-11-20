@@ -505,37 +505,41 @@ public class gui extends javax.swing.JFrame {
     public String arbolReglas() {
         //System.out.println("Arbol Profundidad: " + arbolTexto);
         padre = arbolTexto.get(0).toString();
-        //result.concat(padre);
+
         for (int i = 1; i < arbolTexto.size(); i++){
+
             if (arbolTexto.get(i-1).toString().equals("@")){
+                padre = arbolTexto.get(i - 2).toString();
                 nivel = Integer.valueOf(arbolTexto.get(i).toString());
                 result = result.concat("\n  if (" + padre + " == " + arbolTexto.get(i + 1) + ") then\n      Node = " + arbolTexto.get(i + 2));
-                nivel++;
-                padre = arbolTexto.get(i - 2).toString();
+                //if (i != 2)
+                  //  nivel++;
                 result = result.concat("\n      -");
             }
-            if (i >=2)
-            if (arbolTexto.get(i).toString().equals("*")){
-                contAst++;
-                if (i <= (arbolTexto.size() - 2)){
-                    if (contAst == 1){
-                        if ( Integer.valueOf(arbolTexto.get(i+1).toString()) == nivel){
-                            result = result.concat("\n  else if (" + padre);
-                            if (!arbolTexto.get(i + 2).toString().matches("(?i).[a-zA-Z]*"))
-                                result = result.concat(" == ");
-                            result = result.concat(arbolTexto.get(i + 2) + ") then\n\tNode = " + arbolTexto.get(i + 3));
+
+            if (i >= 2){
+                if (arbolTexto.get(i).toString().equals("*")){
+                    contAst++;
+                    System.out.println("Cant de Asteriscos: " + contAst);
+                    if (i <= (arbolTexto.size() - 2)){
+                        if (arbolTexto.get(i + 1).toString().equals("*") == false){
+                            if ( Integer.valueOf(arbolTexto.get(i+1).toString()) == nivel){
+                                result = result.concat("\n  else if (" + padre);
+                                //if (!arbolTexto.get(i + 2).toString().matches("(?i).[a-zA-Z]*"))
+                                    result = result.concat(" == ");
+                                result = result.concat(arbolTexto.get(i + 2) + ") then\n\tNode = " + arbolTexto.get(i + 3));
+                            }
+                            nivel = Integer.valueOf(arbolTexto.get(i + 1).toString());
+                            if (contAst > 1 && (arbolTexto.indexOf(String.valueOf(nivel)) - 2)>=0 )
+                                padre = arbolTexto.get(arbolTexto.indexOf(String.valueOf(nivel)) - 2).toString();
                         }
-                        if (nivel < 0)
-                            nivel--;
-                    } else {
-                        //System.out.println(String.valueOf(nivel));
-                        //padre = arbolTexto.get( (arbolTexto.indexOf(String.valueOf(nivel))) ).toString();
-                        nivel--;
                     }
                 }
             }
-            //if (arbolTexto.get(i).equals("*") == false && arbolTexto.get(i-1).equals("*") == true)
-            //    contAst=0;
+
+            if (arbolTexto.get(i).toString().equals("*") == false && arbolTexto.get(i-1).toString().equals("*") == true)
+                contAst=0;
+            
         }
         System.out.println(result);
         return result;
