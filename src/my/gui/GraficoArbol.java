@@ -198,7 +198,7 @@ public class GraficoArbol extends javax.swing.JFrame {
                     posicion.add(arbolitoCopia.lastIndexOf("#"));
                 }
 
-                if (cont >2){
+                if (cont > 2){
                     //nivelAnterior = arbolito.subList(posicion.get(cont-2), posicion.get(cont-1));
                     for(int p = posicion.get(cont-3) + 1; p < posicion.get(cont-2); p++){
                         if (arbolitoCopia.get(p).equals("-") == false)
@@ -224,16 +224,12 @@ public class GraficoArbol extends javax.swing.JFrame {
                         if (nivelAnterior.size() == 1){
                             indexPadres = 3 * n;
                             if (m == indexPadres){
-                                if (ordenPadres.contains(nivelAnterior.get(indexPadres)) == false){
-                                    ordenPadres.add(nivelAnterior.get(indexPadres));
-                                }
+                                ordenPadres.add(nivelAnterior.get(indexPadres));
                             }
                         } else {
                             indexPadres = 3 * n + 1;
                             if (m == indexPadres){
-                                if (ordenPadres.contains(nivelAnterior.get(indexPadres)) == false){
-                                    ordenPadres.add(nivelAnterior.get(indexPadres));
-                                }
+                                ordenPadres.add(nivelAnterior.get(indexPadres));
                             }
                         }
                     }
