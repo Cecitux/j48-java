@@ -21,7 +21,7 @@ public class gui extends javax.swing.JFrame {
     ArrayList arbolTexto = new ArrayList();
     public static ArrayList arbolgrafico = new ArrayList();
     static int nivel=0, contAst=0;
-    static String padre = "", result = "", nro = "";
+    static String padre = "", result = "";
 
 
     /** Creates new form gui */
@@ -511,29 +511,41 @@ public class gui extends javax.swing.JFrame {
             if (arbolTexto.get(i-1).toString().equals("@")){
                 padre = arbolTexto.get(i - 2).toString();
                 nivel = Integer.valueOf(arbolTexto.get(i).toString());
-                result = result.concat("\n  if (" + padre + " == " + arbolTexto.get(i + 1) + ") then\n      Node = " + arbolTexto.get(i + 2));
-                result = result.concat("\n      -");
+                for (int j=0; j<nivel; j++)
+                    result = result.concat("\n        ");
+                if (nivel == 0)
+                    result = result.concat("\n");
+                result = result.concat("  IF (" + padre + " == " + arbolTexto.get(i + 1) + ") THEN");
+                for (int j=0; j<nivel; j++)
+                    result = result.concat("\n        ");
+                if (nivel == 0)
+                    result = result.concat("\n");
+                result = result.concat("          NODE = " + arbolTexto.get(i + 2));
             }
 
             if (i >= 2){
                 if (arbolTexto.get(i).toString().equals("*")){
                     contAst++;
-                    System.out.println("Cant de Asteriscos: " + contAst);
                     if (i <= (arbolTexto.size() - 2)){
                         if (arbolTexto.get(i + 1).toString().equals("*") == false){
+                            nivel = Integer.valueOf(arbolTexto.get(i + 1).toString());
+                            if (contAst > 1 && ( arbolTexto.indexOf(nivel)-2 >=0 ))
+                                padre = arbolTexto.get(arbolTexto.indexOf(nivel) - 2).toString();
+                            for (int j=0; j<nivel; j++)
+                                result = result.concat("\n        ");
+                            if (nivel == 0)
+                                result = result.concat("\n");
                             if ( Integer.valueOf(arbolTexto.get(i+1).toString()) == nivel){
-                                result = result.concat("\n  else if (" + padre);
+                                result = result.concat("  ELSE IF (" + padre);
                                 //if (!arbolTexto.get(i + 2).toString().matches("(?i).[a-zA-Z]*"))
                                     result = result.concat(" == ");
-                                result = result.concat(arbolTexto.get(i + 2) + ") then\n\tNode = " + arbolTexto.get(i + 3));
+                                result = result.concat(arbolTexto.get(i + 2) + ") THEN");
+                                for (int j=0; j<nivel; j++)
+                                    result = result.concat("\n        ");
+                                if (nivel == 0)
+                                    result = result.concat("\n");
+                                result = result.concat("          NODE = " + arbolTexto.get(i + 3));
                             }
-                            nivel = Integer.valueOf(arbolTexto.get(i + 1).toString());
-                            nro = String.valueOf(nivel).toString();
-                            System.out.println(nro);
-                            System.out.println(arbolTexto.indexOf(nro));
-                            if (contAst > 1 && (arbolTexto.indexOf(nro)-2>=0 ))
-                                padre = arbolTexto.get(arbolTexto.indexOf(String.valueOf(nivel)) - 2).toString();
-                            System.out.println("Padre: " + padre);
                         }
                     }
                 }
