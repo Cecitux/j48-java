@@ -451,7 +451,6 @@ public class gui extends javax.swing.JFrame {
         ColumnaBD.setEnabled(false);
         Certeza.setEnabled(false);
         BotonGrafico.setEnabled(true);
-        Especifico.setEnabled(false);
         TablaBD.setEnabled(false);
         BotonOK.setEnabled(false);
 
