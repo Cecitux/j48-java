@@ -37,7 +37,6 @@ public class tree {
 				arbol.add(profundidad);
 				valores.add(valores_aux.get(0));
 				arbol.add(valores_aux.get(0));
-				
 				valores_aux.remove(0);
 				generar_arbol(columna, valores, infodeT,arbol, profundidad+1);
 				arbol.add("*");
@@ -62,7 +61,7 @@ public class tree {
         int suma_total_clase=0;
         ArrayList<String> a = new ArrayList<String>();
 		ArrayList label = new ArrayList();
-		ArrayList values = new ArrayList();
+		ArrayList<Integer> values = new ArrayList();
 		ArrayList retorno=new ArrayList();
 
         double resultado= 0.0;
@@ -75,7 +74,9 @@ public class tree {
         String split_nodo_nombre="";
         int cantidad_total_reg=0;
         int i=0;
+		Integer auxiliar=0;
 		label=DataBase.getValoresCol(DataBase.columna_decision);
+		
         while (i<valores_col_decision.size()){
             cantidad_total_reg+=Integer.parseInt(valores_col_decision.get(i).toString());
             i++;
@@ -110,13 +111,16 @@ public class tree {
 						i=0;
 						Map.Entry cantidadval_me = (Map.Entry) cantidad_it.next();
 						//label.add(cantidadval_me.getKey().toString());
-
-						values.add(cantidadval_me.getValue().toString());
-						while(i<label.size()){
-							if(label.get(i).equals(cantidadval_me.getValue().toString())){
-								
+						///values.add(cantidadval_me.getValue().toString());
+						/*while(i<label.size()){
+							if(label.get(i).equals(cantidadval_me.getKey().toString())){
+								suma_auxiliar=values.get(i);
+								suma_auxiliar+=Integer.parseInt(cantidadval_me.getValue().toString());
+								values.set(i, suma_auxiliar);
+								suma_auxiliar=0;
 							}
-						}
+							i++;
+						}*/
 						a.add(cantidadval_me.getValue().toString());
 						suma_total_clase+=Integer.parseInt(cantidadval_me.getValue().toString());
 					}
@@ -144,19 +148,27 @@ public class tree {
 			}else{
 				System.out.println("!!!!!!!!!!!!!");
 				System.out.println(label);
-				System.out.println(values);
+				System.out.println(valores_col_decision);
 			}
 		retorno.add(split_nodo_nombre);
 		retorno.add(infodeT);
 		if(infodeT==0){
 			i=0;
-			while (i<values.size()){
-				if (Integer.parseInt(values.get(i).toString())!=0){
-					retorno.add(label.get(i));
-					break;
+			auxiliar=Integer.parseInt(valores_col_decision.get(i).toString());
+			String aux=label.get(i).toString();
+			while (i<valores_col_decision.size()){
+				if (Integer.parseInt(valores_col_decision.get(i).toString())>auxiliar){
+					aux=label.get(i).toString();
+					auxiliar=Integer.parseInt(valores_col_decision.get(i).toString());
 				}
 				i++;
 			}
+			aux=aux.concat(" ("+auxiliar.toString()+"/"+cantidad_total_reg+")");
+			//aux=aux.concat(auxiliar.toString());
+
+			//aux=aux.concat(" )");
+			//aux.concat("a");
+			retorno.add(aux);
 		}
 		System.out.println("@@@@@"+retorno+"\n");
 		return retorno;
