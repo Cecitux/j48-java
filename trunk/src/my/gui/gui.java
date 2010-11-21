@@ -128,7 +128,7 @@ public class gui extends javax.swing.JFrame {
         setAlwaysOnTop(true);
         setName("VentanaPrincipal"); // NOI18N
 
-        Titulo2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Titulo2.setFont(new java.awt.Font("Tahoma", 1, 14));
         Titulo2.setForeground(new java.awt.Color(102, 102, 255));
         Titulo2.setText("Conexion a la Base de Datos");
 
@@ -159,7 +159,7 @@ public class gui extends javax.swing.JFrame {
             PanelDatosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelDatosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -195,7 +195,7 @@ public class gui extends javax.swing.JFrame {
             PanelArbolLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PanelArbolLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
                 .addGap(11, 11, 11)
                 .addComponent(BotonGrafico)
                 .addContainerGap())
@@ -223,13 +223,13 @@ public class gui extends javax.swing.JFrame {
             PanelLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PanelLogLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         PanelGral.addTab("Log", PanelLog);
 
-        Titulo1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        Titulo1.setFont(new java.awt.Font("Tahoma", 1, 24));
         Titulo1.setForeground(new java.awt.Color(102, 102, 255));
         Titulo1.setText("Implementacion del Algoritmo J48");
 
@@ -380,10 +380,9 @@ public class gui extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addComponent(Titulo1)
-                .addGap(14, 14, 14)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
+                        .addGap(33, 33, 33)
                         .addComponent(Titulo2)
                         .addGap(7, 7, 7)
                         .addComponent(Inform1)
@@ -429,7 +428,7 @@ public class gui extends javax.swing.JFrame {
                         .addComponent(BotonOK))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(PanelGral, javax.swing.GroupLayout.DEFAULT_SIZE, 583, Short.MAX_VALUE)))
+                        .addComponent(PanelGral, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)))
                 .addGap(37, 37, 37))
         );
 
@@ -453,6 +452,8 @@ public class gui extends javax.swing.JFrame {
         Certeza.setEnabled(false);
         BotonGrafico.setEnabled(true);
         Especifico.setEnabled(false);
+        TablaBD.setEnabled(false);
+        BotonOK.setEnabled(false);
 
         if (Especifico.isEnabled() == true){
             datosDiscretizar = DatosDiscretizacion.getText();
@@ -475,11 +476,12 @@ public class gui extends javax.swing.JFrame {
                     aux = aux.concat(c);
                 }
             }
-            //System.out.println("Columnas: " + DataBase.nom_col_dis + "\nValores: " + DataBase.val_col_dis);
+            System.out.println("Columnas: " + DataBase.nom_col_dis + "\nValores: " + DataBase.val_col_dis);
         }
 
         Promedio.setEnabled(false);
         Especifico.setEnabled(false);
+        SinDiscretizar.setEnabled(false);
         DatosDiscretizacion.setEnabled(false);
 
 	DataBase.columna_decision=columna;
