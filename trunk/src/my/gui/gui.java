@@ -29,7 +29,7 @@ public class gui extends javax.swing.JFrame {
         NombreBD.setText("com");
         UsuarioBD.setText("root");
         PasswordBD.setText("mysql");
-        TablaBD.setText("juega1");
+        TablaBD.setText("juego1");
         ColumnaBD.setText("play");
     }
 
@@ -174,6 +174,11 @@ public class gui extends javax.swing.JFrame {
 
         BotonGrafico.setText("Ver Grafico del Arbol");
         BotonGrafico.setEnabled(false);
+        BotonGrafico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonGraficoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout PanelArbolLayout = new javax.swing.GroupLayout(PanelArbol);
         PanelArbol.setLayout(PanelArbolLayout);
@@ -562,6 +567,15 @@ public class gui extends javax.swing.JFrame {
     private void PasswordBDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordBDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_PasswordBDActionPerformed
+
+    private void BotonGraficoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonGraficoActionPerformed
+        // TODO add your handling code here:
+        arbolgrafico=GraficoArbol.parseaAbol(arbolTexto);
+        System.out.println("Arbol P: " + arbolTexto);
+        GraficoArbol g=new GraficoArbol(arbolgrafico);
+        g.setAlwaysOnTop(true);
+        g.setVisible(true);
+    }//GEN-LAST:event_BotonGraficoActionPerformed
 
 
     public String arbolReglas() {
