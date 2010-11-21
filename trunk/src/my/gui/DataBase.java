@@ -10,13 +10,11 @@ import java.util.*;
 
 
 public class DataBase {
-    //Variables de Lore para la BD
     public static Connection connection;
     public static ArrayList data = new ArrayList();
     public static String columna_decision="";
     public static String tabla_d = "";
     public static int get_promedio=0;
-    //int[] cantValDecision;
     //Los nombres de las columnas de la tabla
     public static ArrayList nom_columnas = new ArrayList();
 
@@ -24,10 +22,7 @@ public class DataBase {
     public static ArrayList val_col_dis = new ArrayList();
     //Conectar a la BD
     public static void Conectar(String nombre, String usuario, String pass) {
-        // cadenaconexion = "";
         String prueba = "jdbc:mysql://localhost:3306/"+nombre+"?" + "user="+usuario+"&password="+pass;
-        //String prueba="jdbc:mysql://localhost:3306/com?" +"user=root&password=123456"; //para lore y fer
-        //String prueba="jdbc:mysql://localhost:3306/com?" +"user=root&password=mysql"; //para adri
         try {
             Class.forName("com.mysql.jdbc.Driver");
             //String connectionUrl = "jdbc:mysql://localhost/mysql?" +"user=root&password=123456";
@@ -59,7 +54,6 @@ public class DataBase {
 	int posactual;
 	int cantcol=0, i=0;
 	String SQL = "";
-	//String SQL = "select "+columna_decision+" from "+tabla_d+" group by "+columna_decision;
 	if(nom_col_dis.isEmpty()){
 	    SQL = "select "+nom_columna+" from "+tabla_d+" group by "+nom_columna;
 	    stmt = connection.createStatement();
@@ -76,7 +70,7 @@ public class DataBase {
 		
 	    }else{
 		SQL = "select "+nom_columna+" from "+tabla_d+" group by "+nom_columna;
-		System.out.println("gvc "+SQL);
+		//System.out.println("gvc "+SQL);
 		stmt = connection.createStatement();
 		rs = stmt.executeQuery(SQL);
 		while (rs.next()) {
@@ -84,13 +78,11 @@ public class DataBase {
 		}
 	    }
 	}
-	//System.out.println("lista "+lista+" "+nom_columna);
 	
 	return lista;
     }
 
     public static String truncarStr(String val){
-	//System.out.println("val "+val);
 	if(val.contains("=")){
 	    val = val.substring(3);
 	}else if(val.contains("<") || val.contains(">")){
@@ -108,8 +100,6 @@ public class DataBase {
 	String val_col_lista="", col_lista="";
 	int i=0, b=0;
 
-	//SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
-	//String SQL = "select "+columna_decision+" from "+tabla_d+" group by "+columna_decision;
 	val = getValoresCol(columna_decision);
 	it = val.iterator();
 	while (it.hasNext()){
@@ -140,7 +130,6 @@ public class DataBase {
 				}
 		    }
 		}
-		//System.out.println("veer "+SQL);
 		stmt = connection.createStatement();
 		rs = stmt.executeQuery(SQL);
 		while (rs.next()) {
@@ -151,73 +140,68 @@ public class DataBase {
     }
     //Funcion que devuelve los valores de las tablas para mostrarlos en pantalla
     public static void getValoresPantalla()throws SQLException{
-		Statement stmt = null;
-		ResultSet rs = null;
-		//Esto no se usa, se debe hacer una funcion para traer los nombres de las columnas
-
-		String lineafila = "";
-		 //Para mostrar en pantalla
-		String SQL = "select * from "+tabla_d;
-		stmt = connection.createStatement();
-		rs = stmt.executeQuery(SQL);
-		Iterator it_nomcol = nom_columnas.iterator();
-		while (rs.next()) {
-		    while (it_nomcol.hasNext()){
-			lineafila = lineafila + "\t"+ rs.getString(it_nomcol.next().toString());
-		    }
-		    lineafila = lineafila.substring(1);
-		    lineafila = lineafila + "\t\n      ";
-		    data.add(lineafila);
-		    it_nomcol = nom_columnas.iterator();
-		    lineafila = "";
-		}
+	Statement stmt = null;
+	ResultSet rs = null;
+	String lineafila = "";
+	 //Para mostrar en pantalla
+	String SQL = "select * from "+tabla_d;
+	stmt = connection.createStatement();
+	rs = stmt.executeQuery(SQL);
+	Iterator it_nomcol = nom_columnas.iterator();
+	while (rs.next()) {
+	    while (it_nomcol.hasNext()){
+		lineafila = lineafila + "\t"+ rs.getString(it_nomcol.next().toString());
+	    }
+	    lineafila = lineafila.substring(1);
+	    lineafila = lineafila + "\t\n      ";
+	    data.add(lineafila);
+	    it_nomcol = nom_columnas.iterator();
+	    lineafila = "";
+	}
     }
     //funcion que obitiene el nombre de la tabla y los nombres de las columnas
     public static void getNombresColumnas()throws SQLException{
-		//SQL query command
-		Statement stmt = null;
-		ResultSet rs = null;
-		String SQL = "show tables";
-		ArrayList list = new ArrayList();
-		stmt = connection.createStatement();
-		rs = stmt.executeQuery(SQL);
-		//Ver nombres de las tablas (se toma la primera)
-		while (rs.next()) {
-			list.add(rs.getString("Tables_in_com"));
-		}
-		tabla_d = list.get(5).toString();
-		//Nombres de las columnas
-		SQL = "describe "+tabla_d;
-		stmt = connection.createStatement();
-		rs = stmt.executeQuery(SQL);
-		while (rs.next()) {
-			nom_columnas.add(rs.getString("Field"));
-		}
+	//SQL query command
+	Statement stmt = null;
+	ResultSet rs = null;
+	String SQL = "show tables";
+	ArrayList list = new ArrayList();
+	stmt = connection.createStatement();
+	rs = stmt.executeQuery(SQL);
+	//Ver nombres de las tablas (se toma la primera)
+	while (rs.next()) {
+		list.add(rs.getString("Tables_in_com"));
+	}
+	//tabla_d = list.get(5).toString();
+	//Nombres de las columnas
+	SQL = "describe "+tabla_d;
+	stmt = connection.createStatement();
+	rs = stmt.executeQuery(SQL);
+	while (rs.next()) {
+		nom_columnas.add(rs.getString("Field"));
+	}
     }
     //busca un valor especifico en una lista
     public static boolean buscarVal(ArrayList val, String val_c){
-		Iterator it_val = val.iterator();
-		while (it_val.hasNext()){
-			if(it_val.next().toString().contentEquals(val_c)){
-			//System.out.println("son iguales: "+val_c);
-			return true; //distinto de cero
-			}
+	Iterator it_val = val.iterator();
+	while (it_val.hasNext()){
+		if(it_val.next().toString().contentEquals(val_c)){
+		return true; //distinto de cero
 		}
-		//System.out.println("hola "+ val_c);
-		return false;
+	}
+	return false;
     }
     //busca un valor especifico en una lista y devuelve la posicion en la que esta
     public static int buscarValDis(ArrayList val, String val_c){
-	    int i=0, tam;
-	    tam = val.size();
-	    while(i<tam){
-		    if(val.get(i).toString().equals(val_c)){
-		    //System.out.println("encontrado "+val.get(i).toString());
-		    return i;
-		    }
-		    i++;
-	    }
-	    return -1;
+	int i=0, tam;
+	tam = val.size();
+	while(i<tam){
+		if(val.get(i).toString().equals(val_c)){
+		return i;
+		}
+		i++;
+	}
+	return -1;
     }
 
     public static void getValoresAvg(ArrayList nom_col)throws SQLException{
@@ -233,13 +217,7 @@ public class DataBase {
 	Iterator it_nomcol = nom_col.iterator();
 	while (it_nomcol.hasNext()){
 	    auxlista = it_nomcol.next().toString();
-	    /*SQL = "select "+auxlista+" from "+tabla_d+" group by "+auxlista;
-
-	    stmt = connection.createStatement();
-	    rs = stmt.executeQuery(SQL);
-	    while (rs.next()) {
-		queryactual.add(rs.getString(auxlista));
-	    }*/
+	    
 	    SQLdt = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '"+tabla_d+"' AND COLUMN_NAME = '"+auxlista+"'";
 	    stmt = connection.createStatement();
 	    rs = stmt.executeQuery(SQLdt);
@@ -270,7 +248,7 @@ public class DataBase {
 		}
 	    }
 	}
-	System.out.println("funcion nueva "+nom_col_dis+" "+val_col_dis);
+	//System.out.println("funcion nueva "+nom_col_dis+" "+val_col_dis);
     }
 
     public static int buscarDataTypes(String auxlista )throws SQLException{
@@ -292,9 +270,7 @@ public class DataBase {
 	    valactual = it.next().toString();
 	    try {
 		valact = Integer.parseInt(valactual);
-		//System.out.println(valact + " "+ valactual);
 	    } catch (Exception ex) {
-		//System.out.println("Error de mi funcion "+ex);
 		//no sirve para discretizar
 		return 0;
 	    }
@@ -335,20 +311,15 @@ public class DataBase {
     //----------GUARDA TODAS LAS VARIABLES DE UNA COLUMNA
 	//auxlista = columnas
 	//queryactual = distintos valores de las columnas
-	System.out.println("inicio "+nom_col_dis+" "+val_col_dis);
+	//System.out.println("inicio "+nom_col_dis+" "+val_col_dis);
 	SQL = "select count(*) from "+tabla_d;
 	stmt = connection.createStatement();
 	rs = stmt.executeQuery(SQL);
 	while (rs.next()) {
 	    numreg = Integer.parseInt(rs.getString("count(*)"));
 	}
-	System.out.println("GET_PROMEDIO "+get_promedio);
-	/*System.out.println("nomccol "+nomcol);
-	if(nomcol.contains(columna_decision)){
-	    System.out.println("lelelelelee");
-	    
-	}*/
-	
+	//System.out.println("GET_PROMEDIO "+get_promedio);
+
 	Iterator it_nomcol = nom_columnas.iterator();
 	//if(nomcol.contains(columna_decision)){
 	if((!nomcol.isEmpty() && !valactual.isEmpty())){
@@ -362,13 +333,12 @@ public class DataBase {
 	    if(nom_columnas_actual.contains(columna_decision) && nom_columnas_actual.size()==1){
 		it_nomcol = nom_columnas.iterator();
 	    }
-	    //System.out.println("lalala "+nom_columnas_actual);
 
 	}
 	//llamar aca a la funcion promedio
 	if(get_promedio==1){
 	    if(nom_columnas_actual.isEmpty()){
-		System.out.println("Esta aca porque se itera por todas las columnas");
+		//System.out.println("Esta aca porque se itera por todas las columnas");
 		getValoresAvg(nom_columnas);
 		get_promedio=0;
 	    }else{
@@ -381,24 +351,19 @@ public class DataBase {
 	    //select puertas from cars group by puertas;
 	    auxlista = it_nomcol.next().toString();
 	    SQL = "select "+auxlista+" from "+tabla_d+" group by "+auxlista;
-	    //System.out.println("queryactual "+SQL);
 		stmt = connection.createStatement();
 		rs = stmt.executeQuery(SQL);
 		while (rs.next()) {
 		    queryactual.add(rs.getString(auxlista));
 		}
-	    //buscarDataTypes(auxlista);
-	    //queryactual = getValoresCol(auxlista);
 	    HashMap hdbvalor_segundo_nivel = new HashMap();
 	    if(!auxlista.contentEquals(columna_decision)){
 		if(nom_col_dis.contains("columna") && (nom_col_dis.size() == 1)){
-		    //System.out.println("Esta vacio");
 		    itval = queryactual.iterator();
 		    while (itval.hasNext()){
 			//contar la cantidad de ocurrencias con respecto a la columna objetivo
 			HashMap hdbval = new HashMap();
 			auxval = itval.next().toString();
-			//if(!auxval.contentEquals(valactual)){
 			itval1 = val_col_desicion.iterator();
 			while (itval1.hasNext()){
 			    auxval1 = itval1.next().toString();
@@ -412,7 +377,7 @@ public class DataBase {
 				    SQLcantnum = SQLcantnum + " and "+col_lista+"= '"+val_col_lista+"'";
 				}
 			    }
-			    System.out.println(SQLcantnum);
+			    //System.out.println(SQLcantnum);
 			    stmt = connection.createStatement();
 			    rs = stmt.executeQuery(SQLcantnum);
 			    while (rs.next()) {
@@ -437,17 +402,12 @@ public class DataBase {
 			    hdbval.put(auxval1, 0);
 			}
 			auxval = itval.next().toString();
-			//if(!auxval.contentEquals(valactual)){
 			itval1 = val_col_desicion.iterator();
 			posactual = buscarValDis(nom_col_dis, auxlista);
 			while (itval1.hasNext()){
 			    auxval1 = itval1.next().toString();
-			    //SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
-
 			    if(posactual != -1){
 				auxval = truncarStr(auxval);
-				//System.out.println(auxval);
-				//System.out.println("gola "+Integer.parseInt(auxval)+" "+Integer.parseInt(val_col_dis.get(posactual).toString()));
 				if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
 				    SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"<= "+Integer.parseInt(val_col_dis.get(posactual).toString())+"";
 				}else{
@@ -456,9 +416,6 @@ public class DataBase {
 			    }else{
 				SQLcantnum = "select count("+auxlista+") from "+tabla_d+" where "+columna_decision+" = '"+auxval1+"' and "+auxlista+"= '"+auxval+"'";
 			    }
-			    //hdbval.put(auxval1, 0);
-			    //System.out.println(SQLcantnum);
-			    //System.out.println("valactual "+valactual);
 			    int band=0;
 			    if(!nomcol.isEmpty() && !valactual.isEmpty()){
 				Iterator it_col = nomcol.iterator();
@@ -493,15 +450,8 @@ public class DataBase {
 			    while (rs.next()) {
 				numvalcol = Integer.parseInt(rs.getString("count("+auxlista+")"));
 			    }
-			    /*if(posactual != -1){
-				if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
-				    hdbval.put(auxval1, numvalcol);
-				}else{
-				    hdbval.put(auxval1, numvalcol);
-				}
-			    }else{*/
-				hdbval.put(auxval1, numvalcol);
-			    //}
+			   
+			    hdbval.put(auxval1, numvalcol);
 			}
 			if(posactual != -1){
 			    if(Integer.parseInt(auxval) <= Integer.parseInt(val_col_dis.get(posactual).toString())){
@@ -522,7 +472,6 @@ public class DataBase {
 	    }
 	}
 
-	//}
 	//Imprime el diccionario actual
 	String s, s1;
 	Iterator it21;
@@ -531,7 +480,6 @@ public class DataBase {
 		s1 = hdb.get(s).toString();
 		System.out.println(s + " : " + s1);
 	}
-	//}
 
 	return hdb;
     }

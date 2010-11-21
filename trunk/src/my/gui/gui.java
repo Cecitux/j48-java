@@ -475,7 +475,7 @@ public class gui extends javax.swing.JFrame {
                     aux = aux.concat(c);
                 }
             }
-            System.out.println("Columnas: " + DataBase.nom_col_dis + "\nValores: " + DataBase.val_col_dis);
+            //System.out.println("Columnas: " + DataBase.nom_col_dis + "\nValores: " + DataBase.val_col_dis);
         }
 
         Promedio.setEnabled(false);
@@ -483,7 +483,7 @@ public class gui extends javax.swing.JFrame {
         DatosDiscretizacion.setEnabled(false);
 
 	DataBase.columna_decision=columna;
-
+	DataBase.tabla_d = tabla;
         //Cargar los datos de la BD para mostrar en el Panel de Datos
         TextoDatos.setText("\n  Base de Datos: ");
         TextoDatos.append(nombrebd);
@@ -528,8 +528,10 @@ public class gui extends javax.swing.JFrame {
     private void PromedioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PromedioActionPerformed
         // TODO add your handling code here:
         if (Promedio.isSelected() == true) {
+	    DataBase.get_promedio = 1;
             DatosDiscretizacion.setEnabled(false);
         } else {
+	    DataBase.get_promedio = 0;
             DatosDiscretizacion.setEnabled(true);
         }
     }//GEN-LAST:event_PromedioActionPerformed
@@ -537,6 +539,7 @@ public class gui extends javax.swing.JFrame {
     private void EspecificoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EspecificoActionPerformed
         // TODO add your handling code here:
         if (Especifico.isSelected() == true) {
+	    DataBase.get_promedio = 0;
             DatosDiscretizacion.setEnabled(true);
         } else {
             DatosDiscretizacion.setEnabled(false);
@@ -546,6 +549,7 @@ public class gui extends javax.swing.JFrame {
     private void SinDiscretizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SinDiscretizarActionPerformed
         // TODO add your handling code here:
         if (SinDiscretizar.isSelected() == true) {
+	    DataBase.get_promedio = 0;
             DatosDiscretizacion.setEnabled(false);
         } else {
             DatosDiscretizacion.setEnabled(true);
