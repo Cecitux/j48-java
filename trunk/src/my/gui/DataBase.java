@@ -15,6 +15,7 @@ public class DataBase {
     public static ArrayList data = new ArrayList();
     public static String columna_decision="";
     public static String tabla_d = "";
+    public static int get_promedio=0;
     //int[] cantValDecision;
     //Los nombres de las columnas de la tabla
     public static ArrayList nom_columnas = new ArrayList();
@@ -193,7 +194,7 @@ public class DataBase {
 			nom_columnas.add(rs.getString("Field"));
 		}
     }
-
+    //busca un valor especifico en una lista
     public static boolean buscarVal(ArrayList val, String val_c){
 		Iterator it_val = val.iterator();
 		while (it_val.hasNext()){
@@ -205,18 +206,101 @@ public class DataBase {
 		//System.out.println("hola "+ val_c);
 		return false;
     }
-
+    //busca un valor especifico en una lista y devuelve la posicion en la que esta
     public static int buscarValDis(ArrayList val, String val_c){
-		int i=0, tam;
-		tam = val.size();
-		while(i<tam){
-			if(val.get(i).toString().equals(val_c)){
-			//System.out.println("encontrado "+val.get(i).toString());
-			return i;
-			}
-			i++;
+	    int i=0, tam;
+	    tam = val.size();
+	    while(i<tam){
+		    if(val.get(i).toString().equals(val_c)){
+		    //System.out.println("encontrado "+val.get(i).toString());
+		    return i;
+		    }
+		    i++;
+	    }
+	    return -1;
+    }
+
+    public static void getValoresAvg(ArrayList nom_col)throws SQLException{
+	String SQLdt = "", sqldatatype="", auxlista = "", SQL="";
+	Statement stmt = null;
+	ResultSet rs = null;
+	ArrayList queryactual = new ArrayList();
+	Double valor=0.0;
+	int val = 0;
+	//Para sacar todos los valores promedio
+	nom_col_dis.clear();
+	val_col_dis.clear();
+	Iterator it_nomcol = nom_col.iterator();
+	while (it_nomcol.hasNext()){
+	    auxlista = it_nomcol.next().toString();
+	    /*SQL = "select "+auxlista+" from "+tabla_d+" group by "+auxlista;
+
+	    stmt = connection.createStatement();
+	    rs = stmt.executeQuery(SQL);
+	    while (rs.next()) {
+		queryactual.add(rs.getString(auxlista));
+	    }*/
+	    SQLdt = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '"+tabla_d+"' AND COLUMN_NAME = '"+auxlista+"'";
+	    stmt = connection.createStatement();
+	    rs = stmt.executeQuery(SQLdt);
+	    while (rs.next()) {
+		sqldatatype = rs.getString("DATA_TYPE").toString();
+	    }
+	    if(sqldatatype.contentEquals("int")){
+		SQLdt = "select avg("+auxlista+") from "+tabla_d;
+		stmt = connection.createStatement();
+		rs = stmt.executeQuery(SQLdt);
+		while (rs.next()) {
+		    valor = Double.parseDouble(rs.getString("avg("+auxlista+")"));
+		    val = valor.intValue();
 		}
-		return -1;
+		nom_col_dis.add(auxlista);
+		val_col_dis.add(val);
+	    }else{
+		if(buscarDataTypes(auxlista)==1){
+		    SQLdt = "select avg("+auxlista+") from "+tabla_d;
+		    stmt = connection.createStatement();
+		    rs = stmt.executeQuery(SQLdt);
+		    while (rs.next()) {
+			valor = Double.parseDouble(rs.getString("avg("+auxlista+")"));
+			val = valor.intValue();
+		    }
+		    nom_col_dis.add(auxlista);
+		    val_col_dis.add(val);
+		}
+	    }
+	}
+	System.out.println("funcion nueva "+nom_col_dis+" "+val_col_dis);
+    }
+
+    public static int buscarDataTypes(String auxlista )throws SQLException{
+	String SQL = "";
+	SQL = "select "+auxlista+" from "+tabla_d+" group by "+auxlista;
+	String valactual="";
+	Statement stmt = null;
+	ResultSet rs = null;
+	ArrayList lista = new ArrayList();
+	Iterator it;
+	int valact = 0;
+	stmt = connection.createStatement();
+	rs = stmt.executeQuery(SQL);
+	while (rs.next()) {
+	    lista.add(rs.getString(auxlista));
+	}
+	it = lista.iterator();
+	while(it.hasNext()){
+	    valactual = it.next().toString();
+	    try {
+		valact = Integer.parseInt(valactual);
+		//System.out.println(valact + " "+ valactual);
+	    } catch (Exception ex) {
+		//System.out.println("Error de mi funcion "+ex);
+		//no sirve para discretizar
+		return 0;
+	    }
+	}
+	//sirve para discretizar
+	return 1;
     }
     /**
      *
@@ -235,6 +319,7 @@ public class DataBase {
 
 	//ArrayList auxvalor = new ArrayList();
 	int numreg = 0, numvalcol=0, numvalcoldismay=0, numvalcoldismen=0;
+	double numvalcold=0.0;
 	int band_col=0;
 	String col_lista="";
 	String val_col_lista="";
@@ -242,7 +327,7 @@ public class DataBase {
 	String auxlista ="", auxlistaval="";
 	String auxval = "", auxval1="";
 	String SQL = "";
-	String SQLcantnum="";
+	String SQLcantnum="", SQLprom="", SQLdt="", sqldatatype="";
 	String SQLcol="";
 	Iterator itval, itval1;
 	int posactual=0, posactualres;
@@ -257,7 +342,7 @@ public class DataBase {
 	while (rs.next()) {
 	    numreg = Integer.parseInt(rs.getString("count(*)"));
 	}
-	//System.out.println("valactualini "+valactual);
+	System.out.println("GET_PROMEDIO "+get_promedio);
 	/*System.out.println("nomccol "+nomcol);
 	if(nomcol.contains(columna_decision)){
 	    System.out.println("lelelelelee");
@@ -266,23 +351,32 @@ public class DataBase {
 	
 	Iterator it_nomcol = nom_columnas.iterator();
 	//if(nomcol.contains(columna_decision)){
-	    if((!nomcol.isEmpty() && !valactual.isEmpty())){
-		while (it_nomcol.hasNext()){
-		    nom_columnas_aux = it_nomcol.next().toString();
-		    if(!buscarVal(nomcol, nom_columnas_aux)){
-			nom_columnas_actual.add(nom_columnas_aux);
-		    }
+	if((!nomcol.isEmpty() && !valactual.isEmpty())){
+	    while (it_nomcol.hasNext()){
+		nom_columnas_aux = it_nomcol.next().toString();
+		if(!buscarVal(nomcol, nom_columnas_aux)){
+		    nom_columnas_actual.add(nom_columnas_aux);
 		}
-		it_nomcol = nom_columnas_actual.iterator();
-		if(nom_columnas_actual.contains(columna_decision) && nom_columnas_actual.size()==1){
-		    it_nomcol = nom_columnas.iterator();
-		}
-		//System.out.println("lalala "+nom_columnas_actual);
-		
 	    }
-	    //System.out.println("dentro "+nom_columnas_actual);
-	//}
-	//System.out.println("fuera "+nom_columnas+"nomcol "+nomcol);
+	    it_nomcol = nom_columnas_actual.iterator();
+	    if(nom_columnas_actual.contains(columna_decision) && nom_columnas_actual.size()==1){
+		it_nomcol = nom_columnas.iterator();
+	    }
+	    //System.out.println("lalala "+nom_columnas_actual);
+
+	}
+	//llamar aca a la funcion promedio
+	if(get_promedio==1){
+	    if(nom_columnas_actual.isEmpty()){
+		System.out.println("Esta aca porque se itera por todas las columnas");
+		getValoresAvg(nom_columnas);
+		get_promedio=0;
+	    }else{
+		getValoresAvg(nom_columnas_actual);
+		get_promedio=0;
+	    }
+	}
+	
 	while (it_nomcol.hasNext()){
 	    //select puertas from cars group by puertas;
 	    auxlista = it_nomcol.next().toString();
@@ -293,7 +387,7 @@ public class DataBase {
 		while (rs.next()) {
 		    queryactual.add(rs.getString(auxlista));
 		}
-
+	    //buscarDataTypes(auxlista);
 	    //queryactual = getValoresCol(auxlista);
 	    HashMap hdbvalor_segundo_nivel = new HashMap();
 	    if(!auxlista.contentEquals(columna_decision)){
@@ -427,6 +521,7 @@ public class DataBase {
 		queryactual.clear();
 	    }
 	}
+
 	//}
 	//Imprime el diccionario actual
 	String s, s1;
