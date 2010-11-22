@@ -153,7 +153,7 @@ public class GraficoArbol extends javax.swing.JFrame {
     @Override public void paint(Graphics g) {
 
         super.paint(g);
-        
+
         anteriorX = Tamanho / 2; //PanelGrafico.getWidth() / 2;
         anteriorY = 140 + altoNodo;
 
