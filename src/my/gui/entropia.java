@@ -15,24 +15,15 @@ public class entropia {
     static int cantidad_de_clase[];
     static double resultado_entropia;
 
-   /**
-     *
-     * @param cantt: es la cantidad de filas de la tabla
-     * @param cantc: es la cantidad de registros de ese tipo de dato
-     */
-    /*public entropia(int cantt, int cantc[]){
-
-        entropia.cantidad_de_clase=new int[cantt];
-        entropia.cantidad_de_clase=cantc;
-        entropia.cantidad_total=cantt;
-        entropia.resulatdo_entrpia=0.0;
-       
-    }*/
-    //Hashtable a = new Hashtable();
     static double calcular_probabilidad(int universo, int a){
-	double resultado;
-	resultado=(double) a/universo;
-	return resultado;
+		double resultado;
+		if(universo==0){
+			resultado=0;
+		}else{
+			resultado=(double) a/universo;
+
+		}
+		return resultado;
     }
     /**
      * Calcula el logaritmo en base dos del numeros
