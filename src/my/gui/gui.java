@@ -17,7 +17,6 @@ public class gui extends javax.swing.JFrame {
     HashMap map = new HashMap();
     public static Log log = new Log();
     public static String c = "", aux = "";
-    public static int certeza;
     ArrayList arbolTexto = new ArrayList();
     public static ArrayList arbolgrafico = new ArrayList();
     static int nivel=0, contAst=0;
@@ -94,8 +93,6 @@ public class gui extends javax.swing.JFrame {
         Inform2 = new javax.swing.JLabel();
         Inform3 = new javax.swing.JLabel();
         DatoColumna = new javax.swing.JLabel();
-        DatoCerteza = new javax.swing.JLabel();
-        Certeza = new javax.swing.JSpinner();
         Discretizacion = new javax.swing.JLabel();
         BotonOK = new javax.swing.JButton();
         Promedio = new javax.swing.JRadioButton();
@@ -242,10 +239,6 @@ public class gui extends javax.swing.JFrame {
 
         DatoColumna.setText("Columna:");
 
-        DatoCerteza.setText("Porcentaje de Certeza:");
-
-        Certeza.setModel(new javax.swing.SpinnerNumberModel(100, 0, 100, 1));
-
         Discretizacion.setFont(new java.awt.Font("Tahoma", 1, 12));
         Discretizacion.setText("Tipo de Discretizacion de Datos Numericos:");
 
@@ -363,12 +356,7 @@ public class gui extends javax.swing.JFrame {
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                 .addComponent(TablaBD, javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addComponent(PasswordBD, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                    .addComponent(DatoCerteza)
-                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(Certeza, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addComponent(ColumnaBD, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(ColumnaBD, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGap(22, 22, 22)))
                                 .addGap(39, 39, 39)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -410,11 +398,7 @@ public class gui extends javax.swing.JFrame {
                         .addComponent(DatoColumna)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ColumnaBD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(DatoCerteza)
-                            .addComponent(Certeza, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                        .addGap(56, 56, 56)
                         .addComponent(Discretizacion)
                         .addGap(8, 8, 8)
                         .addComponent(SinDiscretizar)
@@ -444,12 +428,10 @@ public class gui extends javax.swing.JFrame {
         password = PasswordBD.getText();
         columna = ColumnaBD.getText();
         tabla = TablaBD.getText();
-        certeza = Integer.valueOf(Certeza.getValue().toString());
         UsuarioBD.setEnabled(false);
         NombreBD.setEnabled(false);
         PasswordBD.setEnabled(false);
         ColumnaBD.setEnabled(false);
-        Certeza.setEnabled(false);
         BotonGrafico.setEnabled(true);
         TablaBD.setEnabled(false);
         BotonOK.setEnabled(false);
@@ -577,6 +559,7 @@ public class gui extends javax.swing.JFrame {
         // TODO add your handling code here:
         arbolgrafico=GraficoArbol.parseaAbol(arbolTexto);
         System.out.println("Arbol P: " + arbolTexto);
+        BotonGrafico.setEnabled(false);
         GraficoArbol g=new GraficoArbol(arbolgrafico);
         g.setAlwaysOnTop(true);
         g.setVisible(true);
@@ -654,10 +637,8 @@ public class gui extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonGrafico;
     private javax.swing.JButton BotonOK;
-    private javax.swing.JSpinner Certeza;
     private javax.swing.JTextField ColumnaBD;
     private javax.swing.JLabel DatoBD;
-    private javax.swing.JLabel DatoCerteza;
     private javax.swing.JLabel DatoColumna;
     private javax.swing.JLabel DatoPassword;
     private javax.swing.JLabel DatoTabla;
