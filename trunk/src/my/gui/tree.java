@@ -26,20 +26,30 @@ public class tree {
 		valores_col_decision=DataBase.getCantidadValores(columna, valores);
 		nodo=calcular_nodo(mapa,valores_col_decision);
 		infodeT=Double.parseDouble(nodo.get(1).toString());
-		if(infodeT != 0){
-			columna.add(nodo.get(0));
-			//arbol.add(",");
-			arbol.add(nodo.get(0));
+		if(infodeT != 0 && !nodo.get(0).equals("")){
+			//if(!nodo.get(0).equals("")){
+				columna.add(nodo.get(0));
+				//arbol.add(",");
+				arbol.add(nodo.get(0));
 			
-			valores_aux=DataBase.getValoresCol(nodo.get(0).toString());
-			arbol.add("@");
+				valores_aux=DataBase.getValoresCol(nodo.get(0).toString());
+				arbol.add("@");
+			//}
+			int aux_modificar_arbol;
 			while(!valores_aux.isEmpty()){
 				arbol.add(profundidad);
 				valores.add(valores_aux.get(0));
 				arbol.add(valores_aux.get(0));
 				valores_aux.remove(0);
 				generar_arbol(columna, valores, infodeT,arbol, profundidad+1);
-				arbol.add("*");
+				aux_modificar_arbol=arbol.size()-1;
+				if(!arbol.get(aux_modificar_arbol).equals("")){
+					arbol.add("*");
+				}else{
+					arbol.remove(aux_modificar_arbol);
+					arbol.remove(aux_modificar_arbol-1);
+					arbol.remove(aux_modificar_arbol-2);
+				}
 			}
 			ultima_columna=columna.size()-1;
 			columna.remove(ultima_columna);
@@ -51,8 +61,15 @@ public class tree {
 		}else{
 			ultimo_valor=valores.size()-1;
 			valores.remove(ultimo_valor);
-			arbol.add(nodo.get(2));
-			System.out.println("\nEs un nodo hoja con valor "+nodo.get(2)+"\n");
+			if(!nodo.get(2).equals("")){
+				arbol.add(nodo.get(2));
+				System.out.println("\nEs un nodo hoja con valor "+nodo.get(2)+"\n");
+			}
+			if(nodo.get(3).toString().equals("0")){
+				ultimo_valor=arbol.size()-1;
+				arbol.remove(ultimo_valor);
+				arbol.add("");
+			}
 		}
 	
     }
@@ -110,17 +127,6 @@ public class tree {
 					while (cantidad_it.hasNext()){
 						i=0;
 						Map.Entry cantidadval_me = (Map.Entry) cantidad_it.next();
-						//label.add(cantidadval_me.getKey().toString());
-						///values.add(cantidadval_me.getValue().toString());
-						/*while(i<label.size()){
-							if(label.get(i).equals(cantidadval_me.getKey().toString())){
-								suma_auxiliar=values.get(i);
-								suma_auxiliar+=Integer.parseInt(cantidadval_me.getValue().toString());
-								values.set(i, suma_auxiliar);
-								suma_auxiliar=0;
-							}
-							i++;
-						}*/
 						a.add(cantidadval_me.getValue().toString());
 						suma_total_clase+=Integer.parseInt(cantidadval_me.getValue().toString());
 					}
@@ -142,20 +148,36 @@ public class tree {
 					}
 				}
 			}
+			String aux=label.get(i).toString();
 			if(infodeT!=0){
-				System.out.println("EL NODO ELEGIDO ES "+split_nodo_nombre+" CON EL VALOR "+split_nodo);
-				Log.datosLog.add("\n  " + new Date() + "\tNodo Elegido: " + split_nodo_nombre +", con el valor: " + split_nodo + "\n\n");
+				if(!split_nodo_nombre.equals("")){
+					System.out.println("EL NODO ELEGIDO ES "+split_nodo_nombre+" CON EL VALOR "+split_nodo);
+					Log.datosLog.add("\n  " + new Date() + "\tNodo Elegido: " + split_nodo_nombre +", con el valor: " + split_nodo + "\n\n");
+					//retorno.add(split_nodo_nombre);
+				}else{
+					i=0;
+					auxiliar=Integer.parseInt(valores_col_decision.get(i).toString());
+					while (i<valores_col_decision.size()){
+						if (Integer.parseInt(valores_col_decision.get(i).toString())>auxiliar){
+							aux=label.get(i).toString();
+							auxiliar=Integer.parseInt(valores_col_decision.get(i).toString());
+						}
+						i++;
+					}
+				}
+
 			}else{
 				System.out.println("!!!!!!!!!!!!!");
 				System.out.println(label);
 				System.out.println(valores_col_decision);
 			}
-		retorno.add(split_nodo_nombre);
-		retorno.add(infodeT);
+
+		//retorno.add(split_nodo_nombre);
+		//retorno.add(infodeT);
 		if(infodeT==0){
 			i=0;
 			auxiliar=Integer.parseInt(valores_col_decision.get(i).toString());
-			String aux=label.get(i).toString();
+			aux=label.get(i).toString();
 			while (i<valores_col_decision.size()){
 				if (Integer.parseInt(valores_col_decision.get(i).toString())>auxiliar){
 					aux=label.get(i).toString();
@@ -168,8 +190,13 @@ public class tree {
 
 			//aux=aux.concat(" )");
 			//aux.concat("a");
-			retorno.add(aux);
+			//retorno.add(aux);
+			//retorno.add(cantidad_total_reg);
 		}
+		retorno.add(split_nodo_nombre);
+		retorno.add(infodeT);
+		retorno.add(aux);
+		retorno.add(cantidad_total_reg);
 		System.out.println("@@@@@"+retorno+"\n");
 		return retorno;
     }
